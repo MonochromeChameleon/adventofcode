@@ -33,8 +33,12 @@ export class QuestionBase {
     return expected;
   }
 
+  parseLine(line) {
+    return Number(line);
+  }
+
   parseInput(lines) {
-    return lines.map(Number);
+    return lines.map(this.parseLine);
   }
 
   async part1() {

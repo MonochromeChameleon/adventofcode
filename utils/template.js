@@ -6,8 +6,12 @@ export class Question extends QuestionBase {
     super(${day}, 1, 2, 3, 4, args);
   }
 
-  parseInput (lines) {
-    return lines.map(Number);
+  parseLine(line) {
+    return Number(line);
+  }
+
+  parseInput(lines) {
+    return lines.map(this.parseLine);
   }
 
   part1 (input) {
