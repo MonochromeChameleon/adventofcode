@@ -22,22 +22,17 @@ export class Question extends QuestionBase {
     return { counts, keys, min, max };
   }
 
-  addFuel({ counts, keys, min, max }, fuelfunc) {
-    return Array.from({ length: 1 + max - min })
-      .map((_, i) => keys.reduce((sofar, key) => sofar + (fuelfunc(key - i) * counts[key]), 0))
+  calculateFuel({ counts, keys, min, max }, fuelfunc = f => f) {
+    const fuel = Array.from({ length: 1 + max - min })
+      .map((_, i) => keys.reduce((sofar, key) => sofar + (fuelfunc(Math.abs(key - i)) * counts[key]), 0))
+    return Math.min(...fuel);
   }
 
   part1 (input) {
-    const results = this.addFuel(input, Math.abs);
-    return Math.min(...results);
+    return this.calculateFuel(input);
   }
 
   part2 (input) {
-    const triangle = Array.from({ length: input.max }).reduce((t, _, ix) => {
-      t[ix + 1] = t[ix] + ix + 1;
-      return t;
-    }, { 0: 0})
-    const results = this.addFuel(input, steps => triangle[Math.abs(steps)]);
-    return Math.min(...results);
+    return this.calculateFuel(input, steps => steps * (steps + 1) / 2);
   }
 }
