@@ -1,4 +1,5 @@
 import { QuestionBase } from '../utils/question-base.js';
+import { countByValue } from '../utils/count-by-value.js';
 
 export class Question extends QuestionBase {
   constructor (args) {
@@ -14,10 +15,7 @@ export class Question extends QuestionBase {
   }
 
   countFish (input, days) {
-    const startingCount = input.reduce((sofar, fish) => {
-      sofar[fish] = (sofar[fish] || 0) + 1;
-      return sofar;
-    }, {});
+    const startingCount = countByValue(input);
     const endCount = Array.from({ length: days }).reduce(({
       0: zero = 0,
       1: one = 0,

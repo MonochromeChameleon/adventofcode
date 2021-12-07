@@ -1,4 +1,5 @@
 import { QuestionBase } from '../utils/question-base.js';
+import { countByValue } from '../utils/count-by-value.js';
 
 export class Question extends QuestionBase {
   constructor (args) {
@@ -10,10 +11,8 @@ export class Question extends QuestionBase {
   }
 
   parseInput(lines) {
-    const counts = lines.flatMap(this.parseLine).reduce((sofar, point) => {
-      sofar[point] = (sofar[point] || 0) + 1;
-      return sofar;
-    }, {});
+    const raw = lines.flatMap(this.parseLine);
+    const counts = countByValue(raw);
 
     const keys = Object.keys(counts).map(Number);
     const min = Math.min(...keys);
