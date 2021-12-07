@@ -8,17 +8,19 @@ const days = Array.from({ length: new Date().getDate() }).map((r, ix) => ix + 1)
 const questions = await Promise.all(days.map((day) => loadQuestion(day)));
 
 questions.forEach((Question, dix) =>
-  describe(`Day ${dix + 1}`, () =>
-    ['test', 'actual'].forEach((desc, ix) => {
-      const q = new Question({ useTestData: !ix });
+  describe(`Day ${dix + 1}`, () => {
+    const questions = [new Question({ useTestData: true }), new Question()];
 
-      describe(desc, () =>
-        [1, 2].forEach((part) =>
-          it(`Part ${part} should be ${q.expectedResult(part)}`, async () => {
+    [1, 2].forEach((part) => {
+      describe(`Part ${part}`, () =>
+        ['Test', 'Actual'].forEach((desc, ix) => {
+          const q = questions[ix];
+          const expected = q.expectedResult(part);
+          it(`${desc} result should be ${expected}`, async () => {
             const result = await q.run(part);
             expect(result).to.equal(q.expectedResult(part));
-          })
-        )
-      );
-    }))
+          });
+        }));
+    });
+  }),
 );

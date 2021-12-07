@@ -3,7 +3,7 @@ import { Board } from '../models/bingo/board.js';
 
 export class Question extends QuestionBase {
   constructor (args) {
-    super(4, 4512, 1924, 58838, 6256, args);
+    super(4, 4512, 58838, 1924, 6256, args);
   }
 
   parseInput (lines) {

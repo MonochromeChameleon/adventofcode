@@ -2,7 +2,7 @@ import { QuestionBase } from '../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor(args) {
-    super(1, 7, 5, 1292, 1262, args);
+    super(1, 7, 1292, 5, 1262, args);
   }
 
   compareWindows(input, size = 1) {

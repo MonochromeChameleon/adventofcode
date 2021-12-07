@@ -2,7 +2,7 @@ import { QuestionBase } from '../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor (args) {
-    super(6, 5934, 26984457539, 380612, 1710166656900, args);
+    super(6, 5934, 380612, 26984457539, 1710166656900, args);
   }
 
   parseLine (line) {

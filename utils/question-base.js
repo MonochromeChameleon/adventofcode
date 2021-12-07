@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import { readFileSync } from 'fs';
 
 export class QuestionBase {
-  constructor(day, at1, at2, aa1, aa2, { useTestData }) {
+  constructor(day, at1, aa1, at2, aa2, { useTestData } = {}) {
     this.day = day;
     this.answers = {
       test: {
