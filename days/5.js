@@ -22,13 +22,20 @@ export class Question extends QuestionBase {
   }
 
   countIntersections(lines) {
-    const points = lines.map(this.getPoints).flat();
-    const something = points.reduce((sofar, point) => {
-      sofar[point] = (sofar[point] || 0) + 1;
+    const points = lines.reduce((sofar, { x1, y1, x2, y2 }) => {
+      const count = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1)) + 1;
+      const dx = x1 === x2 ? 0 : (x1 < x2 ? 1 : -1);
+      const dy = y1 === y2 ? 0 : (y1 < y2 ? 1 : -1);
+
+      Array.from({ length: count }).forEach((_, ix) => {
+        const point = `${x1 + (ix * dx)}:${y1 + (ix * dy)}`;
+        sofar[point] = (sofar[point] || 0) + 1;
+      });
+
       return sofar;
     }, {});
 
-    return Object.values(something).filter(v => v > 1).length;
+    return Object.values(points).filter(v => v > 1).length;
   }
 
   part1 (input) {
