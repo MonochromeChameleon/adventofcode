@@ -7,8 +7,8 @@ import { loadQuestion } from '../utils/load-question.js';
 const days = Array.from({ length: new Date().getDate() }).map((r, ix) => ix + 1);
 const questions = await Promise.all(days.map((day) => loadQuestion(day)));
 
-questions.forEach((Question, dix) =>
-  describe(`Day ${dix + 1}`, () => {
+questions.reverse().forEach((Question, dix) =>
+  describe(`Day ${days.length - dix}`, () => {
     const questions = [new Question({ useTestData: true }), new Question()];
 
     [1, 2].forEach((part) => {

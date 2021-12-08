@@ -18,16 +18,16 @@ export class Question extends QuestionBase {
   }
 
   solveRow({ signal, output }) {
-    const one = signal.find((it) => it.length === 2);
-    const four = signal.find((it) => it.length === 4);
-    const seven = signal.find((it) => it.length === 3);
-    const eight = signal.find((it) => it.length === 7);
-    const six = signal.find((it) => it.length === 6 && !one.every((line) => it.includes(line)));
-    const five = signal.find((it) => it.length === 5 && it.every((line) => six.includes(line)));
-    const nine = signal.find((it) => it.length === 6 && four.every((line) => it.includes(line)));
-    const zero = signal.find((it) => it.length === 6 && it !== six && it !== nine);
-    const two = signal.find((it) => it.length === 5 && !it.every((line) => nine.includes(line)));
-    const three = signal.find((it) => it.length === 5 && it !== two && it !== five);
+    const [one, seven, four, a, b, c, d, e, f, eight] = signal.sort((a, b) => a.length - b.length);
+    const fourNotOne = four.filter((line) => !one.includes(line));
+
+    const three = [a, b, c].find(it => one.every((line) => it.includes(line)));
+    const five = [a, b, c].find(it => it !== three && fourNotOne.every((line) => it.includes(line)));
+    const two = [a, b, c].find(it => it !== three && it !== five);
+
+    const nine = [d, e, f].find(it => four.every((line) => it.includes(line)));
+    const zero = [d, e, f].find(it => it !== nine && one.every((line) => it.includes(line)));
+    const six = [d, e, f].find(it => it !== nine && it !== zero);
 
     const digits = {
       [one.join('')]: 1,
