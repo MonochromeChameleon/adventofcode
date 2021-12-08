@@ -22,5 +22,5 @@ questions.forEach((Question, dix) =>
           });
         }));
     });
-  }),
+  })
 );

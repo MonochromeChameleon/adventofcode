@@ -2,7 +2,7 @@ import { QuestionBase } from '../utils/question-base.js';
 import { countByValue } from '../utils/count-by-value.js';
 
 export class Question extends QuestionBase {
-  constructor (args) {
+  constructor(args) {
     super(7, 37, 343468, 168, 96086265, args);
   }
 
@@ -11,27 +11,45 @@ export class Question extends QuestionBase {
   }
 
   parseInput(lines) {
-    const raw = lines.flatMap(this.parseLine);
+    const raw = lines.flatMap(this.parseLine).sort((a, b) => a - b);
     const counts = countByValue(raw);
 
     const keys = Object.keys(counts).map(Number);
     const min = Math.min(...keys);
     const max = Math.max(...keys);
 
-    return { counts, keys, min, max };
+    const total = raw.length;
+
+    return { counts, keys, min, max, raw, total };
   }
 
-  calculateFuel({ counts, keys, min, max }, fuelfunc = f => f) {
-    const fuel = Array.from({ length: 1 + max - min })
-      .map((_, i) => keys.reduce((sofar, key) => sofar + (fuelfunc(Math.abs(key - i)) * counts[key]), 0))
-    return Math.min(...fuel);
+  calculateFuel({ position, keys, counts }, fuelfunc = (f) => f) {
+    return keys.reduce((sofar, key) => sofar + fuelfunc(Math.abs(key - position)) * counts[key], 0);
   }
 
-  part1 (input) {
-    return this.calculateFuel(input);
+  calculateMedian({ counts, keys, raw, total }) {
+    const medianIndex = ~~(total / 2);
+    const position = raw[medianIndex];
+    return this.calculateFuel({ position, keys, counts });
   }
 
-  part2 (input) {
-    return this.calculateFuel(input, steps => steps * (steps + 1) / 2);
+  calculateMean({ counts, keys, total }) {
+    const mean = keys.reduce((sofar, key) => sofar + key * counts[key], 0) / total;
+    // Brute force the last two possibilities
+    const meanPositions = [~~mean, Math.ceil(mean)];
+    const fuels = meanPositions.map((position) =>
+      this.calculateFuel({ position, keys, counts }, (steps) => (steps * (steps + 1)) / 2)
+    );
+    return Math.min(...fuels);
+  }
+
+  part1(input) {
+    return this.calculateMedian(input);
+    // return this.calculateFuel(input);
+  }
+
+  part2(input) {
+    return this.calculateMean(input);
+    // return this.calculateFuel(input, (steps) => (steps * (steps + 1)) / 2);
   }
 }

@@ -1,6 +1,6 @@
-export function countByValue(numbers) {
-  return numbers.reduce((acc, number) => {
-    acc[number] = (acc[number] || 0) + 1;
+export function countByValue(values) {
+  return values.reduce((acc, value) => {
+    acc[value] = (acc[value] || 0) + 1;
     return acc;
   }, {});
 }
