@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 
 export class QuestionBase {
   constructor(day, at1, aa1, at2, aa2, { useTestData } = {}) {
@@ -25,7 +25,7 @@ export class QuestionBase {
     const root = this.useTestData ? './test' : '.';
     const inputFile = resolve(`${root}/inputs/${this.day}.txt`);
 
-    return readFileSync(inputFile, 'utf8');
+    return existsSync(inputFile) ? readFileSync(inputFile, 'utf8') : '';
   }
 
   expectedResult(part) {

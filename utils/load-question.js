@@ -9,8 +9,8 @@ export async function loadQuestion(day) {
     return Question;
   } catch (e) {
     if (e.code === 'ERR_MODULE_NOT_FOUND') {
-      await writeFile(resolve(`./days/${day}.js`), template(day));
-      await writeFile(resolve(`./test/inputs/${day}.txt`), '\n');
+      await writeFile(resolve(`./days/${day}.js`), template(day), { flag: 'wx' }).catch(() => {});
+      await writeFile(resolve(`./test/inputs/${day}.txt`), '\n', { flag: 'wx' }).catch(() => {});
     }
   }
 
