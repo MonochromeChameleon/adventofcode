@@ -9,57 +9,60 @@ export class Question extends QuestionBase {
     return line.split('').map(Number);
   }
 
-  part1 (input) {
-    const minima = input.flatMap((line, y) => line.filter((point, x) => {
-      const up = (input[y - 1] || [])[x];
-      const left = line[x - 1];
-      const right = line[x + 1];
-      const down = (input[y + 1] || [])[x];
+  parseInput (lines) {
+    const grid = lines.flatMap(this.parseLine);
+    const width = grid.length / lines.length;
+    const height = lines.length;
 
-      return [up, left, down, right].every(it => it === undefined || it > point);
-    }));
+    return { grid, width, height };
+  }
 
+  part1 ({ grid, width }) {
+    const isMinimum = (value, ix) => {
+      const up = ix - width >= 0 ? grid[ix - width] : 9;
+      const down = ix + width < grid.length ? grid[ix + width] : 9;
+      const left = ix % width === 0 ? 9 : grid[ix - 1];
+      const right = (ix + 1) % width === 0 ? 9 : grid[ix + 1];
+
+      return [up, down, left, right].every(it => it > value);
+    }
+    const minima = grid.filter(isMinimum);
     return minima.reduce((sum, point) => sum + point, 0) + minima.length;
   }
 
-  part2 (input) {
-    const basins = [];
-    const mapped = input[0].map(() => []);
-    const combinations = [];
+  part2 ({ input, grid, width }) {
+    const findRootBasin = (ix, combined) => combined[ix] === ix ? ix : findRootBasin(combined[ix], combined);
 
-    input.forEach((line, y) => line.forEach((point, x) => {
-      if (point !== 9) {
-        const left = line[x - 1];
-        const up = (input[y - 1] || [])[x];
+    const { basins } = grid.reduce((state, point, ix) => {
+      if (point === 9) return state;
 
-        const isNew = [left, up].every(it => it === undefined || it === 9);
-        if (isNew) {
-          mapped[y][x] = basins.length;
-          basins.push([`${x}:${y}`]);
-          combinations.push(new Set());
-        } else {
-          const bLeft = mapped[y][x - 1];
-          const bUp = (mapped[y - 1] || [])[x];
+      const left = ix % width === 0 ? undefined : ix - 1;
+      const up = ix - width >= 0 ? ix - width : undefined;
 
-          const [basin, combine] = [bLeft, bUp].filter(it => it !== undefined).sort((a, b) => a - b);
-          mapped[y][x] = basin;
-          basins[basin].push(`${x}:${y}`);
+      const isNew = [left, up].every(it => grid[it] === undefined || grid[it] === 9);
+      if (isNew) {
+        const basin = state.basins.length;
+        state.mapped[ix] = basin;
+        state.combined[basin] = basin;
+        state.basins.push(1);
+      } else {
+        const leftBasin = findRootBasin(state.mapped[left], state.combined);
+        const upBasin = findRootBasin(state.mapped[up], state.combined);
 
-          if (combine !== undefined && combine !== basin) {
-            combinations[basin].add(combine);
-          }
+        const [basin, combine] = [leftBasin, upBasin].filter(it => it !== undefined).sort((a, b) => a - b);
+        state.mapped[ix] = basin;
+        state.basins[basin] += 1;
+
+        if (combine && combine !== basin) {
+          state.basins[basin] += state.basins[combine];
+          state.basins[combine] = 0;
+          state.combined[combine] = state.combined[basin];
         }
       }
-    }));
+      return state;
+    }, { basins: [0], mapped: [], combined: {} });
 
-    combinations.reverse();
-
-    combinations.forEach((c, cix) => c.forEach((tgt) => {
-      basins[basins.length - cix - 1] = basins[basins.length - cix - 1].concat(basins[tgt]);
-      basins[tgt] = [];
-    }));
-
-    const [big, medium, small] = basins.sort((a, b) => b.length - a.length);
-    return big.length * medium.length * small.length;
+    const [big, medium, small] = basins.sort((a, b) => b - a);
+    return big * medium * small;
   }
 }
