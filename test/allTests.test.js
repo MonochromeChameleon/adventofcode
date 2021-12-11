@@ -9,7 +9,9 @@ const questions = await Promise.all(days.map((day) => loadQuestion(day)));
 
 questions.forEach((Question, dix) =>
   describe(`Day ${dix + 1}`, function () {
-    if (Question.skip) return this.skip();
+    if (Question.skip) {
+      return;
+    }
 
     const questions = [new Question({ useTestData: true }), new Question()];
 

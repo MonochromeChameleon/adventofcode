@@ -20,7 +20,7 @@ export class Question extends QuestionBase {
   }
 
   part1 ({ grid, width }) {
-    const isMinimum = (value, ix) => [width, -width, 1, -1].every(d => grid[ix + d] === undefined || grid[ix + d] > value);
+    const isMinimum = (value, ix) => [width, -width, 1, -1].every(d => grid[ix + d] > value);
     const minima = grid.filter(isMinimum);
     return minima.reduce((sum, point) => sum + point, 0) + minima.length;
   }
