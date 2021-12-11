@@ -1,26 +1,17 @@
 import { QuestionBase } from '../utils/question-base.js';
+import { parseGrid } from '../utils/grid-utils.js';
 
 export class Question extends QuestionBase {
   constructor (args) {
     super(9, 15, 491, 1134, 1075536, args);
   }
 
-  parseLine(line) {
-    // Pad the start and end with a 9 so we have proper bounds
-    return [9, ...line.split('').map(Number), 9];
-  }
-
   parseInput (lines) {
-    const innerGrid = [...lines.flatMap(this.parseLine)];
-    const width = innerGrid.length / lines.length;
-    const nines = Array.from({ length: width }, () => 9);
-    const grid = [...nines, ...innerGrid, ...nines];
-
-    return { grid, width };
+    return parseGrid({ lines, pad: 9, adjacency: 4 });
   }
 
-  part1 ({ grid, width }) {
-    const isMinimum = (value, ix) => [width, -width, 1, -1].every(d => grid[ix + d] > value);
+  part1 ({ grid, width, adjacentIndexes }) {
+    const isMinimum = (value, ix) => adjacentIndexes[ix].every(a => grid[a] > value);
     const minima = grid.filter(isMinimum);
     return minima.reduce((sum, point) => sum + point, 0) + minima.length;
   }

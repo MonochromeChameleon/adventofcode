@@ -1,11 +1,11 @@
 import { QuestionBase } from '../utils/question-base.js';
 import { countByValue } from '../utils/count-by-value.js';
-import { buildAdjacencyMap } from '../utils/grid-utils.js';
+import { parseGrid } from '../utils/grid-utils.js';
 
 class Grid {
-  constructor (octopodes, adjacencyMap) {
-    this.octopodes = octopodes;
-    this.adjacencyMap = adjacencyMap;
+  constructor ({ grid, adjacentIndexes }) {
+    this.octopodes = grid;
+    this.adjacencyMap = adjacentIndexes;
     this.steps = 0;
   }
 
@@ -37,16 +37,8 @@ export class Question extends QuestionBase {
     super(11, 1656, 1729, 195, 237, args);
   }
 
-  parseLine(line) {
-    return line.split('').map(Number);
-  }
-
   parseInput (lines) {
-    const octopodes = lines.flatMap(this.parseLine);
-    const width = lines[0].length;
-    const adjacencyMap = buildAdjacencyMap({ length: octopodes.length, width });
-
-    return new Grid(octopodes, adjacencyMap);
+    return new Grid(parseGrid({ lines, adjacency: 9 }));
   }
 
   part1 (grid) {
