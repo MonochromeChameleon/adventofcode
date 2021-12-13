@@ -8,7 +8,7 @@ const days = Array.from({ length: new Date().getDate() }).map((r, ix) => ix + 1)
 const questions = await Promise.all(days.map((day) => loadQuestion(day)));
 
 questions.forEach((Question, dix) =>
-  describe(`Day ${dix + 1}`, function () {
+  describe(`Day ${dix + 1}`, () => {
     if (Question.skip) {
       return;
     }
@@ -23,7 +23,7 @@ questions.forEach((Question, dix) =>
           it(`${desc} result should be ${expected}`, async () => {
             const result = await q.run(part);
             expect(result).to.equal(q.expectedResult(part));
-          });
+          }).timeout(10000);
         }));
     });
   })
