@@ -3,7 +3,7 @@ export function template(day) {
 
 export class Question extends QuestionBase {
   constructor (args) {
-    super(${day}, 1, 2, 3, 4, args);
+    super(${day}, undefined, undefined, undefined, undefined, args);
   }
 
   parseLine(line) {
