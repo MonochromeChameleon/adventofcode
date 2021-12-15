@@ -1,5 +1,6 @@
 import { QuestionBase } from '../utils/question-base.js';
 import { parseGrid, adjacentIndices } from '../utils/grid-utils.js';
+import { PriorityQueue } from '../utils/priority-queue.js';
 
 export class Question extends QuestionBase {
   constructor (args) {
@@ -33,7 +34,8 @@ export class Question extends QuestionBase {
       return Math.abs(row - width - 1) + Math.abs(col - width - 1);
     }
 
-    const openSet = new Set([start]);
+    const openSet = new PriorityQueue((a, b) => fScore[a] < fScore[b]);
+    openSet.push(start);
     const cameFrom = {}
 
     const gScore = Array.from({ length: goal }).fill(Infinity);
@@ -42,13 +44,11 @@ export class Question extends QuestionBase {
     const fScore = Array.from({ length: goal }).fill(Infinity);
     fScore[start] = 0;
 
-    while (openSet.size) {
-      const current = [...openSet].sort((a, b) => fScore[a] - fScore[b])[0];
+    while (!openSet.isEmpty()) {
+      const current = openSet.pop();
       if (current === goal) {
         return this.reconstruct_path(cameFrom, current)
       }
-
-      openSet.delete(current);
 
       for (const neighbour of adjacentIndices(current, width, 4)) {
         const tentative_gScore = gScore[current] + d(current, neighbour);
@@ -56,7 +56,7 @@ export class Question extends QuestionBase {
         cameFrom[neighbour] = current;
         gScore[neighbour] = tentative_gScore;
         fScore[neighbour] = gScore[neighbour] + h(neighbour);
-        openSet.add(neighbour);
+        openSet.push(neighbour);
       }
     }
 

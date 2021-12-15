@@ -23,7 +23,7 @@ questions.forEach((Question, dix) =>
           it(`${desc} result should be ${expected}`, async () => {
             const result = await q.run(part);
             expect(result).to.equal(q.expectedResult(part));
-          }).timeout(50000);
+          }).timeout(10000);
         }));
     });
   })
