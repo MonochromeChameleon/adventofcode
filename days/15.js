@@ -1,70 +1,32 @@
 import { QuestionBase } from '../utils/question-base.js';
 import { parseGrid, adjacentIndices } from '../utils/grid-utils.js';
-import { PriorityQueue } from '../utils/priority-queue.js';
+import { aStarSearch } from '../utils/a-star.js';
 
 export class Question extends QuestionBase {
   constructor (args) {
     super(15, 40, 410, 315, 2809, args);
   }
 
-  parseLine(line) {
-    return Number(line);
-  }
-
   parseInput(lines) {
     return parseGrid({ lines, adjacency: 4 })
   }
 
-  reconstruct_path(cameFrom, current) {
-    const total_path = [current];
-    while (current in cameFrom) {
-      current = cameFrom[current]
-      total_path.unshift(current)
-    }
-    return total_path
-  }
-
-  aStarSearch(width, d) {
-    const start = 0;
-    const goal = (width * width) - 1;
-    const h = (index) => {
+  h(width) {
+    return (index) => {
       const row = ~~(index / width);
       const col = index % width;
 
       return Math.abs(row - width - 1) + Math.abs(col - width - 1);
     }
-
-    const openSet = new PriorityQueue((a, b) => fScore[a] < fScore[b]);
-    openSet.push(start);
-    const cameFrom = {}
-
-    const gScore = Array.from({ length: goal }).fill(Infinity);
-    gScore[start] = 0;
-
-    const fScore = Array.from({ length: goal }).fill(Infinity);
-    fScore[start] = 0;
-
-    while (!openSet.isEmpty()) {
-      const current = openSet.pop();
-      if (current === goal) {
-        return this.reconstruct_path(cameFrom, current)
-      }
-
-      for (const neighbour of adjacentIndices(current, width, 4)) {
-        const tentative_gScore = gScore[current] + d(current, neighbour);
-        if (tentative_gScore >= gScore[neighbour]) continue;
-        cameFrom[neighbour] = current;
-        gScore[neighbour] = tentative_gScore;
-        fScore[neighbour] = gScore[neighbour] + h(neighbour);
-        openSet.push(neighbour);
-      }
-    }
-
-    throw new Error('No path found');
   }
 
   part1 ({ grid, width, adjacentIndexes }) {
-    const [start, ...path] = this.aStarSearch(width, (_, ix) => grid[ix]);
+    const [start, ...path] = aStarSearch(
+      0,
+      (width * width) - 1,
+      (_, ix) => grid[ix],
+      this.h(width),
+      (ix) => adjacentIndices(ix, width, 4));
     return path.reduce((acc, ix) => acc + grid[ix], 0);
   }
 
@@ -85,7 +47,12 @@ export class Question extends QuestionBase {
       return (grid[sourceIndex] + increment) % 9 || 9;
     }
 
-    const [start, ...path] = this.aStarSearch(fiveW, getGridRisk);
+    const [start, ...path] = aStarSearch(
+      0,
+      (fiveW * fiveW) - 1,
+      getGridRisk,
+      this.h(fiveW),
+      (ix) => adjacentIndices(ix, fiveW, 4));
     return path.reduce((acc, ix) => acc + getGridRisk(ix), 0);
   }
 }
