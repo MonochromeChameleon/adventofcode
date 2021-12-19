@@ -5,8 +5,8 @@ export class Question extends QuestionBase {
     super(3, 198, 3923414, 230, 5852595, args);
   }
 
-  parseInput(lines) {
-    return lines.map((line) => line.split('').map(Number));
+  parseLine(line) {
+    return line.split('').map(Number);
   }
 
   part1(input) {

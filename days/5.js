@@ -19,10 +19,6 @@ export class Question extends QuestionBase {
     };
   }
 
-  parseInput(lines) {
-    return lines.map(this.parseLine);
-  }
-
   countIntersections(lines, skipDiagonal) {
     return lines.reduce(
       (state, { isDiagonal, points }) => {

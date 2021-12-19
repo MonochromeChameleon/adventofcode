@@ -5,10 +5,9 @@ export class Question extends QuestionBase {
     super(2, 150, 1690020, 900, 1408487760, args);
   }
 
-  parseInput(lines) {
-    return lines
-      .map((line) => line.split(' '))
-      .map(([direction, distance]) => ({ direction, distance: Number(distance) }));
+  parseLine(line) {
+    const [direction, distance] = line.split(' ');
+    return { direction, distance: Number(distance) };
   }
 
   updatePosition({ h, d, a }, { direction, distance }, aim = false) {
