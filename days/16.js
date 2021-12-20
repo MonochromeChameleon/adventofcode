@@ -1,7 +1,7 @@
 import { QuestionBase } from '../utils/question-base.js';
 
 export class Question extends QuestionBase {
-  constructor (args) {
+  constructor(args) {
     super(16, 31, 913, 54, 1510977819698, args);
   }
 
@@ -68,7 +68,10 @@ export class Question extends QuestionBase {
   }
 
   parseLine(line) {
-    return line.split('').map(c => parseInt(c, 16).toString(2).padStart(4, '0')).join('');
+    return line
+      .split('')
+      .map((c) => parseInt(c, 16).toString(2).padStart(4, '0'))
+      .join('');
   }
 
   parseInput(lines) {
@@ -76,11 +79,11 @@ export class Question extends QuestionBase {
     return this.processPacket(binary);
   }
 
-  part1 ([{ versionSum }]) {
+  part1([{ versionSum }]) {
     return versionSum;
   }
 
-  part2 ([{ value }]) {
+  part2([{ value }]) {
     return value;
   }
 }

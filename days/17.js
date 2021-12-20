@@ -2,26 +2,29 @@ import { QuestionBase } from '../utils/question-base.js';
 import { triangle, triangularRoot } from '../utils/triangle-utils.js';
 
 export class Question extends QuestionBase {
-  constructor (args) {
+  constructor(args) {
     super(17, 45, 3003, 112, 940, args);
   }
 
-  parseInput ([line]) {
-    const [x1, x2, y1, y2] = /target area: x=([-\d]*)..([-\d]*), y=([-\d]*)..([-\d]*)/.exec(line).slice(1, 5).map(Number);
+  parseInput([line]) {
+    const [x1, x2, y1, y2] = /target area: x=([-\d]*)..([-\d]*), y=([-\d]*)..([-\d]*)/
+      .exec(line)
+      .slice(1, 5)
+      .map(Number);
     return { x1, x2, y1, y2 };
   }
 
-  willLand (x, y, x1, x2, y1, y2) {
+  willLand(x, y, x1, x2, y1, y2) {
     if (x > x2 || y < y1) return false;
     if (x >= x1 && y <= y2) return true;
     return this.willLand(x && x - 1, y - 1, x1 - x, x2 - x, y1 - y, y2 - y);
   }
 
-  part1 ({ y1 }) {
+  part1({ y1 }) {
     return triangle(Math.abs(y1 + 1));
   }
 
-  part2 ({ x1, x2, y1, y2 }) {
+  part2({ x1, x2, y1, y2 }) {
     const minX = Math.ceil(triangularRoot(x1));
     const maxX = x2;
 

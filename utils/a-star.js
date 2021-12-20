@@ -1,6 +1,6 @@
 import { PriorityQueue } from './priority-queue.js';
 
-export function reconstruct_path (cameFrom, current) {
+export function reconstruct_path(cameFrom, current) {
   const total_path = [current];
   while (current in cameFrom) {
     current = cameFrom[current];
@@ -9,7 +9,7 @@ export function reconstruct_path (cameFrom, current) {
   return total_path;
 }
 
-export function aStarSearch (start, goal, d, h, neighbours) {
+export function aStarSearch(start, goal, d, h, neighbours) {
   const openSet = new PriorityQueue((a, b) => fScore[a] < fScore[b]);
   openSet.push(start);
   const cameFrom = {};

@@ -2,7 +2,7 @@ import { QuestionBase } from '../utils/question-base.js';
 import { countByValue } from '../utils/count-by-value.js';
 
 export class Question extends QuestionBase {
-  constructor (args) {
+  constructor(args) {
     super(14, 1588, 2712, 2188189693529, 8336623059567, args);
   }
 
@@ -10,13 +10,13 @@ export class Question extends QuestionBase {
     return Object.keys(polymer).reduce((out, key) => {
       const add = insertionRules[key];
       const [first, second] = key.split('');
-      [first + add, add + second].forEach(newKey => {
+      [first + add, add + second].forEach((newKey) => {
         out[newKey] = out[newKey] || 0;
         out[newKey] += polymer[key];
-      })
+      });
 
       return out;
-    }, { });
+    }, {});
   }
 
   runPolymerizationSteps(polymer, insertionRules, steps) {
@@ -24,12 +24,15 @@ export class Question extends QuestionBase {
   }
 
   countElements(polymer) {
-    return Object.keys(polymer).reduce((acc, key) => {
-      const [_, second] = key.split('');
-      acc[second] = acc[second] || 0;
-      acc[second] += polymer[key];
-      return acc;
-    }, { N: 1 });
+    return Object.keys(polymer).reduce(
+      (acc, key) => {
+        const [_, second] = key.split('');
+        acc[second] = acc[second] || 0;
+        acc[second] += polymer[key];
+        return acc;
+      },
+      { N: 1 }
+    );
   }
 
   parseLine(line) {
@@ -51,18 +54,18 @@ export class Question extends QuestionBase {
 
     return {
       pairs,
-      insertionRules
-    }
+      insertionRules,
+    };
   }
 
-  part1 ({ pairs, insertionRules }) {
+  part1({ pairs, insertionRules }) {
     const polymer = this.runPolymerizationSteps(pairs, insertionRules, 10);
     const countsByCharacter = this.countElements(polymer);
     const counts = Object.values(countsByCharacter).sort((a, b) => a - b);
     return counts[counts.length - 1] - counts[0];
   }
 
-  part2 ({ pairs, insertionRules }) {
+  part2({ pairs, insertionRules }) {
     const polymer = this.runPolymerizationSteps(pairs, insertionRules, 40);
     const countsByCharacter = this.countElements(polymer);
     const counts = Object.values(countsByCharacter).sort((a, b) => a - b);

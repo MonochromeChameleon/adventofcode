@@ -21,13 +21,13 @@ export class Question extends QuestionBase {
     const [one, seven, four, a, b, c, d, e, f, eight] = signal.sort((a, b) => a.length - b.length);
     const fourNotOne = four.filter((line) => !one.includes(line));
 
-    const three = [a, b, c].find(it => one.every((line) => it.includes(line)));
-    const five = [a, b, c].find(it => it !== three && fourNotOne.every((line) => it.includes(line)));
-    const two = [a, b, c].find(it => it !== three && it !== five);
+    const three = [a, b, c].find((it) => one.every((line) => it.includes(line)));
+    const five = [a, b, c].find((it) => it !== three && fourNotOne.every((line) => it.includes(line)));
+    const two = [a, b, c].find((it) => it !== three && it !== five);
 
-    const nine = [d, e, f].find(it => four.every((line) => it.includes(line)));
-    const zero = [d, e, f].find(it => it !== nine && one.every((line) => it.includes(line)));
-    const six = [d, e, f].find(it => it !== nine && it !== zero);
+    const nine = [d, e, f].find((it) => four.every((line) => it.includes(line)));
+    const zero = [d, e, f].find((it) => it !== nine && one.every((line) => it.includes(line)));
+    const six = [d, e, f].find((it) => it !== nine && it !== zero);
 
     const digits = {
       [one.join('')]: 1,

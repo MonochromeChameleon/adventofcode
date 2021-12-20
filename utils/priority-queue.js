@@ -1,9 +1,9 @@
 // https://stackoverflow.com/a/42919752
 
 const top = 0;
-const parent = i => ((i + 1) >>> 1) - 1;
-const left = i => (i << 1) + 1;
-const right = i => (i + 1) << 1;
+const parent = (i) => ((i + 1) >>> 1) - 1;
+const left = (i) => (i << 1) + 1;
+const right = (i) => (i + 1) << 1;
 
 export class PriorityQueue {
   constructor(comparator = (a, b) => a < b) {
@@ -20,7 +20,7 @@ export class PriorityQueue {
     return this._heap[top];
   }
   push(...values) {
-    values.forEach(value => {
+    values.forEach((value) => {
       this._heap.push(value);
       this._siftUp();
     });
@@ -60,8 +60,8 @@ export class PriorityQueue {
     while (
       (left(node) < this.size() && this._greater(left(node), node)) ||
       (right(node) < this.size() && this._greater(right(node), node))
-      ) {
-      let maxChild = (right(node) < this.size() && this._greater(right(node), left(node))) ? right(node) : left(node);
+    ) {
+      let maxChild = right(node) < this.size() && this._greater(right(node), left(node)) ? right(node) : left(node);
       this._swap(node, maxChild);
       node = maxChild;
     }

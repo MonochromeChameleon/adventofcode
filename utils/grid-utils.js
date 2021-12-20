@@ -7,33 +7,40 @@ export function adjacentIndices(ix, width, adjacency) {
   //   8 => up, down, left, right, diagonals
   //   9 => up, down, left, right, diagonals, self
 
-  const upLeft = (adjacency > 5 && ix >= width && ix % width) ? ix - width - 1 : undefined;
-  const up = (adjacency > 2 && ix >= width) ? ix - width : undefined;
-  const upRight = (adjacency > 5 && ix >= width && (ix + 1) % width) ? ix - width + 1 : undefined;
-  const left = (adjacency > 2 && ix % width) ? ix - 1 : undefined;
-  const self = (adjacency % 2) ? ix : undefined;
-  const right = ((ix + 1) % width) ? ix + 1 : undefined;
-  const downLeft = (adjacency > 5 && ix < (width * (width - 1)) && ix % width) ? ix + width - 1 : undefined;
-  const down = ix < (width * (width - 1)) ? ix + width : undefined;
-  const downRight = (adjacency > 5 && ix < (width * (width - 1)) && (ix + 1) % width) ? ix + width + 1 : undefined;
+  const upLeft = adjacency > 5 && ix >= width && ix % width ? ix - width - 1 : undefined;
+  const up = adjacency > 2 && ix >= width ? ix - width : undefined;
+  const upRight = adjacency > 5 && ix >= width && (ix + 1) % width ? ix - width + 1 : undefined;
+  const left = adjacency > 2 && ix % width ? ix - 1 : undefined;
+  const self = adjacency % 2 ? ix : undefined;
+  const right = (ix + 1) % width ? ix + 1 : undefined;
+  const downLeft = adjacency > 5 && ix < width * (width - 1) && ix % width ? ix + width - 1 : undefined;
+  const down = ix < width * (width - 1) ? ix + width : undefined;
+  const downRight = adjacency > 5 && ix < width * (width - 1) && (ix + 1) % width ? ix + width + 1 : undefined;
 
-  return [upLeft, up, upRight, left, self, right, downLeft, down, downRight].filter(it => it !== undefined);
+  return [upLeft, up, upRight, left, self, right, downLeft, down, downRight].filter((it) => it !== undefined);
 }
 
 export function buildAdjacencyMap({ length, width, height, adjacency = 9 }) {
-  const arrayLength = length || (width * height);
-  return Array.from({ length: arrayLength }).reduce((acc, _, ix) => ({ ...acc, [ix]: adjacentIndices(ix, width, adjacency) }), {});
+  const arrayLength = length || width * height;
+  return Array.from({ length: arrayLength }).reduce(
+    (acc, _, ix) => ({ ...acc, [ix]: adjacentIndices(ix, width, adjacency) }),
+    {}
+  );
 }
 
 export function padGrid({ grid, width, pad, padSize = 1 }) {
-  const padRow = new Array(width + (padSize * 2)).fill(pad);
+  const padRow = new Array(width + padSize * 2).fill(pad);
   const endPad = new Array(padSize).fill(pad);
   const padRows = new Array(padSize).fill(padRow).flat(Infinity);
 
   return [
     ...padRows,
-    ...(Array.from({ length: width }).flatMap((_, ix) => [...endPad, ...grid.slice(width * ix, ix * width + width), ...endPad])),
-    ...padRows
+    ...Array.from({ length: width }).flatMap((_, ix) => [
+      ...endPad,
+      ...grid.slice(width * ix, ix * width + width),
+      ...endPad,
+    ]),
+    ...padRows,
   ];
 }
 

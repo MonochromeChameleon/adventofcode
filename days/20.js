@@ -2,26 +2,26 @@ import { QuestionBase } from '../utils/question-base.js';
 import { parseGrid, padGrid } from '../utils/grid-utils.js';
 
 function getBinary(ix, width, grid, pad) {
-  const upLeft = (ix >= width && ix % width) ? grid[ix - width - 1] : pad;
+  const upLeft = ix >= width && ix % width ? grid[ix - width - 1] : pad;
   const up = ix >= width ? grid[ix - width] : pad;
-  const upRight = (ix >= width && (ix + 1) % width) ? grid[ix - width + 1] : pad;
+  const upRight = ix >= width && (ix + 1) % width ? grid[ix - width + 1] : pad;
   const left = ix % width ? grid[ix - 1] : pad;
   const self = grid[ix];
-  const right = ((ix + 1) % width) ? grid[ix + 1] : pad;
-  const downLeft = (ix < (width * (width - 1)) && ix % width) ? grid[ix + width - 1] : pad;
-  const down = ix < (width * (width - 1)) ? grid[ix + width] : pad;
-  const downRight = (ix < (width * (width - 1)) && (ix + 1) % width) ? grid[ix + width + 1] : pad;
+  const right = (ix + 1) % width ? grid[ix + 1] : pad;
+  const downLeft = ix < width * (width - 1) && ix % width ? grid[ix + width - 1] : pad;
+  const down = ix < width * (width - 1) ? grid[ix + width] : pad;
+  const downRight = ix < width * (width - 1) && (ix + 1) % width ? grid[ix + width + 1] : pad;
 
   return [upLeft, up, upRight, left, self, right, downLeft, down, downRight].join('');
 }
 
 export class Question extends QuestionBase {
-  constructor (args) {
+  constructor(args) {
     super(20, 35, 5291, 3351, 16665, args);
   }
 
   parseLine(line) {
-    return line.split('').map(it => it === '#' ? 1 : 0);
+    return line.split('').map((it) => (it === '#' ? 1 : 0));
   }
 
   parseInput([firstLine, ...rest]) {
@@ -45,11 +45,15 @@ export class Question extends QuestionBase {
     });
   }
 
-  part1 ({ enhancementAlgorithm, grid, width }) {
-    return Array.from({ length: 2 }).reduce((g, _, ix) => this.enhance(g, enhancementAlgorithm, ix + 1), grid).reduce((acc, it) => acc + it, 0);
+  part1({ enhancementAlgorithm, grid, width }) {
+    return Array.from({ length: 2 })
+      .reduce((g, _, ix) => this.enhance(g, enhancementAlgorithm, ix + 1), grid)
+      .reduce((acc, it) => acc + it, 0);
   }
 
-  part2 ({ enhancementAlgorithm, grid, width }) {
-    return Array.from({ length: 50 }).reduce((g, _, ix) => this.enhance(g, enhancementAlgorithm, ix + 1), grid).reduce((acc, it) => acc + it, 0);
+  part2({ enhancementAlgorithm, grid, width }) {
+    return Array.from({ length: 50 })
+      .reduce((g, _, ix) => this.enhance(g, enhancementAlgorithm, ix + 1), grid)
+      .reduce((acc, it) => acc + it, 0);
   }
 }

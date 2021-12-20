@@ -3,12 +3,12 @@ import { parseGrid, adjacentIndices } from '../utils/grid-utils.js';
 import { aStarSearch } from '../utils/a-star.js';
 
 export class Question extends QuestionBase {
-  constructor (args) {
+  constructor(args) {
     super(15, 40, 410, 315, 2809, args);
   }
 
   parseInput(lines) {
-    return parseGrid({ lines, adjacency: 4 })
+    return parseGrid({ lines, adjacency: 4 });
   }
 
   h(width) {
@@ -17,21 +17,21 @@ export class Question extends QuestionBase {
       const col = index % width;
 
       return Math.abs(row - width - 1) + Math.abs(col - width - 1);
-    }
+    };
   }
 
-  part1 ({ grid, width, adjacentIndexes }) {
+  part1({ grid, width, adjacentIndexes }) {
     const [start, ...path] = aStarSearch(
       0,
-      (width * width) - 1,
+      width * width - 1,
       (_, ix) => grid[ix],
       this.h(width),
-      (ix) => adjacentIndices(ix, width, 4));
+      (ix) => adjacentIndices(ix, width, 4)
+    );
     return path.reduce((acc, ix) => acc + grid[ix], 0);
   }
 
-  part2 ({ grid, width }) {
-
+  part2({ grid, width }) {
     const fiveW = width * 5;
     const getGridRisk = (index) => {
       const row = ~~(index / fiveW);
@@ -45,14 +45,11 @@ export class Question extends QuestionBase {
       const increment = rowRepeat + colRepeat;
 
       return (grid[sourceIndex] + increment) % 9 || 9;
-    }
+    };
 
-    const [start, ...path] = aStarSearch(
-      0,
-      (fiveW * fiveW) - 1,
-      getGridRisk,
-      this.h(fiveW),
-      (ix) => adjacentIndices(ix, fiveW, 4));
+    const [start, ...path] = aStarSearch(0, fiveW * fiveW - 1, getGridRisk, this.h(fiveW), (ix) =>
+      adjacentIndices(ix, fiveW, 4)
+    );
     return path.reduce((acc, ix) => acc + getGridRisk(ix), 0);
   }
 }

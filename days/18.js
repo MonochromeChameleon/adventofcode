@@ -9,7 +9,7 @@ function explode(input) {
     if (next === '[') stack += 1;
     if (next === ']') stack -= 1;
 
-    if ((stack === 4 && next === '[' && state === null)) {
+    if (stack === 4 && next === '[' && state === null) {
       state = 'exploding';
       return out;
     }
@@ -93,7 +93,7 @@ function reduce(input) {
 }
 
 class SnailfishNumber {
-  constructor (str) {
+  constructor(str) {
     const characters = str.substr(1, str.length - 2).split('');
     const reducedCharacters = reduce(characters);
 
@@ -136,7 +136,7 @@ class SnailfishNumber {
 }
 
 export class Question extends QuestionBase {
-  constructor (args) {
+  constructor(args) {
     super(18, 4140, 2907, 3993, 4690, args);
   }
 
@@ -148,11 +148,11 @@ export class Question extends QuestionBase {
     return lines.map(this.parseLine);
   }
 
-  part1 (input) {
+  part1(input) {
     return input.reduce((sum, num) => sum.add(num)).magnitude;
   }
 
-  part2 (input) {
-    return Math.max(...input.flatMap(num => input.map((it) => it === num ? 0 : num.add(it).magnitude)));
+  part2(input) {
+    return Math.max(...input.flatMap((num) => input.map((it) => (it === num ? 0 : num.add(it).magnitude))));
   }
 }

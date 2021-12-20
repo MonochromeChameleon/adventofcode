@@ -3,7 +3,7 @@ import { countByValue } from '../utils/count-by-value.js';
 import { parseGrid } from '../utils/grid-utils.js';
 
 class Grid {
-  constructor ({ grid, adjacentIndexes }) {
+  constructor({ grid, adjacentIndexes }) {
     this.octopodes = grid;
     this.adjacencyMap = adjacentIndexes;
     this.steps = 0;
@@ -12,16 +12,16 @@ class Grid {
   step() {
     let flashes = 0;
     this.steps += 1;
-    this.octopodes = this.octopodes.map((value) => value > 9 ? 1 : value + 1);
-    while (this.octopodes.some(it => it === 10)) flashes += this.cascade();
+    this.octopodes = this.octopodes.map((value) => (value > 9 ? 1 : value + 1));
+    while (this.octopodes.some((it) => it === 10)) flashes += this.cascade();
     return flashes;
   }
 
   cascade() {
-    const flashIndexes = this.octopodes.reduce((acc, value, ix) => value === 10 ? [...acc, ix] : acc, []);
-    const energyBoosts = countByValue(flashIndexes.flatMap(ix => this.adjacencyMap[ix]));
+    const flashIndexes = this.octopodes.reduce((acc, value, ix) => (value === 10 ? [...acc, ix] : acc), []);
+    const energyBoosts = countByValue(flashIndexes.flatMap((ix) => this.adjacencyMap[ix]));
 
-    flashIndexes.forEach(ix => this.octopodes[ix] = 11);
+    flashIndexes.forEach((ix) => (this.octopodes[ix] = 11));
     for (let [ix, boost] of Object.entries(energyBoosts)) {
       if (this.octopodes[ix] < 10) {
         this.octopodes[ix] = Math.min(10, this.octopodes[ix] + boost);
@@ -33,19 +33,19 @@ class Grid {
 }
 
 export class Question extends QuestionBase {
-  constructor (args) {
+  constructor(args) {
     super(11, 1656, 1729, 195, 237, args);
   }
 
-  parseInput (lines) {
+  parseInput(lines) {
     return new Grid(parseGrid({ lines, adjacency: 9 }));
   }
 
-  part1 (grid) {
+  part1(grid) {
     return Array.from({ length: 100 }).reduce((sum) => sum + grid.step(), 0);
   }
 
-  part2 (grid) {
+  part2(grid) {
     while (grid.step() < grid.octopodes.length) {}
     return grid.steps;
   }

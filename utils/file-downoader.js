@@ -12,8 +12,8 @@ export async function download(day) {
       Cookie: cookie.trim(),
     },
     httpsAgent: new https.Agent({
-      rejectUnauthorized: false
-    })
+      rejectUnauthorized: false,
+    }),
   });
 
   await writeFile(resolve(`./inputs/${day}.txt`), response.data, { flag: 'wx' }).catch(() => {});

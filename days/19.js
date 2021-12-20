@@ -1,17 +1,37 @@
 import { QuestionBase } from '../utils/question-base.js';
 import { triangle } from '../utils/triangle-utils.js';
+import { countByValue } from '../utils/count-by-value.js';
 
 const NUM_REQUIRED_MATCHES = triangle(11) * 2;
+
 const VALID_ORIENTATIONS = [
-  'x:y:z', 'x:-z:y', 'x:-y:-z', 'x:z:-y',
-  'y:-x:z', 'y:-z:-x', 'y:x:-z', 'y:z:x',
-  'z:x:y', 'z:-y:x', 'z:-x:-y', 'z:y:-x',
-  '-x:y:-z', '-x:z:y', '-x:-y:z', '-x:-z:-y',
-  '-y:x:z', '-y:-z:x', '-y:-x:-z', '-y:z:-x',
-  '-z:y:x', '-z:-x:y', '-z:-y:-x', '-z:x:-y',
+  'x:y:z',
+  'x:-z:y',
+  'x:-y:-z',
+  'x:z:-y',
+  'y:-x:z',
+  'y:-z:-x',
+  'y:x:-z',
+  'y:z:x',
+  'z:x:y',
+  'z:-y:x',
+  'z:-x:-y',
+  'z:y:-x',
+  '-x:y:-z',
+  '-x:z:y',
+  '-x:-y:z',
+  '-x:-z:-y',
+  '-y:x:z',
+  '-y:-z:x',
+  '-y:-x:-z',
+  '-y:z:-x',
+  '-z:y:x',
+  '-z:-x:y',
+  '-z:-y:-x',
+  '-z:x:-y',
 ];
 
-function rotate (orientation) {
+function rotate(orientation) {
   const [ox, oy, oz] = orientation.split(':');
 
   const mx = ox.startsWith('-') ? -1 : 1;
@@ -28,115 +48,115 @@ function rotate (orientation) {
 const ROTATIONS = VALID_ORIENTATIONS.reduce((out, o) => ({ ...out, [o]: rotate(o) }), {});
 
 class Point {
-  constructor (x, y, z) {
+  constructor(x, y, z) {
     this.x = x;
     this.y = y;
     this.z = z;
   }
 
-  get manhattan () {
+  get manhattan() {
     return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z);
   }
 
-  equals (other) {
+  equals(other) {
     return this.x === other.x && this.y === other.y && this.z === other.z;
   }
 
-  difference (other) {
+  difference(other) {
     return new Point(other.x - this.x, other.y - this.y, other.z - this.z);
   }
 
-  add (other) {
+  add(other) {
     return new Point(this.x + other.x, this.y + other.y, this.z + other.z);
   }
 }
 
+class Vector extends Point {
+  constructor(first, second) {
+    super(first.x - second.x, first.y - second.y, first.z - second.z);
+    this.start = first;
+  }
+
+  findOrientations(rp) {
+    const xs = ['x', '-x', 'y', '-y', 'z', '-z'].filter(
+      (axis, ix) => rp[axis.replace('-', '')] === this.x * (ix % 2 ? -1 : 1)
+    );
+    const ys = ['x', '-x', 'y', '-y', 'z', '-z'].filter(
+      (axis, ix) => rp[axis.replace('-', '')] === this.y * (ix % 2 ? -1 : 1)
+    );
+    const zs = ['x', '-x', 'y', '-y', 'z', '-z'].filter(
+      (axis, ix) => rp[axis.replace('-', '')] === this.z * (ix % 2 ? -1 : 1)
+    );
+
+    return xs
+      .flatMap((x) =>
+        ys.filter((y) => y !== x).flatMap((y) => zs.filter((z) => z !== x && z !== y).map((z) => `${x}:${y}:${z}`))
+      )
+      .filter((o) => VALID_ORIENTATIONS.includes(o));
+  }
+
+  findMatches(relativePositions) {
+    return relativePositions
+      .filter((rp) => this.manhattan === rp.manhattan)
+      .map((rp) => ({
+        first: this,
+        second: rp,
+        orientations: this.findOrientations(rp),
+      }));
+  }
+}
+
 class Scanner {
-  constructor (id) {
+  constructor(id) {
     this.id = id;
     this.beacons = [];
-    this.combined = [id];
 
     this.scanners = {
       0: new Point(0, 0, 0),
     };
   }
 
-  calculateRelativePositions () {
-    this.relativePositions = this.beacons.flatMap((b1) => this.beacons.map((b2) => b1 === b2 ? undefined : b2.difference(b1)).filter(it => it));
-    return this;
+  calculateRelativePositions() {
+    this.relativePositions = this.beacons
+      .flatMap((b1) => this.beacons.map((b2) => (b1 === b2 ? undefined : new Vector(b1, b2))))
+      .filter((it) => it);
   }
 
-  calculateRotations () {
-    if (!this.id) {
-      return [this];
-    }
-    return VALID_ORIENTATIONS.map((orientation, ix) => ix ? this.rotate(orientation) : this);
+  translate(rotation, delta) {
+    this.beacons = this.beacons.map((b) => rotation(b).add(delta));
+    this.calculateRelativePositions();
   }
 
-  overlaps (other) {
-    return other.relativePositions.reduce((rpbo, rp) => {
-      if (this.relativePositions.some(r => r.equals(rp))) {
-        rpbo.yes.push(rp);
-      } else {
-        rpbo.no.push(rp);
-      }
-      return rpbo;
-    }, { yes: [], no: [] });
-  }
+  add(other) {
+    const matches = this.relativePositions.flatMap((rp) => rp.findMatches(other.relativePositions));
+    const counts = countByValue(matches.flatMap(({ orientations }) => orientations));
+    const rotation = Object.keys(counts).find((axis) => counts[axis] >= NUM_REQUIRED_MATCHES);
 
-  rotate (orientation) {
-    const r = ROTATIONS[orientation];
-    const rotatedBeacons = this.beacons.map(r);
-    const rotatedRelativePositions = this.relativePositions.map(r);
-    const s = new Scanner(this.id);
-    s.beacons = rotatedBeacons;
-    s.relativePositions = rotatedRelativePositions;
-
-    return s;
-  }
-
-  translate (delta) {
-    return this.beacons.map(b => b.add(delta));
-  }
-
-  add (other) {
-    if (this.combined.includes(other.id)) return false;
-
-    for (let ix = 0; ix < this.beacons.length; ix += 1) {
-      const thisBeacon = this.beacons[ix];
-      for (let ox = 0; ox < other.beacons.length; ox += 1) {
-        const otherBeacon = other.beacons[ox];
-        const translation = otherBeacon.difference(thisBeacon);
-        const translated = other.translate(translation);
-        const beaconsByOverlap = translated.reduce((bbo, b) => {
-          if (this.beacons.some(bb => bb.equals(b))) {
-            bbo.yes.push(b);
-          } else {
-            bbo.no.push(b);
-          }
-          return bbo;
-        }, { yes: [], no: [] });
-
-        if (beaconsByOverlap.yes.length >= 12) {
-          this.beacons.push(...beaconsByOverlap.no);
-          this.combined.push(other.id);
-          this.scanners[other.id] = translation;
-          return true;
-        }
-      }
+    if (!rotation) {
+      return false;
     }
 
-    return false;
+    const [{ first, second }] = matches.filter(({ orientations }) => orientations.includes(rotation));
+    const delta = ROTATIONS[rotation](second.start).difference(first.start);
+
+    other.translate(ROTATIONS[rotation], delta);
+
+    const otherBeacons = other.beacons.filter((b) => !this.beacons.some((b2) => b2.equals(b)));
+    this.beacons.push(...otherBeacons);
+    this.scanners[other.id] = delta;
+
+    this.relativePositions.push(...other.relativePositions);
+
+    return true;
   }
 }
 
 export class Question extends QuestionBase {
-  constructor (args) {
+  constructor(args) {
     super(19, 79, 381, 3621, 12201, args);
   }
 
-  parseInput (lines) {
+  parseInput(lines) {
     const scanners = lines.reduce((ss, line) => {
       if (/--- scanner (\d+) ---/.test(line)) {
         ss.unshift(new Scanner(ss.length));
@@ -146,36 +166,24 @@ export class Question extends QuestionBase {
       return ss;
     }, []);
 
-    scanners.forEach(it => it.calculateRelativePositions());
-    return scanners.reverse().flatMap(it => it.calculateRotations());
+    scanners.forEach((it) => it.calculateRelativePositions());
+
+    return scanners.reverse();
   }
 
-  part1 (input) {
-    let [s0, ...scanners] = input.slice(0);
-
+  part1(input) {
+    let [s0, ...scanners] = input;
     while (scanners.length) {
-      const overlap = scanners.reduce((r, s) => {
-        if (r) return r;
-        const ooo = s0.overlaps(s);
-        if (ooo.yes.length >= NUM_REQUIRED_MATCHES) {
-          return { ...ooo, s };
-        }
-        return null;
-      }, null);
-      if (overlap) {
-        s0.add(overlap.s);
-        s0.relativePositions.push(...overlap.no);
-      }
-      scanners = scanners.filter(it => !s0.combined.includes(it.id));
+      scanners = scanners.filter((it) => !s0.add(it));
     }
 
     return s0.beacons.length;
   }
 
-  part2 ([s0]) {
+  part2([s0]) {
     const scannerPoints = Object.values(s0.scanners);
-    const vectors = scannerPoints.flatMap(s1 => scannerPoints.map(s2 => s1.difference(s2)));
-    const manhattans = vectors.map(v => v.manhattan);
+    const vectors = scannerPoints.flatMap((s1) => scannerPoints.map((s2) => s1.difference(s2)));
+    const manhattans = vectors.map((v) => v.manhattan);
     return Math.max(...manhattans);
   }
 }
