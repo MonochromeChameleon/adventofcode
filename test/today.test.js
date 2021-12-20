@@ -18,7 +18,7 @@ describe(`Day ${day}`, () => {
         it(`${desc} result should be ${expected}`, async () => {
           const result = await q.run(part);
           expect(result).to.equal(q.expectedResult(part));
-        }).timeout(10000);
+        }).timeout(100000);
       }));
   });
 });

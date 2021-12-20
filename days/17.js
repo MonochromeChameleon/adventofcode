@@ -1,4 +1,5 @@
 import { QuestionBase } from '../utils/question-base.js';
+import { triangle, triangularRoot } from '../utils/triangle-utils.js';
 
 export class Question extends QuestionBase {
   constructor (args) {
@@ -10,14 +11,6 @@ export class Question extends QuestionBase {
     return { x1, x2, y1, y2 };
   }
 
-  triangularRoot (n) {
-    return (Math.sqrt((8 * n) + 1) - 1) / 2;
-  }
-
-  triangle (n) {
-    return n * (n + 1) / 2;
-  }
-
   willLand (x, y, x1, x2, y1, y2) {
     if (x > x2 || y < y1) return false;
     if (x >= x1 && y <= y2) return true;
@@ -25,11 +18,11 @@ export class Question extends QuestionBase {
   }
 
   part1 ({ y1 }) {
-    return this.triangle(Math.abs(y1 + 1));
+    return triangle(Math.abs(y1 + 1));
   }
 
   part2 ({ x1, x2, y1, y2 }) {
-    const minX = Math.ceil(this.triangularRoot(x1));
+    const minX = Math.ceil(triangularRoot(x1));
     const maxX = x2;
 
     const minY = y1;

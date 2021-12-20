@@ -4,7 +4,7 @@
 import { expect } from 'chai';
 import { loadQuestion } from '../utils/load-question.js';
 
-const day = 18;
+const day = 19;
 const Question = await loadQuestion(day);
 
 describe(`Day ${day}`, () => {
@@ -18,7 +18,7 @@ describe(`Day ${day}`, () => {
         it(`${desc} result should be ${expected}`, async () => {
           const result = await q.run(part);
           expect(result).to.equal(q.expectedResult(part));
-        }).timeout(10000);
+        }).timeout(100000);
       }));
   });
 });
