@@ -1,10 +1,17 @@
 import { QuestionBase } from '../utils/question-base.js';
 import { triangle } from '../utils/triangle-utils.js';
-import { countByValue } from '../utils/count-by-value.js';
 
 const NUM_REQUIRED_MATCHES = triangle(11) * 2;
+const VALID_ORIENTATIONS = [
+  'x:y:z', 'x:-z:y', 'x:-y:-z', 'x:z:-y',
+  'y:-x:z', 'y:-z:-x', 'y:x:-z', 'y:z:x',
+  'z:x:y', 'z:-y:x', 'z:-x:-y', 'z:y:-x',
+  '-x:y:-z', '-x:z:y', '-x:-y:z', '-x:-z:-y',
+  '-y:x:z', '-y:-z:x', '-y:-x:-z', '-y:z:-x',
+  '-z:y:x', '-z:-x:y', '-z:-y:-x', '-z:x:-y',
+];
 
-function getTransformFunction({ first, second }, orientation) {
+function rotate (orientation) {
   const [ox, oy, oz] = orientation.split(':');
 
   const mx = ox.startsWith('-') ? -1 : 1;
@@ -15,66 +22,10 @@ function getTransformFunction({ first, second }, orientation) {
   const y = oy.replace('-', '');
   const z = oz.replace('-', '');
 
-  const swapAxes = (beacon) => new Point(beacon[x] * mx, beacon[y] * my, beacon[z] * mz);
-
-  const f1 = first.first;
-  const f2 = first.second;
-  const s1 = swapAxes(second.first);
-  const s2 = swapAxes(second.second);
-
-  const applyDeltas = (beacon) => new Point(beacon.x + f1.x - s1.x, beacon.y + f1.y - s1.y, beacon.z + f1.z - s1.z);
-
-  if (!applyDeltas(s2).equals(f2)) {
-    throw new Error('poop');
-  }
-
-  return (beacon) => applyDeltas(swapAxes(beacon));
+  return (point) => new Point(point[x] * mx, point[y] * my, point[z] * mz);
 }
 
-const VALID_TRANSFORMS = [
-  'x:y:z', 'x:-z:y', 'x:-y:-z', 'x:z:-y',
-  'y:-x:z', 'y:-z:-x',  'y:x:-z', 'y:z:x',
-  'z:x:y', 'z:-y:x', 'z:-x:-y', 'z:y:-x',
-  '-x:y:-z', '-x:z:y', '-x:-y:z', '-x:-z:-y',
-  '-y:x:z', '-y:-z:x', '-y:-x:-z', '-y:z:-x',
-  '-z:y:x', '-z:-x:y', '-z:-y:-x', '-z:x:-y'
-]
-
-class Pair {
-  constructor(first, second) {
-    this.first = first;
-    this.second = second;
-
-    this.x = first.x - second.x;
-    this.y = first.y - second.y;
-    this.z = first.z - second.z;
-
-    this.maybeEquality = [Math.abs(this.x), Math.abs(this.y), Math.abs(this.z)].sort((a, b) => a - b);
-  }
-
-  mightBeEqual(pair) {
-    const [aa, bb, cc] = this.maybeEquality;
-    const [dd, ee, ff] = pair.maybeEquality;
-    return aa === dd && bb === ee && cc === ff;
-  }
-
-  findOrientations(rp) {
-    const xs = ['x', '-x', 'y', '-y', 'z', '-z'].filter((axis, ix) => rp[axis.replace('-','')] === (this.x * (ix % 2 ? -1 : 1)));
-    const ys = ['x', '-x', 'y', '-y', 'z', '-z'].filter((axis, ix) => rp[axis.replace('-','')] === (this.y * (ix % 2 ? -1 : 1)));
-    const zs = ['x', '-x', 'y', '-y', 'z', '-z'].filter((axis, ix) => rp[axis.replace('-','')] === (this.z * (ix % 2 ? -1 : 1)));
-
-    return xs.flatMap((x) => ys.filter((y) => y !== x).flatMap((y) => zs.filter((z) => z !== x && z !== y).map((z) => `${x}:${y}:${z}`))).filter((o) => VALID_TRANSFORMS.includes(o));
-  }
-
-  findMatches(relativePositions) {
-    const rps = relativePositions.filter(rp => this.mightBeEqual(rp));
-    return rps.map((rp) => ({
-      first: this,
-      second: rp,
-      orientations: this.findOrientations(rp),
-    }));
-  }
-}
+const ROTATIONS = VALID_ORIENTATIONS.reduce((out, o) => ({ ...out, [o]: rotate(o) }), {});
 
 class Point {
   constructor (x, y, z) {
@@ -83,8 +34,20 @@ class Point {
     this.z = z;
   }
 
-  equals(other) {
+  get manhattan () {
+    return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z);
+  }
+
+  equals (other) {
     return this.x === other.x && this.y === other.y && this.z === other.z;
+  }
+
+  difference (other) {
+    return new Point(other.x - this.x, other.y - this.y, other.z - this.z);
+  }
+
+  add (other) {
+    return new Point(this.x + other.x, this.y + other.y, this.z + other.z);
   }
 }
 
@@ -92,86 +55,127 @@ class Scanner {
   constructor (id) {
     this.id = id;
     this.beacons = [];
-  }
+    this.combined = [id];
 
-  addBeacon (newBeacon) {
-    if (this.beacons.some(b => b.equals(newBeacon))) {
-      return;
-    }
-    this.beacons.push(newBeacon);
+    this.scanners = {
+      0: new Point(0, 0, 0),
+    };
   }
 
   calculateRelativePositions () {
-    this.relativePositions = this.beacons.flatMap((b1) => this.beacons.map((b2) => b1 === b2 ? undefined : new Pair(b1, b2))).filter(it => it);
+    this.relativePositions = this.beacons.flatMap((b1) => this.beacons.map((b2) => b1 === b2 ? undefined : b2.difference(b1)).filter(it => it));
+    return this;
   }
 
-  add(other) {
-    const matches = this.relativePositions.flatMap((rp) => rp.findMatches(other.relativePositions));
-    const counts = countByValue(matches.flatMap(({ orientations }) => orientations));
-    const maxOverlap = Math.max(...Object.values(counts));
+  calculateRotations () {
+    if (!this.id) {
+      return [this];
+    }
+    return VALID_ORIENTATIONS.map((orientation, ix) => ix ? this.rotate(orientation) : this);
+  }
 
-    if (maxOverlap < NUM_REQUIRED_MATCHES) {
-      return false;
+  overlaps (other) {
+    return other.relativePositions.reduce((rpbo, rp) => {
+      if (this.relativePositions.some(r => r.equals(rp))) {
+        rpbo.yes.push(rp);
+      } else {
+        rpbo.no.push(rp);
+      }
+      return rpbo;
+    }, { yes: [], no: [] });
+  }
+
+  rotate (orientation) {
+    const r = ROTATIONS[orientation];
+    const rotatedBeacons = this.beacons.map(r);
+    const rotatedRelativePositions = this.relativePositions.map(r);
+    const s = new Scanner(this.id);
+    s.beacons = rotatedBeacons;
+    s.relativePositions = rotatedRelativePositions;
+
+    return s;
+  }
+
+  translate (delta) {
+    return this.beacons.map(b => b.add(delta));
+  }
+
+  add (other) {
+    if (this.combined.includes(other.id)) return false;
+
+    for (let ix = 0; ix < this.beacons.length; ix += 1) {
+      const thisBeacon = this.beacons[ix];
+      for (let ox = 0; ox < other.beacons.length; ox += 1) {
+        const otherBeacon = other.beacons[ox];
+        const translation = otherBeacon.difference(thisBeacon);
+        const translated = other.translate(translation);
+        const beaconsByOverlap = translated.reduce((bbo, b) => {
+          if (this.beacons.some(bb => bb.equals(b))) {
+            bbo.yes.push(b);
+          } else {
+            bbo.no.push(b);
+          }
+          return bbo;
+        }, { yes: [], no: [] });
+
+        if (beaconsByOverlap.yes.length >= 12) {
+          this.beacons.push(...beaconsByOverlap.no);
+          this.combined.push(other.id);
+          this.scanners[other.id] = translation;
+          return true;
+        }
+      }
     }
 
-    const transform = Object.keys(counts).filter((axis) => counts[axis] >= NUM_REQUIRED_MATCHES).find((t) => {
-      const pairPairs = matches.filter(({ orientations }) => orientations.includes(t));
-      const transformFunction = getTransformFunction(pairPairs[0], t);
-
-      const mismatches = pairPairs.filter(({ first, second }) => {
-        const s1 = transformFunction(second.first);
-        const s2 = transformFunction(second.second);
-
-        return (!first.first.equals(s1) || !first.second.equals(s2));
-      });
-
-      return mismatches.length === 0;
-    });
-
-    const [match] = matches.filter(({ orientations }) => orientations.includes(transform));
-    const transformFunction = getTransformFunction(match, transform);
-
-    other.beacons.forEach((b) => this.addBeacon(transformFunction(b)));
-    this.calculateRelativePositions();
-
-    return true;
+    return false;
   }
 }
 
 export class Question extends QuestionBase {
   constructor (args) {
-    super(19, 79, undefined, undefined, undefined, args);
+    super(19, 79, 381, 3621, 12201, args);
   }
 
   parseInput (lines) {
     const scanners = lines.reduce((ss, line) => {
-      if (/--- scanner \d ---/.test(line)) {
+      if (/--- scanner (\d+) ---/.test(line)) {
         ss.unshift(new Scanner(ss.length));
       } else {
-        ss[0].addBeacon(new Point(...line.split(',').map(Number)));
+        ss[0].beacons.push(new Point(...line.split(',').map(Number)));
       }
       return ss;
     }, []);
 
     scanners.forEach(it => it.calculateRelativePositions());
-
-    return scanners;
+    return scanners.reverse().flatMap(it => it.calculateRotations());
   }
 
   part1 (input) {
-    let scanners = input.slice(0);
-    while (scanners.length > 1) {
-      const s = scanners.shift();
-      scanners = scanners.filter(it => !s.add(it));
-      scanners.push(s);
+    let [s0, ...scanners] = input.slice(0);
+
+    while (scanners.length) {
+      const overlap = scanners.reduce((r, s) => {
+        if (r) return r;
+        const ooo = s0.overlaps(s);
+        if (ooo.yes.length >= NUM_REQUIRED_MATCHES) {
+          return { ...ooo, s };
+        }
+        return null;
+      }, null);
+      if (overlap) {
+        s0.add(overlap.s);
+        s0.relativePositions.push(...overlap.no);
+      }
+      scanners = scanners.filter(it => !s0.combined.includes(it.id));
     }
 
-    const [{ beacons }] = scanners;
-
-    return beacons.length; // less than 708
+    return s0.beacons.length;
   }
 
-  part2 (input) {
-    return input.reduce((a, b) => a + b, 0);
+  part2 ([s0]) {
+    const scannerPoints = Object.values(s0.scanners);
+    const vectors = scannerPoints.flatMap(s1 => scannerPoints.map(s2 => s1.difference(s2)));
+    const manhattans = vectors.map(v => v.manhattan);
+    return Math.max(...manhattans);
   }
 }
