@@ -44,8 +44,16 @@ export class Question extends QuestionBase {
   h(state) {
     let score = 0;
 
-    for (let i = 11; i < state.length; i += 1) {
-      if (state[i] === '.') score += 10 ** ((i - 11) % 4);
+    for (let i = 0; i < state.length; i += 1) {
+      const char = 'ABCD'.indexOf(state[i]);
+      if (i < 11 && char !== -1) {
+        score += (10 ** char) * this.distance(i, 11 + char);
+      } if (i >= 11 && char !== -1) {
+        const room = (i - 11) % 4;
+        if (room !== char) {
+          score += (10 ** char) * this.distance(i, 11 + char);
+        }
+      }
     }
 
     return score;
@@ -133,7 +141,7 @@ export class Question extends QuestionBase {
       input,
       '...........ABCDABCD',
       this.d.bind(this),
-      this.h,
+      this.h.bind(this),
       this.moves.bind(this),
       0
     );
@@ -152,7 +160,7 @@ export class Question extends QuestionBase {
       startCondition,
       '...........ABCDABCDABCDABCD',
       this.d.bind(this),
-      this.h,
+      this.h.bind(this),
       this.moves.bind(this),
       0
     );
