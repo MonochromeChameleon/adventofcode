@@ -9,15 +9,15 @@ export function reconstruct_path(cameFrom, current) {
   return total_path;
 }
 
-export function aStarSearch(start, goal, d, h, neighbours) {
+export function aStarSearch(start, goal, d, h, neighbours, searchSpaceSize = goal) {
   const openSet = new PriorityQueue((a, b) => fScore[a] < fScore[b]);
   openSet.push(start);
   const cameFrom = {};
 
-  const gScore = Array.from({ length: goal }).fill(Infinity);
+  const gScore = Array.from({ length: searchSpaceSize }).fill(Infinity);
   gScore[start] = 0;
 
-  const fScore = Array.from({ length: goal }).fill(Infinity);
+  const fScore = Array.from({ length: searchSpaceSize }).fill(Infinity);
   fScore[start] = 0;
 
   while (!openSet.isEmpty()) {
