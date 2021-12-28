@@ -4,7 +4,7 @@
 import { expect } from 'chai';
 import { loadQuestion } from '../utils/load-question.js';
 
-const day = new Date().getDate();
+const day = Math.min(new Date().getDate(), 25);
 const Question = await loadQuestion(day);
 
 describe(`Day ${day}`, () => {
