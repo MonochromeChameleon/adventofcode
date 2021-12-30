@@ -4,7 +4,7 @@
 import { expect } from 'chai';
 import { loadQuestion } from '../utils/load-question.js';
 
-const days = Array.from({ length: new Date().getDate() }).map((r, ix) => ix + 1);
+const days = Array.from({ length: Math.min(new Date().getDate(), 25) }).map((r, ix) => ix + 1);
 const questions = await Promise.all(days.map((day) => loadQuestion(day)));
 
 questions.forEach((Question, dix) =>
