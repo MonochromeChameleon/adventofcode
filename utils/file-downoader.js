@@ -3,9 +3,9 @@ import * as https from 'https';
 import { resolve } from 'path';
 import { readFile, writeFile } from 'fs/promises';
 
-export async function download(day) {
+export async function download(year, day) {
   const cookie = await readFile(resolve('./cookie.txt'), 'utf8');
-  const url = `https://adventofcode.com/2021/day/${day}/input`;
+  const url = `https://adventofcode.com/${year}/day/${day}/input`;
 
   const response = await axios.get(url, {
     headers: {
@@ -16,5 +16,5 @@ export async function download(day) {
     }),
   });
 
-  await writeFile(resolve(`./inputs/${day}.txt`), response.data, { flag: 'wx' }).catch(() => {});
+  await writeFile(resolve(`./inputs/${year}/${day}.txt`), response.data, { flag: 'wx' }).catch(() => {});
 }

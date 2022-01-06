@@ -1,6 +1,13 @@
 import { run } from './adventofcode.js';
 
-const [day, part] = process.argv.filter((it) => Number(it)).map(Number);
+let [year, day, part] = process.argv.filter((it) => Number(it)).map(Number);
+
+if (year < 2015) {
+  const month = new Date().getMonth();
+  part = day;
+  day = year;
+  year = new Date().getFullYear() + ~~(month / 11) - 1;
+}
 
 const hasFlag = (flagName, shortFlag = flagName[0]) =>
   process.argv.includes(`--${flagName}`) ||
@@ -8,4 +15,4 @@ const hasFlag = (flagName, shortFlag = flagName[0]) =>
 
 const useTestData = hasFlag('test');
 
-run({ day, part, useTestData });
+run({ year, day, part, useTestData });

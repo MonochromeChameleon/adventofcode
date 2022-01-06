@@ -2,7 +2,8 @@ import { resolve } from 'path';
 import { existsSync, readFileSync } from 'fs';
 
 export class QuestionBase {
-  constructor(day, at1, aa1, at2, aa2, { useTestData } = {}) {
+  constructor(year, day, at1, aa1, at2, aa2, { useTestData } = {}) {
+    this.year = year;
     this.day = day;
     this.answers = {
       test: {
@@ -23,7 +24,7 @@ export class QuestionBase {
 
   get rawData() {
     const root = this.useTestData ? './test' : '.';
-    const inputFile = resolve(`${root}/inputs/${this.day}.txt`);
+    const inputFile = resolve(`${root}/inputs/${this.year}/${this.day}.txt`);
 
     return existsSync(inputFile) ? readFileSync(inputFile, 'utf8') : '';
   }

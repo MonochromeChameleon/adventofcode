@@ -1,9 +1,9 @@
-export function template(day) {
-  return `import { QuestionBase } from '../utils/question-base.js';
+export function template(year, day) {
+  return `import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor (args) {
-    super(${day}, undefined, undefined, undefined, undefined, args);
+    super(${year}, ${day}, undefined, undefined, undefined, undefined, args);
   }
 
   parseLine(line) {

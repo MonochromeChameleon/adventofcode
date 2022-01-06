@@ -4,8 +4,11 @@
 import { expect } from 'chai';
 import { loadQuestion } from '../utils/load-question.js';
 
-const day = Math.min(new Date().getDate(), 25);
-const Question = await loadQuestion(day);
+const month = new Date().getMonth();
+const year = new Date().getFullYear() + ~~(month / 11) - 1;
+const day = month === 11 ? new Date().getDate() : 25;
+
+const Question = await loadQuestion(year, day);
 
 describe(`Day ${day}`, () => {
   const questions = [new Question({ useTestData: true }), new Question()];

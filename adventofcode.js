@@ -7,8 +7,8 @@ async function runPart(q, part) {
   console.log(result);
 }
 
-async function runDay({ day, part, ...rest }) {
-  const Question = await loadQuestion(day);
+async function runDay({ year, day, part, ...rest }) {
+  const Question = await loadQuestion(year, day);
 
   if (!Question || Question.skip) {
     return;
@@ -24,7 +24,8 @@ export async function run({ day, ...rest }) {
   if (day) {
     await runDay({ day, ...rest });
   } else {
-    const maxDay = new Date().getDate();
+    const month = new Date().getMonth();
+    const maxDay = month === 11 ? new Date().getDate() : 25;
     await Array.from({ length: maxDay }).reduce(
       (p, _, ix) => p.then(() => runDay({ day: ix + 1, ...rest })),
       Promise.resolve()

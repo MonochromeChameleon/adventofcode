@@ -2,8 +2,11 @@ import { loadQuestion } from './load-question.js';
 import { resolve } from 'path';
 import { readFile, writeFile } from 'fs/promises';
 
-const day = new Date().getDate();
-const Question = await loadQuestion(day);
+const month = new Date().getMonth();
+const year = new Date().getFullYear() + ~~(month / 11) - 1;
+const day = month === 11 ? new Date().getDate() : 25;
+
+const Question = await loadQuestion(year, day);
 
 const questions = [new Question({ useTestData: true }), new Question()];
 const answers = await Promise.all([1, 2].flatMap((part) => questions.map((q) => q.run(part))));
