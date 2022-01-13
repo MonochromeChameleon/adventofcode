@@ -33,8 +33,10 @@ class Grid {
 }
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 11, 1656, 1729, 195, 237, args);
+  constructor() {
+    super(2021, 11, 1729, 237);
+
+    this.testInput('./testinputs/11.txt', 1656, 195);
   }
 
   parseInput(lines) {

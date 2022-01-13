@@ -2,8 +2,10 @@ import { QuestionBase } from '../../utils/question-base.js';
 import { countByValue } from '../../utils/count-by-value.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 14, 1588, 2712, 2188189693529, 8336623059567, args);
+  constructor() {
+    super(2021, 14, 2712, 8336623059567);
+
+    this.testInput('./testinputs/14.txt', 1588, 2188189693529);
   }
 
   polymerize(polymer, insertionRules) {

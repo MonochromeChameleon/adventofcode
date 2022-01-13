@@ -1,8 +1,10 @@
 import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 16, 31, 913, 54, 1510977819698, args);
+  constructor() {
+    super(2021, 16, 913, 1510977819698);
+
+    this.testInput('./testinputs/16.txt', 31, 54);
   }
 
   getValue(type, packets) {

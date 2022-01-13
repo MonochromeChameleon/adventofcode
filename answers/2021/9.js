@@ -2,8 +2,10 @@ import { QuestionBase } from '../../utils/question-base.js';
 import { parseGrid } from '../../utils/grid-utils.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 9, 15, 491, 1134, 1075536, args);
+  constructor() {
+    super(2021, 9, 491, 1075536);
+
+    this.testInput('./testinputs/9.txt', 15, 1134);
   }
 
   parseInput(lines) {

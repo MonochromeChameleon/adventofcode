@@ -59,8 +59,8 @@ class ALU {
 }
 
 export class Question extends QuestionBase {
-  constructor (args) {
-    super(2021, 24, 0, 69914999975369, 0, 14911675311114, args);
+  constructor() {
+    super(2021, 24, 69914999975369, 14911675311114);
   }
 
   parseInput(lines) {

@@ -1,8 +1,10 @@
 import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 1, 7, 1292, 5, 1262, args);
+  constructor() {
+    super(2021, 1, 1292, 1262);
+
+    this.testInput('./testinputs/1.txt', 7, 5);
   }
 
   compareWindows(input, size = 1) {

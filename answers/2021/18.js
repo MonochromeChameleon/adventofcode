@@ -136,8 +136,10 @@ class SnailfishNumber {
 }
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 18, 4140, 2907, 3993, 4690, args);
+  constructor() {
+    super(2021, 18, 2907, 4690);
+
+    this.testInput('./testinputs/18.txt', 4140, 3993);
   }
 
   parseLine(line) {

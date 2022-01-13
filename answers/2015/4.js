@@ -2,8 +2,8 @@ import { QuestionBase } from '../../utils/question-base.js';
 import { createHash } from 'crypto';
 
 export class Question extends QuestionBase {
-  constructor (args) {
-    super(2015, 4, undefined, 254575, undefined, 1038736, args);
+  constructor() {
+    super(2015, 4, 254575, 1038736);
   }
 
   parseInput(lines) {
@@ -22,7 +22,7 @@ export class Question extends QuestionBase {
   }
 
   part2 (input) {
-    let i = this.answers.actual.part1;
+    let i = this.answers.part1;
     let hash = 'x';
     while (hash.substr(0, 6) !== '000000') {
       i++;

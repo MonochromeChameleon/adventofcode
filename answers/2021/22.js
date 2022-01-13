@@ -84,8 +84,10 @@ class Cube {
 }
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 22, 474140, 615700, 2758514936282235, 1236463892941356, args);
+  constructor() {
+    super(2021, 22, 615700, 1236463892941356);
+
+    this.testInput('./testinputs/22.txt', 474140, 2758514936282235);
   }
 
   parseLine(line) {

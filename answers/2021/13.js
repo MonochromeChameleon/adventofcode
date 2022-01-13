@@ -1,8 +1,10 @@
 import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 13, 17, 807, 113, 1945558963349, args);
+  constructor() {
+    super(2021, 13, 807, 1945558963349);
+
+    this.testInput('./testinputs/13.txt', 17, 113);
   }
 
   applyFold({ x, y }, { axis, value }) {

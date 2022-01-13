@@ -21,18 +21,18 @@ allQuestions.forEach((questions, yix) =>
           return;
         }
 
-        const questions = [new Question({ useTestData: true }), new Question()];
+        const q = new Question();
 
-        [1, 2].forEach((part) =>
-          describe(`Part ${part}`, () =>
-            ['Test', 'Actual'].forEach((desc, ix) => {
-              const q = questions[ix];
-              const expected = q.expectedResult(part);
-              it(`${desc} result should be ${expected}`, async () => {
-                const result = await q.run(part);
-                expect(result).to.equal(q.expectedResult(part));
-              }).timeout(10000);
-            })),
+        [1, 2].map((part) => ({
+          part,
+          expected: q.expectedResult(part),
+        })).filter(({ expected }) => expected !== undefined).forEach(({ part, expected }) =>
+          describe(`Part ${part}`, () => {
+            it(`Result should be ${expected}`, async () => {
+              const result = await q.run(part);
+              expect(result).to.equal(q.expectedResult(part));
+            }).timeout(10000);
+          }),
         );
       }),
     ),

@@ -3,8 +3,10 @@ import { parseGrid, adjacentIndices } from '../../utils/grid-utils.js';
 import { aStarSearch } from '../../utils/a-star.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 15, 40, 410, 315, 2809, args);
+  constructor() {
+    super(2021, 15, 410, 2809);
+
+    this.testInput('./testinputs/15.txt', 40, 315);
   }
 
   parseInput(lines) {

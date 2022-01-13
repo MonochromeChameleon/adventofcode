@@ -35,8 +35,10 @@ class SeaCucumber {
 SeaCucumber.of = ({ char, row, col, rows, cols }) => char === '.' ? undefined : new SeaCucumber({ char, row, col, rows, cols });
 
 export class Question extends QuestionBase {
-  constructor (args) {
-    super(2021, 25, 58, 360, 0, 0, args);
+  constructor() {
+    super(2021, 25, 360);
+
+    this.testInput('./testinputs/25.txt', 58, 0);
   }
 
   move(seaCucumbers, right) {
@@ -69,9 +71,5 @@ export class Question extends QuestionBase {
     }
 
     return moves;
-  }
-
-  part2 (input) {
-    return 0;
   }
 }

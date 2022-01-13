@@ -152,8 +152,10 @@ class Scanner {
 }
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 19, 79, 381, 3621, 12201, args);
+  constructor() {
+    super(2021, 19, 381, 12201);
+
+    this.testInput('./testinputs/19.txt', 79, 3621);
   }
 
   parseInput(lines) {

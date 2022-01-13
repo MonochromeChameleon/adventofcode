@@ -2,8 +2,10 @@ import { QuestionBase } from '../../utils/question-base.js';
 import { aStarSearch } from '../../utils/a-star.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 23, 12521, 15338, 44169, 47064, args);
+  constructor() {
+    super(2021, 23, 15338, 47064);
+
+    this.testInput('./testinputs/23.txt', 12521, 44169);
   }
 
   parseInput(lines) {

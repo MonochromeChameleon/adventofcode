@@ -22,8 +22,10 @@ const completionScores = {
 };
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 10, 26397, 399153, 288957, 2995077699, args);
+  constructor() {
+    super(2021, 10, 399153, 2995077699);
+
+    this.testInput('./testinputs/10.txt', 26397, 288957);
   }
 
   parseLine(line) {

@@ -2,8 +2,10 @@ import { QuestionBase } from '../../utils/question-base.js';
 import { Board } from './bingo/board.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 4, 4512, 58838, 1924, 6256, args);
+  constructor() {
+    super(2021, 4, 58838, 6256);
+
+    this.testInput('./testinputs/4.txt', 4512, 1924);
   }
 
   parseInput(lines) {

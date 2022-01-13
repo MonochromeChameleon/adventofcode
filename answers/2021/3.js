@@ -1,8 +1,10 @@
 import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 3, 198, 3923414, 230, 5852595, args);
+  constructor() {
+    super(2021, 3, 3923414, 5852595);
+
+    this.testInput('./testinputs/3.txt', 198, 230);
   }
 
   parseLine(line) {

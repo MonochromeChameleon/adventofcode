@@ -1,8 +1,8 @@
 import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
-  constructor (args) {
-    super(2017, 10, undefined, undefined, undefined, undefined, args);
+  constructor() {
+    super(2017, 10);
   }
 
   parseLine(line) {

@@ -59,8 +59,10 @@ class Quantum {
 }
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 21, 739785, 918081, 444356092776315, 158631174219251, args);
+  constructor() {
+    super(2021, 21, 918081, 158631174219251);
+
+    this.testInput('./testinputs/21.txt', 739785, 444356092776315);
   }
 
   parseLine(line) {

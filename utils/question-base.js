@@ -2,35 +2,29 @@ import { resolve } from 'path';
 import { existsSync, readFileSync } from 'fs';
 
 export class QuestionBase {
-  constructor(year, day, at1, aa1, at2, aa2, { useTestData } = {}) {
+  constructor(year, day, part1, part2) {
     this.year = year;
     this.day = day;
     this.answers = {
-      test: {
-        part1: at1,
-        part2: at2,
-      },
-      actual: {
-        part1: aa1,
-        part2: aa2,
-      },
+      part1,
+      part2,
     };
-
-    this.useTestData = useTestData;
 
     const lines = this.rawData.split('\n').filter((it) => it);
     this.input = this.parseInput(lines);
   }
 
-  get rawData() {
-    const root = this.useTestData ? './test' : '.';
-    const inputFile = resolve(`${root}/inputs/${this.year}/${this.day}.txt`);
+  testInput(filePath, part1, part2) {
+    // no-op yet
+  }
 
+  get rawData() {
+    const inputFile = resolve(`./inputs/${this.year}/${this.day}.txt`);
     return existsSync(inputFile) ? readFileSync(inputFile, 'utf8') : '';
   }
 
   expectedResult(part) {
-    const { [`part${part}`]: expected } = this.useTestData ? this.answers.test : this.answers.actual;
+    const { [`part${part}`]: expected } = this.answers;
     return expected;
   }
 
@@ -43,11 +37,11 @@ export class QuestionBase {
   }
 
   async part1() {
-    return this.file.length;
+    return this.input.length;
   }
 
   async part2() {
-    return this.file.length;
+    return this.input.length;
   }
 
   async run(part) {

@@ -2,8 +2,10 @@ import { QuestionBase } from '../../utils/question-base.js';
 import { triangle, triangularRoot } from '../../utils/triangle-utils.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 17, 45, 3003, 112, 940, args);
+  constructor() {
+    super(2021, 17, 3003, 940);
+
+    this.testInput('./testinputs/17.txt', 45, 112);
   }
 
   parseInput([line]) {

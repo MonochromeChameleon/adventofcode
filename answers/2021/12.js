@@ -22,8 +22,10 @@ class Cave {
 }
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 12, 226, 5157, 3509, 144309, args);
+  constructor() {
+    super(2021, 12, 5157, 144309);
+
+    this.testInput('./testinputs/12.txt', 226, 3509);
   }
 
   parseLine(line) {

@@ -2,8 +2,10 @@ import { QuestionBase } from '../../utils/question-base.js';
 import { countByValue } from '../../utils/count-by-value.js';
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 6, 5934, 380612, 26984457539, 1710166656900, args);
+  constructor() {
+    super(2021, 6, 380612, 1710166656900);
+
+    this.testInput('./testinputs/6.txt', 5934, 26984457539);
   }
 
   parseLine(line) {

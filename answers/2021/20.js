@@ -16,8 +16,10 @@ function getBinary(ix, width, grid, pad) {
 }
 
 export class Question extends QuestionBase {
-  constructor(args) {
-    super(2021, 20, 35, 5291, 3351, 16665, args);
+  constructor() {
+    super(2021, 20, 5291, 16665);
+
+    this.testInput('./testinputs/20.txt', 35, 3351);
   }
 
   parseLine(line) {
