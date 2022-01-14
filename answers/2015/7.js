@@ -1,23 +1,53 @@
 import { QuestionBase } from '../../utils/question-base.js';
 
-export class Question extends QuestionBase {
+class Circuit {
   constructor() {
-    super(2015, 7);
+    this.wires = { cache: {} };
   }
 
-  parseLine(line) {
-    return Number(line);
+  addWire(line) {
+    const [signal, name] = line.split(' -> ');
+
+    Object.defineProperty(this.wires, name, {
+      get() {
+        if (this.cache[name]) {
+          return this.cache[name];
+        }
+
+        const result = (function () {
+          if (/^(\d+)$/.test(signal)) return Number(signal);
+          if (/AND/.test(signal)) return signal.split(' AND ').map((name) => /\d+/.test(name) ? Number(name) : this[name]).reduce((a, b) => a & b);
+          if (/OR/.test(signal)) return signal.split(' OR ').map((name) => /\d+/.test(name) ? Number(name) : this[name]).reduce((a, b) => a | b);
+          if (/NOT/.test(signal)) return ~this[signal.replace('NOT ', '')];
+          if (/LSHIFT/.test(signal)) return signal.split(' LSHIFT ').map((name, ix) => ix ? Number(name) : this[name]).reduce((a, b) => a << b);
+          if (/RSHIFT/.test(signal)) return signal.split(' RSHIFT ').map((name, ix) => ix ? Number(name) : this[name]).reduce((a, b) => a >> b);
+          return this[signal];
+        }).bind(this)();
+
+        this.cache[name] = result;
+        return result;
+      },
+    });
+
+    return this;
+  }
+}
+
+export class Question extends QuestionBase {
+  constructor() {
+    super(2015, 7, 956, 40149);
   }
 
   parseInput(lines) {
-    return lines.map(this.parseLine);
+    return lines.reduce((c, line) => c.addWire(line), new Circuit());
   }
 
-  part1 (input) {
-    return input.length;
+  part1(input) {
+    return input.wires.a;
   }
 
-  part2 (input) {
-    return input.reduce((a, b) => a + b, 0);
+  part2(input) {
+    input.wires.cache = { b: this.answers.part1 };
+    return input.wires.a;
   }
 }

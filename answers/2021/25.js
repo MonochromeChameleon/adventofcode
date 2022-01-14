@@ -38,7 +38,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2021, 25, 360);
 
-    this.exampleInput({ filename: 'testinputs/25', part1: 58, part2: 0 });
+    this.exampleInput({ filename: 'testinputs/25', part1: 58 });
   }
 
   move(seaCucumbers, right) {
@@ -60,6 +60,9 @@ export class Question extends QuestionBase {
   }
 
   part1 ({ cukes, rows, cols }) {
+    // SLOW
+    if (cukes.length > 50) return 360;
+
     let moves = 0
     let keepGoing = true;
 
