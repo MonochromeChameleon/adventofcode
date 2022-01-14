@@ -87,7 +87,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2021, 22, 615700, 1236463892941356);
 
-    this.testInput('./testinputs/22.txt', 474140, 2758514936282235);
+    this.exampleInput({ filename: 'testinputs/22', part1: 474140, part2: 2758514936282235 });
   }
 
   parseLine(line) {

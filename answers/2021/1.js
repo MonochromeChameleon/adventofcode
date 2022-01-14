@@ -4,7 +4,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2021, 1, 1292, 1262);
 
-    this.testInput('./testinputs/1.txt', 7, 5);
+    this.exampleInput({ filename: 'testinputs/1', part1: 7, part2: 5 });
   }
 
   compareWindows(input, size = 1) {

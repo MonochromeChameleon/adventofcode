@@ -5,7 +5,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2021, 14, 2712, 8336623059567);
 
-    this.testInput('./testinputs/14.txt', 1588, 2188189693529);
+    this.exampleInput({ filename: 'testinputs/14', part1: 1588, part2: 2188189693529 });
   }
 
   polymerize(polymer, insertionRules) {

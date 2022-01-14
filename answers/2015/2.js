@@ -3,6 +3,9 @@ import { QuestionBase } from '../../utils/question-base.js';
 export class Question extends QuestionBase {
   constructor() {
     super(2015, 2, 1586300, 3737498);
+
+    this.exampleInput({ input: '2x3x4', part1: 58, part2: 34 });
+    this.exampleInput({ input: '1x1x10', part1: 43, part2: 14 });
   }
 
   parseLine(line) {

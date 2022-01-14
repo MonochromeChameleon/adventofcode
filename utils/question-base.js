@@ -10,17 +10,20 @@ export class QuestionBase {
       part2,
     };
 
-    const lines = this.rawData.split('\n').filter((it) => it);
-    this.input = this.parseInput(lines);
+    this.examples = [];
+    this.input = this.readFile(this.day);
   }
 
-  testInput(filePath, part1, part2) {
-    // no-op yet
+  exampleInput({ filename, input, part1, part2 }) {
+    const parsedInput = input ? this.parseInput([input]) : this.readFile(filename);
+    this.examples.push({ input: parsedInput, part1, part2 });
   }
 
-  get rawData() {
-    const inputFile = resolve(`./inputs/${this.year}/${this.day}.txt`);
-    return existsSync(inputFile) ? readFileSync(inputFile, 'utf8') : '';
+  readFile(filename) {
+    const inputFile = resolve(`./inputs/${this.year}/${filename}.txt`);
+    const rawData = existsSync(inputFile) ? readFileSync(inputFile, 'utf8') : '';
+    const lines = rawData.split('\n').filter((it) => it);
+    return this.parseInput(lines);
   }
 
   expectedResult(part) {

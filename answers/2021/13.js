@@ -4,7 +4,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2021, 13, 807, 1945558963349);
 
-    this.testInput('./testinputs/13.txt', 17, 113);
+    this.exampleInput({ filename: 'testinputs/13', part1: 17, part2: 113 });
   }
 
   applyFold({ x, y }, { axis, value }) {

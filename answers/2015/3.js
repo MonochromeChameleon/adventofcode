@@ -3,6 +3,11 @@ import { QuestionBase } from '../../utils/question-base.js';
 export class Question extends QuestionBase {
   constructor() {
     super(2015, 3, 2572, 2631);
+
+    this.exampleInput({ input: '>', part1: 2 });
+    this.exampleInput({ input: '^v', part2: 3 });
+    this.exampleInput({ input: '^>v<', part1: 4, part2: 3 });
+    this.exampleInput({ input: '^v^v^v^v^v', part1: 2, part2: 11 });
   }
 
   parseLine (line) {

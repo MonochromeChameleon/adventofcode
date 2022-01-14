@@ -38,7 +38,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2021, 25, 360);
 
-    this.testInput('./testinputs/25.txt', 58, 0);
+    this.exampleInput({ filename: 'testinputs/25', part1: 58, part2: 0 });
   }
 
   move(seaCucumbers, right) {
