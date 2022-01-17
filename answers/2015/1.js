@@ -1,6 +1,7 @@
-import { QuestionBase } from '../../utils/question-base.js';
+import { QuestionWithParser } from '../../utils/question-with-parser.js';
+import * as Parsers from '../../parsers/parsers.js';
 
-export class Question extends QuestionBase {
+export class Question extends QuestionWithParser {
   constructor() {
     super(2015, 1, 138, 1771);
 
@@ -18,8 +19,12 @@ export class Question extends QuestionBase {
     this.exampleInput({ input: '()())', part2: 5 });
   }
 
-  parseInput(lines) {
-    return lines.flatMap(it => it.split(''));
+  get parser() {
+    return Parsers.SINGLE_LINE_SPLIT;
+  }
+
+  get split() {
+    return '';
   }
 
   part1 (input) {

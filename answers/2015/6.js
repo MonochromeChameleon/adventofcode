@@ -41,10 +41,6 @@ export class Question extends QuestionBase {
     };
   }
 
-  parseInput(lines) {
-    return lines.map(this.parseLine);
-  }
-
   applyFunction(input, func) {
     return input.reduce((state, { [func]: action, x1, y1, x2, y2 }) => {
       for (let x = x1; x <= x2; x++) {

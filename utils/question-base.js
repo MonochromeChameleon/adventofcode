@@ -15,7 +15,7 @@ export class QuestionBase {
   }
 
   exampleInput({ filename, input, part1, part2 }) {
-    const parsedInput = input ? this.parseInput([input]) : this.readFile(filename);
+    const parsedInput = input ? this.parseInput([input].flat()) : this.readFile(filename);
     this.examples.push({ input: parsedInput, part1, part2 });
   }
 

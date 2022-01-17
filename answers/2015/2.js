@@ -1,6 +1,7 @@
-import { QuestionBase } from '../../utils/question-base.js';
+import { QuestionWithParser } from '../../utils/question-with-parser.js';
+import * as Parsers from '../../parsers/parsers.js';
 
-export class Question extends QuestionBase {
+export class Question extends QuestionWithParser {
   constructor() {
     super(2015, 2, 1586300, 3737498);
 
@@ -8,12 +9,12 @@ export class Question extends QuestionBase {
     this.exampleInput({ input: '1x1x10', part1: 43, part2: 14 });
   }
 
-  parseLine(line) {
-    return line.split('x').map(Number);
+  get parser() {
+    return Parsers.MULTI_LINE_DELIMITED_NUMBERS;
   }
 
-  parseInput(lines) {
-    return lines.map(this.parseLine);
+  get split() {
+    return 'x';
   }
 
   part1 (input) {

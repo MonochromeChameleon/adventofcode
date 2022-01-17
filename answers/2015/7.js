@@ -1,11 +1,12 @@
-import { QuestionBase } from '../../utils/question-base.js';
+import { QuestionWithParser } from '../../utils/question-with-parser.js';
+import * as Parsers from '../../parsers/parsers.js';
 
 class Circuit {
   constructor() {
     this.wires = { cache: {} };
   }
 
-  addWire(line) {
+  addLine(line) {
     const [signal, name] = line.split(' -> ');
 
     Object.defineProperty(this.wires, name, {
@@ -33,13 +34,17 @@ class Circuit {
   }
 }
 
-export class Question extends QuestionBase {
+export class Question extends QuestionWithParser {
   constructor() {
     super(2015, 7, 956, 40149);
   }
 
-  parseInput(lines) {
-    return lines.reduce((c, line) => c.addWire(line), new Circuit());
+  get parser() {
+    return Parsers.REDUCE;
+  }
+
+  get reducer() {
+    return Circuit;
   }
 
   part1(input) {

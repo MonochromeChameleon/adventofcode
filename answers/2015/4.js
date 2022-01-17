@@ -1,7 +1,8 @@
-import { QuestionBase } from '../../utils/question-base.js';
+import { QuestionWithParser } from '../../utils/question-with-parser.js';
+import * as Parsers from '../../parsers/parsers.js';
 import { createHash } from 'crypto';
 
-export class Question extends QuestionBase {
+export class Question extends QuestionWithParser {
   constructor() {
     super(2015, 4, 254575, 1038736);
 
@@ -10,8 +11,8 @@ export class Question extends QuestionBase {
     // this.exampleInput({ input: 'pqrstuv', part1: 1048970 });
   }
 
-  parseInput(lines) {
-    return lines.join('');
+  get parser() {
+    return Parsers.SINGLE_LINE_STRING;
   }
 
   part1 (input) {

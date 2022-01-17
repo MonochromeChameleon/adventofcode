@@ -1,6 +1,7 @@
-import { QuestionBase } from '../../utils/question-base.js';
+import { QuestionWithParser } from '../../utils/question-with-parser.js';
+import * as Parsers from '../../parsers/parsers.js';
 
-export class Question extends QuestionBase {
+export class Question extends QuestionWithParser {
   constructor() {
     super(2015, 5, 236, 51);
 
@@ -14,8 +15,8 @@ export class Question extends QuestionBase {
     this.exampleInput({ input: 'ieodomkazucvgmuy', part2: 0 });
   }
 
-  parseInput(lines) {
-    return lines;
+  get parser() {
+    return Parsers.ONE_STRING_PER_LINE;
   }
 
   allMatch(...regexes) {
