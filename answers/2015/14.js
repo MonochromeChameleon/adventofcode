@@ -1,5 +1,4 @@
-import { QuestionWithParser } from '../../utils/question-with-parser.js';
-import * as Parsers from '../../parsers/parsers.js';
+import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 class Reindeer {
   constructor(line) {
@@ -53,7 +52,7 @@ class Race {
   }
 }
 
-export class Question extends QuestionWithParser {
+export class Question extends QuestionBase {
   constructor() {
     super(2015, 14, 2640, 1102);
   }

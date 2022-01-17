@@ -1,8 +1,7 @@
-import { QuestionWithParser } from '../../utils/question-with-parser.js';
-import * as Parsers from '../../parsers/parsers.js';
+import { QuestionBase, Parsers } from '../../utils/question-base.js';
 import { flattenObject } from '../../utils/object-utils.js';
 
-export class Question extends QuestionWithParser {
+export class Question extends QuestionBase {
   constructor() {
     super(2015, 12, 111754, 65402);
 

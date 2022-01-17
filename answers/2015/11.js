@@ -1,5 +1,4 @@
-import { QuestionWithParser } from '../../utils/question-with-parser.js';
-import * as Parsers from '../../parsers/parsers.js';
+import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 const A = 'a'.charCodeAt(0);
 const I = 'i'.charCodeAt(0);
@@ -7,7 +6,7 @@ const O = 'o'.charCodeAt(0);
 const L = 'l'.charCodeAt(0);
 const Z = 'z'.charCodeAt(0);
 
-export class Question extends QuestionWithParser {
+export class Question extends QuestionBase {
   constructor() {
     super(2015, 11, 'hepxxyzz', 'heqaabcc');
 

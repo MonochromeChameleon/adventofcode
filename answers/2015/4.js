@@ -1,8 +1,7 @@
-import { QuestionWithParser } from '../../utils/question-with-parser.js';
-import * as Parsers from '../../parsers/parsers.js';
+import { QuestionBase, Parsers } from '../../utils/question-base.js';
 import { createHash } from 'crypto';
 
-export class Question extends QuestionWithParser {
+export class Question extends QuestionBase {
   constructor() {
     super(2015, 4, 254575, 1038736);
 

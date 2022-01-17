@@ -1,6 +1,5 @@
-import { QuestionWithParser } from '../../utils/question-with-parser.js';
+import { QuestionBase, Parsers } from '../../utils/question-base.js';
 import { Graph } from '../../utils/graph.js';
-import * as Parsers from '../../parsers/parsers.js';
 
 class TablePlan extends Graph {
   get closedRoute() {
@@ -27,7 +26,7 @@ class TablePlan extends Graph {
   }
 }
 
-export class Question extends QuestionWithParser {
+export class Question extends QuestionBase {
   constructor() {
     super(2015, 13, 664, 640);
 

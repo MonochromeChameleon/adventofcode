@@ -1,16 +1,12 @@
-import { QuestionBase } from '../../utils/question-base.js';
+import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
     super(2018, 20);
   }
 
-  parseLine(line) {
-    return Number(line);
-  }
-
-  parseInput(lines) {
-    return lines.map(this.parseLine);
+  get parser() {
+    return Parsers.ONE_NUMBER_PER_LINE;
   }
 
   part1 (input) {

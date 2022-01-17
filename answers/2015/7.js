@@ -1,5 +1,4 @@
-import { QuestionWithParser } from '../../utils/question-with-parser.js';
-import * as Parsers from '../../parsers/parsers.js';
+import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 class Circuit {
   constructor() {
@@ -34,7 +33,7 @@ class Circuit {
   }
 }
 
-export class Question extends QuestionWithParser {
+export class Question extends QuestionBase {
   constructor() {
     super(2015, 7, 956, 40149);
   }

@@ -1,5 +1,7 @@
 import { resolve } from 'path';
 import { existsSync, readFileSync } from 'fs';
+export * as Parsers from '../parsers/parsers.js';
+import * as Parsers from '../parsers/parsers.js';
 
 export class QuestionBase {
   constructor(year, day, part1, part2) {
@@ -31,12 +33,16 @@ export class QuestionBase {
     return expected;
   }
 
+  get parser() {
+    return Parsers.ONE_NUMBER_PER_LINE;
+  }
+
   parseLine(line) {
-    return Number(line);
+    return this.parser.parseLine.call(this, line);
   }
 
   parseInput(lines) {
-    return lines.map(this.parseLine);
+    return this.parser.parseInput.call(this, lines);
   }
 
   async part1() {
