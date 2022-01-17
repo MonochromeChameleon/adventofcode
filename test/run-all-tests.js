@@ -26,7 +26,10 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
             part,
             expected: q.expectedResult(part),
             examples: q.examples.filter(({ [`part${part}`]: ans }) => ans !== undefined),
-          })).filter(({ expected, examples }) => [expected, ...examples].filter(it => it !== undefined).length)
+          })).filter(({ part, expected, examples }) => {
+            if (wip && part === 2 && q.expectedResult(1) !== undefined) return true;
+            return [expected, ...examples].filter(it => it !== undefined).length;
+          })
             .forEach(({ part, expected }) =>
               describe(`Part ${part}`, () => {
                 const partid = `part${part}`;
@@ -38,7 +41,7 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
                   }).timeout(10000);
                 });
 
-                if (expected !== undefined) {
+                if (wip || expected !== undefined) {
                   it(`Result should be ${expected}`, async () => {
                     const result = await q.run(part);
                     expect(result).to.equal(q.expectedResult(part));
