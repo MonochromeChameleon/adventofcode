@@ -14,10 +14,6 @@ export class Question extends QuestionBase {
     return Parsers.SINGLE_LINE_SPLIT;
   }
 
-  get split() {
-    return '';
-  }
-
   part1 (input) {
     return Object.values(input.reduce(([lastStop, ...stops], dir) => {
       const [x, y] = lastStop.split(':').map(Number);

@@ -9,7 +9,10 @@ export async function loadQuestion(year, day) {
   try {
     const { Question } = await import(moduleFile);
     if (!existsSync(resolve(`./inputs/${year}/${day}.txt`))) {
-      await download(year, day).catch(() => {});
+      await mkdir(`./inputs/${year}`, { recursive: true });
+      await download(year, day).catch((e) => {
+        console.error(e);
+      });
     }
 
     return Question;
@@ -19,6 +22,7 @@ export async function loadQuestion(year, day) {
       await writeFile(resolve(`./answers/${year}/${day}.js`), template(year, day), { flag: 'wx' }).catch((e) => {
         console.error(e);
       });
+      await mkdir(`./inputs/${year}`, { recursive: true });
       await download(year, day).catch((e) => {
         console.error(e);
       });

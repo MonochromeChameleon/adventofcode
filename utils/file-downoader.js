@@ -16,5 +16,5 @@ export async function download(year, day) {
     }),
   });
 
-  await writeFile(resolve(`./inputs/${year}/${day}.txt`), response.data.toString(), { flag: 'wx' });
+  await writeFile(resolve(`./inputs/${year}/${day}.txt`), String(response.data), { flag: 'wx' });
 }

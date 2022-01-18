@@ -22,10 +22,6 @@ export class Question extends QuestionBase {
     return Parsers.SINGLE_LINE_SPLIT;
   }
 
-  get split() {
-    return '';
-  }
-
   part1 (input) {
     return input.reduce((acc, it) => acc + (it === '(' ? 1 : -1), 0);
   }

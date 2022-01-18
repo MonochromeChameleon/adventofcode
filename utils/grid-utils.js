@@ -22,10 +22,7 @@ export function adjacentIndices(ix, width, adjacency) {
 
 export function buildAdjacencyMap({ length, width, height, adjacency = 9 }) {
   const arrayLength = length || width * height;
-  return Array.from({ length: arrayLength }).reduce(
-    (acc, _, ix) => ({ ...acc, [ix]: adjacentIndices(ix, width, adjacency) }),
-    {}
-  );
+  return Array.from({ length: arrayLength }).map((_, ix) => adjacentIndices(ix, width, adjacency));
 }
 
 export function padGrid({ grid, width, pad, padSize = 1 }) {

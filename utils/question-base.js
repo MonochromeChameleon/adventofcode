@@ -13,7 +13,13 @@ export class QuestionBase {
     };
 
     this.examples = [];
-    this.input = this.readFile(this.day);
+  }
+
+  get input() {
+    if (!this._input) {
+      this._input = this.readFile(this.day);
+    }
+    return this._input;
   }
 
   exampleInput({ filename, input, part1, part2 }) {
@@ -35,6 +41,14 @@ export class QuestionBase {
 
   get parser() {
     return Parsers.ONE_NUMBER_PER_LINE;
+  }
+
+  get split() {
+    return '';
+  }
+
+  parseValue(value) {
+    return this.parser.parseValue.call(this, value);
   }
 
   parseLine(line) {

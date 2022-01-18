@@ -18,10 +18,6 @@ export class Question extends QuestionBase {
     return Parsers.SINGLE_LINE_SPLIT_MAP;
   }
 
-  get split() {
-    return '';
-  }
-
   get map() {
     return char => char.charCodeAt(0);
   }

@@ -2,15 +2,19 @@ import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
-    super(2015, 21);
+    super(2015, 21, 600);
   }
 
   get parser() {
-    return Parsers.ONE_NUMBER_PER_LINE;
+    return Parsers.PROPERTY_LIST;
+  }
+
+  get split() {
+    return ':';
   }
 
   part1 (input) {
-    return input.length;
+    return input;
   }
 
   part2 (input) {
