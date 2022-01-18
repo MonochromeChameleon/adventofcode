@@ -44,7 +44,11 @@ export class QuestionBase {
   }
 
   get split() {
-    return '';
+    return this.parser.split;
+  }
+
+  parseKey(key) {
+    return this.parser.parseKey.call(this, key);
   }
 
   parseValue(value) {
