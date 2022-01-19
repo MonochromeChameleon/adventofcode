@@ -34,7 +34,6 @@ class Race {
     const reindeer = new Reindeer(line);
     this.reindeer.push(reindeer);
     this.scoreboard[reindeer.name] = 0;
-    return this;
   }
 
   maxDistanceAfter(seconds) {

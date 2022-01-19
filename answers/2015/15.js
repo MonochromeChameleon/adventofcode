@@ -47,7 +47,6 @@ class Recipe {
   addLine(line) {
     const ingredient = new Ingredient(line);
     this.ingredients[ingredient.name] = ingredient;
-    return this;
   }
 
   getScore(measurements) {

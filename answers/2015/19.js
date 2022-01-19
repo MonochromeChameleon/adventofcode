@@ -8,7 +8,6 @@ class Chemistry {
   addLine(line) {
     const [from, to] = line.split(' => ');
     this.reactions.push({ from, to });
-    return this;
   }
 }
 

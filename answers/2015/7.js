@@ -44,8 +44,6 @@ class Circuit {
         return result;
       },
     });
-
-    return this;
   }
 }
 

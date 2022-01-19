@@ -15,7 +15,7 @@ class TablePlan extends Graph {
       line
     );
     const distance = negate === 'gain' ? Number(happiness) : -Number(happiness);
-    return this.addEdge({ from, to, distance });
+    this.addEdge({ from, to, distance });
   }
 
   get combinedRoutes() {

@@ -13,7 +13,6 @@ class RouteMap extends Graph {
   addLine(line) {
     const [from, to, distance] = line.replace(' to ', '|').replace(' = ', '|').split('|');
     super.addEdge({ from, to, distance: Number(distance) });
-    return this;
   }
 }
 
