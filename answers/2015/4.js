@@ -14,23 +14,27 @@ export class Question extends QuestionBase {
     return Parsers.SINGLE_LINE_STRING;
   }
 
-  part1 (input) {
+  part1(input) {
     let i = 0;
     let hash = 'x';
     while (hash.substr(0, 5) !== '00000') {
       i++;
-      hash = createHash('md5').update(input + i).digest('hex');
+      hash = createHash('md5')
+        .update(input + i)
+        .digest('hex');
     }
 
     return i;
   }
 
-  part2 (input) {
+  part2(input) {
     let i = this.answers.part1;
     let hash = 'x';
     while (hash.substr(0, 6) !== '000000') {
       i++;
-      hash = createHash('md5').update(input + i).digest('hex');
+      hash = createHash('md5')
+        .update(input + i)
+        .digest('hex');
     }
 
     return i;

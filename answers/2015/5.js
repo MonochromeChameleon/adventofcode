@@ -19,17 +19,17 @@ export class Question extends QuestionBase {
   }
 
   allMatch(...regexes) {
-    return (str) => regexes.every(regex => regex.test(str));
+    return (str) => regexes.every((regex) => regex.test(str));
   }
 
-  part1 (input) {
+  part1(input) {
     const hasThreeVowels = /([aeiou].*){3}/;
     const hasDoubleLetter = /(.)\1/;
     const hasNoBadStrings = /^((?!ab|cd|pq|xy).)*$/;
     return input.filter(this.allMatch(hasThreeVowels, hasDoubleLetter, hasNoBadStrings)).length;
   }
 
-  part2 (input) {
+  part2(input) {
     const hasRepeatedPair = /(..).*\1/;
     const hasRepeatedLetterWithOneBetween = /(.).\1/;
     return input.filter(this.allMatch(hasRepeatedPair, hasRepeatedLetterWithOneBetween)).length;

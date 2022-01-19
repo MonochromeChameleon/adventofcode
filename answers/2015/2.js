@@ -16,18 +16,18 @@ export class Question extends QuestionBase {
     return 'x';
   }
 
-  part1 (input) {
-    return input.reduce((sum, [l,w,h]) => {
-      const sides = [l*w, w*h, h*l];
+  part1(input) {
+    return input.reduce((sum, [l, w, h]) => {
+      const sides = [l * w, w * h, h * l];
       const min = Math.min(...sides);
       const surfaceArea = sides.reduce((sum, side) => sum + 2 * side, 0);
       return sum + surfaceArea + min;
     }, 0);
   }
 
-  part2 (input) {
-    return input.reduce((sum, [l,w,h]) => {
-      const max = Math.max(...[l,w,h]);
+  part2(input) {
+    return input.reduce((sum, [l, w, h]) => {
+      const max = Math.max(...[l, w, h]);
       const perimiter = 2 * (l + w + h - max);
       const volume = l * w * h;
       return sum + perimiter + volume;

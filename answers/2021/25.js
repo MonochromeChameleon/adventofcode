@@ -12,9 +12,9 @@ class SeaCucumber {
 
   get nextLocation() {
     if (this.right) {
-      return { row: this.row, col: (this.col + 1) % this.cols }
+      return { row: this.row, col: (this.col + 1) % this.cols };
     }
-    return { row: (this.row + 1) % this.rows, col: this.col }
+    return { row: (this.row + 1) % this.rows, col: this.col };
   }
 
   move() {
@@ -27,12 +27,13 @@ class SeaCucumber {
 
   canMove(cukes) {
     const nextLocation = this.nextLocation;
-    const ohNo = cukes.find(it => it.row === nextLocation.row && it.col === nextLocation.col);
+    const ohNo = cukes.find((it) => it.row === nextLocation.row && it.col === nextLocation.col);
     return !ohNo;
   }
 }
 
-SeaCucumber.of = ({ char, row, col, rows, cols }) => char === '.' ? undefined : new SeaCucumber({ char, row, col, rows, cols });
+SeaCucumber.of = ({ char, row, col, rows, cols }) =>
+  char === '.' ? undefined : new SeaCucumber({ char, row, col, rows, cols });
 
 export class Question extends QuestionBase {
   constructor() {
@@ -42,13 +43,16 @@ export class Question extends QuestionBase {
   }
 
   move(seaCucumbers, right) {
-    const cukes = seaCucumbers.filter(cuke => cuke.right === right).filter(c => c.canMove(seaCucumbers));
-    cukes.forEach(cuke => cuke.move());
+    const cukes = seaCucumbers.filter((cuke) => cuke.right === right).filter((c) => c.canMove(seaCucumbers));
+    cukes.forEach((cuke) => cuke.move());
     return !!cukes.length;
   }
 
   parseLine(line, row, rows, cols) {
-    return line.split('').map((char, col) => SeaCucumber.of({ char, row, col, rows, cols })).filter(it => it);
+    return line
+      .split('')
+      .map((char, col) => SeaCucumber.of({ char, row, col, rows, cols }))
+      .filter((it) => it);
   }
 
   parseInput(lines) {
@@ -59,11 +63,11 @@ export class Question extends QuestionBase {
     return { cukes, rows, cols };
   }
 
-  part1 ({ cukes, rows, cols }) {
+  part1({ cukes, rows, cols }) {
     // SLOW
     if (cukes.length > 50) return 360;
 
-    let moves = 0
+    let moves = 0;
     let keepGoing = true;
 
     while (keepGoing) {

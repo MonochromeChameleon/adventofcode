@@ -2,22 +2,22 @@ import { QuestionBase } from '../../utils/question-base.js';
 
 class ALU {
   constructor() {
-    this.instructions = []
+    this.instructions = [];
   }
 
   add(line) {
     const [op, tgt, val] = line.split(' ');
     const num = Number(val);
-    const value = (state) => Number.isNaN(num) ? state[val] : num;
+    const value = (state) => (Number.isNaN(num) ? state[val] : num);
 
-    switch(op) {
+    switch (op) {
       case 'inp':
         this.instructions.push([
           (state, input) => {
             state[tgt] = input;
             return state;
-          }
-        ])
+          },
+        ]);
         break;
       case 'add':
         this.instructions[this.instructions.length - 1].push((state) => {
@@ -69,11 +69,11 @@ export class Question extends QuestionBase {
 
   monad(number, alu) {
     const splitNum = `${number}`.split('').map(Number);
-    if (splitNum.some(n => n === 0)) return -1;
+    if (splitNum.some((n) => n === 0)) return -1;
     return splitNum.reduce((state, num, ix) => alu.execute(num, ix, { ...state }), { w: 0, x: 0, y: 0, z: 0 }).z;
   }
 
-  part1 (alu) {
+  part1(alu) {
     if (this.useTestData) {
       return 0;
     }
@@ -88,14 +88,14 @@ export class Question extends QuestionBase {
     const p = 9;
     const m = 9;
 
-    const value = Number(`${s-3}${r}91${n-5}${n}${q}${p}${m}${m-2}${p-4}${q-6}${r-3}${s}`);
+    const value = Number(`${s - 3}${r}91${n - 5}${n}${q}${p}${m}${m - 2}${p - 4}${q - 6}${r - 3}${s}`);
     if (this.monad(value, alu) === 0) {
       return value;
     }
     return 0;
   }
 
-  part2 (alu) {
+  part2(alu) {
     if (this.useTestData) {
       return 0;
     }
@@ -110,7 +110,7 @@ export class Question extends QuestionBase {
     const p = 5;
     const m = 3;
 
-    const value = Number(`${s-3}${r}91${n-5}${n}${q}${p}${m}${m-2}${p-4}${q-6}${r-3}${s}`);
+    const value = Number(`${s - 3}${r}91${n - 5}${n}${q}${p}${m}${m - 2}${p - 4}${q - 6}${r - 3}${s}`);
     if (this.monad(value, alu) === 0) {
       return value;
     }

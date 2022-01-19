@@ -18,18 +18,18 @@ export class Question extends QuestionBase {
 
     return [
       ...this.fillCombinations({ volume, used }, ...containers),
-      ...this.fillCombinations({ volume: volume - container, used: [...used, container] }, ...containers)
-    ]
+      ...this.fillCombinations({ volume: volume - container, used: [...used, container] }, ...containers),
+    ];
   }
 
-  part1 (containers) {
+  part1(containers) {
     return this.fillCombinations({ volume: 150 }, ...containers).length;
   }
 
-  part2 (containers) {
+  part2(containers) {
     const combinations = this.fillCombinations({ volume: 150 }, ...containers);
     const numUsed = combinations.map(({ used }) => used.length);
     const minUsed = Math.min(...numUsed);
-    return numUsed.filter(num => num === minUsed).length;
+    return numUsed.filter((num) => num === minUsed).length;
   }
 }

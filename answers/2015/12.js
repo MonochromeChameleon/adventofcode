@@ -27,16 +27,16 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    return Object.values(input).reduce((sum, val) => Number.isInteger(val) ? sum + val : sum, 0);
+    return Object.values(input).reduce((sum, val) => (Number.isInteger(val) ? sum + val : sum), 0);
   }
 
   part2(input) {
     const redKeys = Object.entries(input)
       .filter(([key, val]) => val === 'red' && !/(^|\.)\d+$/.test(key))
-      .map(([key]) => /\./.test(key) ? key.replace(/\.[^.]+$/, '.') : '');
+      .map(([key]) => (/\./.test(key) ? key.replace(/\.[^.]+$/, '.') : ''));
 
     return Object.entries(input).reduce((sum, [key, val]) => {
-      if (redKeys.some(parent => key.startsWith(parent))) return sum;
+      if (redKeys.some((parent) => key.startsWith(parent))) return sum;
       return Number.isInteger(val) ? sum + val : sum;
     }, 0);
   }

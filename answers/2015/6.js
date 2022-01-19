@@ -6,7 +6,7 @@ export class Question extends QuestionBase {
   }
 
   parseLine(line) {
-    const [,action, ...rest] = /^(turn on|turn off|toggle) (\d+),(\d+) through (\d+),(\d+)$/.exec(line);
+    const [, action, ...rest] = /^(turn on|turn off|toggle) (\d+),(\d+) through (\d+),(\d+)$/.exec(line);
     const [x1, y1, x2, y2] = rest.map(Number);
 
     const getAction = () => {
@@ -18,7 +18,7 @@ export class Question extends QuestionBase {
         case 'toggle':
           return (i) => 1 - i;
       }
-    }
+    };
 
     const getDim = () => {
       switch (action) {
@@ -29,7 +29,7 @@ export class Question extends QuestionBase {
         case 'toggle':
           return (i) => i + 2;
       }
-    }
+    };
 
     return {
       action: getAction(),
@@ -45,7 +45,7 @@ export class Question extends QuestionBase {
     return input.reduce((state, { [func]: action, x1, y1, x2, y2 }) => {
       for (let x = x1; x <= x2; x++) {
         for (let y = y1; y <= y2; y++) {
-          const ix = x + (y * 1000);
+          const ix = x + y * 1000;
           state[ix] = action(state[ix]);
         }
       }
@@ -53,11 +53,11 @@ export class Question extends QuestionBase {
     }, new Array(1000000).fill(0));
   }
 
-  part1 (input) {
+  part1(input) {
     return this.applyFunction(input, 'action').reduce((sum, i) => sum + i, 0);
   }
 
-  part2 (input) {
+  part2(input) {
     return this.applyFunction(input, 'dim').reduce((sum, i) => sum + i, 0);
   }
 }

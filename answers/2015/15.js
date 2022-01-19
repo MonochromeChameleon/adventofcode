@@ -5,7 +5,7 @@ function getPossibleMeasurements(amount, first, ...ingredients) {
   if (!ingredients.length) return [{ [first]: amount }];
   return Array.from({ length: amount + 1 }).flatMap((_, i) => {
     const rest = getPossibleMeasurements(amount - i, ...ingredients);
-    return rest.map(r => ({ ...r, [first]: i }));
+    return rest.map((r) => ({ ...r, [first]: i }));
   });
 }
 
@@ -14,13 +14,12 @@ class Ingredient {
     const [name, details] = line.split(':');
     this.name = name;
 
-    const {
-      capacity,
-      durability,
-      flavor,
-      texture,
-      calories,
-    } = Object.fromEntries(details.split(',').map(p => p.trim().split(' ')).map(([p, value]) => [p, Number(value)]));
+    const { capacity, durability, flavor, texture, calories } = Object.fromEntries(
+      details
+        .split(',')
+        .map((p) => p.trim().split(' '))
+        .map(([p, value]) => [p, Number(value)])
+    );
 
     this.capacity = capacity;
     this.durability = durability;
@@ -73,7 +72,7 @@ class Recipe {
 
   get allScores() {
     if (!this._allScores) {
-      this._allScores = this.possibleMeasurements.map(m => this.getScore(m));
+      this._allScores = this.possibleMeasurements.map((m) => this.getScore(m));
     }
     return this._allScores;
   }
@@ -99,6 +98,6 @@ export class Question extends QuestionBase {
   }
 
   part2(recipe) {
-    return recipe.allScores.filter(m => m.calories === 500).reduce((acc, { score }) => Math.max(acc, score), 0);
+    return recipe.allScores.filter((m) => m.calories === 500).reduce((acc, { score }) => Math.max(acc, score), 0);
   }
 }

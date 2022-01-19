@@ -49,11 +49,12 @@ export class Question extends QuestionBase {
     for (let i = 0; i < state.length; i += 1) {
       const char = 'ABCD'.indexOf(state[i]);
       if (i < 11 && char !== -1) {
-        score += (10 ** char) * this.distance(i, 11 + char);
-      } if (i >= 11 && char !== -1) {
+        score += 10 ** char * this.distance(i, 11 + char);
+      }
+      if (i >= 11 && char !== -1) {
         const room = (i - 11) % 4;
         if (room !== char) {
-          score += (10 ** char) * this.distance(i, 11 + char);
+          score += 10 ** char * this.distance(i, 11 + char);
         }
       }
     }

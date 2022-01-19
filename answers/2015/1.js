@@ -22,11 +22,11 @@ export class Question extends QuestionBase {
     return Parsers.SINGLE_LINE_SPLIT;
   }
 
-  part1 (input) {
+  part1(input) {
     return input.reduce((acc, it) => acc + (it === '(' ? 1 : -1), 0);
   }
 
-  part2 (input) {
+  part2(input) {
     let floor = 0;
     let inputs = input.length;
 

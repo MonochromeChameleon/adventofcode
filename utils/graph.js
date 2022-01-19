@@ -24,11 +24,13 @@ export class Graph {
 
   get allRoutes() {
     if (!this._allRoutes) {
-      const routes = this.isDirected ? permutations(this.nodes) : permutations(this.nodes).filter(route => {
-        const first = route[0];
-        const last = route[route.length - 1];
-        return first.localeCompare(last) < 0;
-      });
+      const routes = this.isDirected
+        ? permutations(this.nodes)
+        : permutations(this.nodes).filter((route) => {
+            const first = route[0];
+            const last = route[route.length - 1];
+            return first.localeCompare(last) < 0;
+          });
       this._allRoutes = routes.map((r) => this.calculateRoute(...r));
     }
     return this._allRoutes;
@@ -36,12 +38,15 @@ export class Graph {
 
   calculateRoute(previous, ...route) {
     const start = this.closedRoute ? this.links[route[route.length - 1]][previous] : 0;
-    const { distance } = route.reduce(({ distance, previous }, next) => {
-      return {
-        distance: distance + this.links[previous][next],
-        previous: next,
-      };
-    }, { distance: start, previous });
+    const { distance } = route.reduce(
+      ({ distance, previous }, next) => {
+        return {
+          distance: distance + this.links[previous][next],
+          previous: next,
+        };
+      },
+      { distance: start, previous }
+    );
     return { distance, route };
   }
 }

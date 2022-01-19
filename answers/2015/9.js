@@ -1,7 +1,6 @@
 import { QuestionBase, Parsers } from '../../utils/question-base.js';
 import { Graph } from '../../utils/graph.js';
 
-
 class RouteMap extends Graph {
   get closedRoute() {
     return false;

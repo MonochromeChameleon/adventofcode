@@ -41,12 +41,12 @@ export class Question extends QuestionBase {
     return LookAndSay;
   }
 
-  part1 (input) {
+  part1(input) {
     input.iterate(40);
     return input.value.length;
   }
 
-  part2 (input) {
+  part2(input) {
     input.iterate(50);
     return input.value.length;
   }

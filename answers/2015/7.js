@@ -14,15 +14,31 @@ class Circuit {
           return this.cache[name];
         }
 
-        const result = (function () {
+        const result = function () {
           if (/^(\d+)$/.test(signal)) return Number(signal);
-          if (/AND/.test(signal)) return signal.split(' AND ').map((name) => /\d+/.test(name) ? Number(name) : this[name]).reduce((a, b) => a & b);
-          if (/OR/.test(signal)) return signal.split(' OR ').map((name) => /\d+/.test(name) ? Number(name) : this[name]).reduce((a, b) => a | b);
+          if (/AND/.test(signal))
+            return signal
+              .split(' AND ')
+              .map((name) => (/\d+/.test(name) ? Number(name) : this[name]))
+              .reduce((a, b) => a & b);
+          if (/OR/.test(signal))
+            return signal
+              .split(' OR ')
+              .map((name) => (/\d+/.test(name) ? Number(name) : this[name]))
+              .reduce((a, b) => a | b);
           if (/NOT/.test(signal)) return ~this[signal.replace('NOT ', '')];
-          if (/LSHIFT/.test(signal)) return signal.split(' LSHIFT ').map((name, ix) => ix ? Number(name) : this[name]).reduce((a, b) => a << b);
-          if (/RSHIFT/.test(signal)) return signal.split(' RSHIFT ').map((name, ix) => ix ? Number(name) : this[name]).reduce((a, b) => a >> b);
+          if (/LSHIFT/.test(signal))
+            return signal
+              .split(' LSHIFT ')
+              .map((name, ix) => (ix ? Number(name) : this[name]))
+              .reduce((a, b) => a << b);
+          if (/RSHIFT/.test(signal))
+            return signal
+              .split(' RSHIFT ')
+              .map((name, ix) => (ix ? Number(name) : this[name]))
+              .reduce((a, b) => a >> b);
           return this[signal];
-        }).bind(this)();
+        }.bind(this)();
 
         this.cache[name] = result;
         return result;

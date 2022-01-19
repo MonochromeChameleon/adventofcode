@@ -4,18 +4,13 @@ class Sue {
   constructor(line) {
     const [, number, properties] = line.match(/Sue (\d+): (.*)/);
     this.number = Number(number);
-    const {
-      children,
-      cats,
-      samoyeds,
-      pomeranians,
-      akitas,
-      vizslas,
-      goldfish,
-      trees,
-      cars,
-      perfumes
-    } = Object.fromEntries(properties.split(', ').map((prop) => prop.split(':')).map(([key, value]) => ([key, Number(value)])));
+    const { children, cats, samoyeds, pomeranians, akitas, vizslas, goldfish, trees, cars, perfumes } =
+      Object.fromEntries(
+        properties
+          .split(', ')
+          .map((prop) => prop.split(':'))
+          .map(([key, value]) => [key, Number(value)])
+      );
 
     this.children = children;
     this.cats = cats;
@@ -45,7 +40,7 @@ export class Question extends QuestionBase {
       trees: 3,
       cars: 2,
       perfumes: 1,
-    }
+    };
   }
 
   get parser() {
@@ -56,7 +51,7 @@ export class Question extends QuestionBase {
     return Sue;
   }
 
-  part1 (sues) {
+  part1(sues) {
     return sues.find((sue) => {
       return Object.entries(this.tickerTape).every(([key, value]) => {
         return sue[key] === value || sue[key] === undefined;
@@ -64,7 +59,7 @@ export class Question extends QuestionBase {
     }).number;
   }
 
-  part2 (sues) {
+  part2(sues) {
     return sues.find((sue) => {
       return Object.entries(this.tickerTape).every(([key, value]) => {
         if (sue[key] === undefined) return true;

@@ -11,7 +11,9 @@ class TablePlan extends Graph {
   }
 
   addLine(line) {
-    const [,from, negate, happiness, to] = /^(\w+) would (\w+) (\d+) happiness units by sitting next to (\w+)\.$/.exec(line);
+    const [, from, negate, happiness, to] = /^(\w+) would (\w+) (\d+) happiness units by sitting next to (\w+)\.$/.exec(
+      line
+    );
     const distance = negate === 'gain' ? Number(happiness) : -Number(happiness);
     return this.addEdge({ from, to, distance });
   }
@@ -46,7 +48,7 @@ export class Question extends QuestionBase {
   }
 
   part2(tablePlan) {
-    tablePlan.nodes.forEach(node => {
+    tablePlan.nodes.forEach((node) => {
       tablePlan.addEdge({ from: 'Me', to: node, distance: 0 });
       tablePlan.addEdge({ from: node, to: 'Me', distance: 0 });
     });

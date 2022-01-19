@@ -9,9 +9,11 @@ export class MultiplePatternsParser extends Parser {
       return groups;
     }, {});
 
-    return Object.fromEntries(Object.entries(lineGroups).map(([group, lines]) => {
-      const parser = this.parsers[group];
-      return [group, parser.parseInput.call(this, lines)];
-    }));
+    return Object.fromEntries(
+      Object.entries(lineGroups).map(([group, lines]) => {
+        const parser = this.parsers[group];
+        return [group, parser.parseInput.call(this, lines)];
+      })
+    );
   }
 }

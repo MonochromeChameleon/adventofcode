@@ -41,16 +41,21 @@ export class Question extends QuestionBase {
     const out = new Set();
     chemistry.reactions.forEach(({ from, to }) => {
       const parts = input.split(from);
-      parts.slice(1).forEach((_, i) => out.add([parts.slice(0, i + 1).join(from), parts.slice(i + 1).join(from)].join(to)));
+      parts
+        .slice(1)
+        .forEach((_, i) => out.add([parts.slice(0, i + 1).join(from), parts.slice(i + 1).join(from)].join(to)));
     });
     return out;
   }
 
   doScience({ chemistry, input }) {
-    return chemistry.reactions.reduce(({ changes, result }, { from, to }) => {
-      const split = result.split(to);
-      return { result: split.join(from), changes: changes + split.length - 1 };
-    }, { changes: 0, result: input });
+    return chemistry.reactions.reduce(
+      ({ changes, result }, { from, to }) => {
+        const split = result.split(to);
+        return { result: split.join(from), changes: changes + split.length - 1 };
+      },
+      { changes: 0, result: input }
+    );
   }
 
   part1({ chemistry, input }) {

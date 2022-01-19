@@ -2,7 +2,8 @@ import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 class Reindeer {
   constructor(line) {
-    const [, name, ...rest] = /^(\w+) can fly (\d+) km\/s for (\d+) seconds, but then must rest for (\d+) seconds.$/.exec(line);
+    const [, name, ...rest] =
+      /^(\w+) can fly (\d+) km\/s for (\d+) seconds, but then must rest for (\d+) seconds.$/.exec(line);
     const [speed, flyTime, restTime] = rest.map(Number);
     this.name = name;
     this.speed = speed;
@@ -37,17 +38,17 @@ class Race {
   }
 
   maxDistanceAfter(seconds) {
-    return this.reindeer.map(r => r.distanceAfter(seconds)).reduce((a, b) => Math.max(a, b));
+    return this.reindeer.map((r) => r.distanceAfter(seconds)).reduce((a, b) => Math.max(a, b));
   }
 
   winnerAfter(seconds) {
     const maxDistance = this.maxDistanceAfter(seconds);
-    return this.reindeer.filter(it => it.distanceAfter(seconds) === maxDistance);
+    return this.reindeer.filter((it) => it.distanceAfter(seconds) === maxDistance);
   }
 
   updateScoreboard(seconds) {
     const winners = this.winnerAfter(seconds);
-    winners.forEach(it => this.scoreboard[it.name]++);
+    winners.forEach((it) => this.scoreboard[it.name]++);
     return this;
   }
 }
@@ -70,7 +71,7 @@ export class Question extends QuestionBase {
   }
 
   part2(race) {
-    Array.from({ length: 2503 }).forEach((_,i) => race.updateScoreboard(i + 1));
+    Array.from({ length: 2503 }).forEach((_, i) => race.updateScoreboard(i + 1));
     return Object.values(race.scoreboard).reduce((a, b) => Math.max(a, b));
   }
 }

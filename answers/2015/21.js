@@ -18,12 +18,20 @@ class Shop {
 
   get options() {
     if (!this._options) {
-      this._options = this.weapons.flatMap((weapon) => this.armor.flatMap((armor) => this.rings.flatMap((r1, ix) => this.rings.slice(ix + 1).map((r2) => ({
-        weapon,
-        armor,
-        rings: [r1, r2],
-        cost: [weapon, armor, r1, r2].reduce((sum, { cost }) => sum + cost, 0),
-      }))))).sort((a, b) => a.cost - b.cost);
+      this._options = this.weapons
+        .flatMap((weapon) =>
+          this.armor.flatMap((armor) =>
+            this.rings.flatMap((r1, ix) =>
+              this.rings.slice(ix + 1).map((r2) => ({
+                weapon,
+                armor,
+                rings: [r1, r2],
+                cost: [weapon, armor, r1, r2].reduce((sum, { cost }) => sum + cost, 0),
+              }))
+            )
+          )
+        )
+        .sort((a, b) => a.cost - b.cost);
     }
     return this._options;
   }
@@ -73,7 +81,7 @@ export class Question extends QuestionBase {
       hitPoints,
       damage: [weapon, ...rings].reduce((sum, { damage }) => sum + damage, 0),
       armor: [armor, ...rings].reduce((sum, { armor }) => sum + armor, 0),
-    }
+    };
   }
 
   willWin(player, boss) {
