@@ -41,9 +41,9 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
 
                 q.examples
                   .filter(({ [partid]: ans }) => ans !== undefined)
-                  .forEach(({ input, [partid]: ans }, ix) => {
+                  .forEach(({ input, [partid]: ans, params }, ix) => {
                     it(`Example ${ix + 1} should be ${ans}`, async () => {
-                      const result = await q[partid](input);
+                      const result = await q[partid](input, ...params);
                       expect(result).to.equal(ans);
                     }).timeout(10000);
                   });
