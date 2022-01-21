@@ -17,11 +17,14 @@ export class Question extends QuestionBase {
     // TOO DAMN SLOW
     return this.answers.part1;
 
-    return Array.from({ length: 8 }).reduce(({ out, i }) => {
-      const ii = find0xHash('md5', input, 5, i);
-      const hash = doHash('md5', input, ii);
-      return { out: out + hash[5], i: ii + 1 };
-    }, {  out: '', i: 0 }).out;
+    return Array.from({ length: 8 }).reduce(
+      ({ out, i }) => {
+        const ii = find0xHash('md5', input, 5, i);
+        const hash = doHash('md5', input, ii);
+        return { out: out + hash[5], i: ii + 1 };
+      },
+      { out: '', i: 0 }
+    ).out;
   }
 
   part2(input) {
@@ -30,7 +33,7 @@ export class Question extends QuestionBase {
 
     const out = Array(8).fill(undefined);
     let i = 0;
-    while (out.some(it => !it)) {
+    while (out.some((it) => !it)) {
       const ii = find0xHash('md5', input, 5, i);
       const hash = doHash('md5', input, ii);
       const index = parseInt(hash[5]);
