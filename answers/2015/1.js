@@ -28,7 +28,7 @@ export class Question extends QuestionBase {
 
   part2(input) {
     let floor = 0;
-    let inputs = input.length;
+    const inputs = input.length;
 
     while (floor > -1) {
       floor += input.shift() === '(' ? 1 : -1;

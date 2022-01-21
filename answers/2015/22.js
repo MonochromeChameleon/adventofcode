@@ -53,6 +53,8 @@ export class Question extends QuestionBase {
       case 'Recharge':
         player.mana += 101;
         break;
+      default:
+        throw new Error(`Unknown spell: ${spell}`);
     }
 
     return { p: player, b: boss };
@@ -61,9 +63,9 @@ export class Question extends QuestionBase {
   applySpells({ ...player }, { ...boss }, { ...spells }) {
     player.armor = 0;
     const { p, b } = Object.entries(spells)
-      .filter(([k, v]) => v > 0)
+      .filter(([, v]) => v > 0)
       .map(([k]) => k)
-      .reduce(({ p, b }, spell) => this.apply(p, b, spell), { p: player, b: boss });
+      .reduce(({ p: pp, b: bb }, spell) => this.apply(pp, bb, spell), { p: player, b: boss });
     const s = Object.fromEntries(Object.entries(spells).map(([k, v]) => [k, Math.max(v - 1, 0)]));
     return { p, b, s };
   }

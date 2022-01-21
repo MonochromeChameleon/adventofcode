@@ -32,7 +32,7 @@ export class Question extends QuestionBase {
 
   part2(input) {
     const translated = Array.from({ length: input.length / 9 }, (_, ix) => {
-      const [a, b, c, d, e, f, g, h, i] = Array.from({ length: 9 }, (_, iy) => input[9 * ix + iy]);
+      const [a, b, c, d, e, f, g, h, i] = Array.from({ length: 9 }, (__, iy) => input[9 * ix + iy]);
       return [a, d, g, b, e, h, c, f, i];
     }).flat();
     return this.part1(translated);

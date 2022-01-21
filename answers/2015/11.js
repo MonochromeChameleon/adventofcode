@@ -31,10 +31,10 @@ export class Question extends QuestionBase {
 
     // Handle forbidden characters immediately rather than iterating them out.
     return iterated.reduce(
-      ({ out, aaaa }, next) => {
+      ({ out, aaaa }, c) => {
         if (aaaa) return { out: [...out, A], aaaa };
-        if (![I, O, L].includes(next)) return { out: [...out, next], aaaa };
-        return { out: [...out, next + 1], aaaa: true };
+        if (![I, O, L].includes(c)) return { out: [...out, c], aaaa };
+        return { out: [...out, c + 1], aaaa: true };
       },
       { out: [], aaaa: false }
     ).out;

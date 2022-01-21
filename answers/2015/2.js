@@ -20,7 +20,7 @@ export class Question extends QuestionBase {
     return input.reduce((sum, [l, w, h]) => {
       const sides = [l * w, w * h, h * l];
       const min = Math.min(...sides);
-      const surfaceArea = sides.reduce((sum, side) => sum + 2 * side, 0);
+      const surfaceArea = sides.reduce((tot, side) => tot + 2 * side, 0);
       return sum + surfaceArea + min;
     }, 0);
   }

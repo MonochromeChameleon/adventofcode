@@ -22,6 +22,8 @@ export class Question extends QuestionBase {
           return digit % 3 === 1 ? digit : digit - 1;
         case 'R':
           return digit % 3 === 0 ? digit : digit + 1;
+        default:
+          throw new Error(`Unknown step: ${step}`);
       }
     };
 
@@ -59,6 +61,8 @@ export class Question extends QuestionBase {
           if (Number.isInteger(digit)) return digit + 1;
           if (digit === 'A') return 'B';
           return 'C';
+        default:
+          throw new Error(`Unknown step: ${step}`);
       }
     };
 

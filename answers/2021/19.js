@@ -31,22 +31,6 @@ const VALID_ORIENTATIONS = [
   '-z:x:-y',
 ];
 
-function rotate(orientation) {
-  const [ox, oy, oz] = orientation.split(':');
-
-  const mx = ox.startsWith('-') ? -1 : 1;
-  const my = oy.startsWith('-') ? -1 : 1;
-  const mz = oz.startsWith('-') ? -1 : 1;
-
-  const x = ox.replace('-', '');
-  const y = oy.replace('-', '');
-  const z = oz.replace('-', '');
-
-  return (point) => new Point(point[x] * mx, point[y] * my, point[z] * mz);
-}
-
-const ROTATIONS = VALID_ORIENTATIONS.reduce((out, o) => ({ ...out, [o]: rotate(o) }), {});
-
 class Point {
   constructor(x, y, z) {
     this.x = x;
@@ -70,6 +54,22 @@ class Point {
     return new Point(this.x + other.x, this.y + other.y, this.z + other.z);
   }
 }
+
+function rotate(orientation) {
+  const [ox, oy, oz] = orientation.split(':');
+
+  const mx = ox.startsWith('-') ? -1 : 1;
+  const my = oy.startsWith('-') ? -1 : 1;
+  const mz = oz.startsWith('-') ? -1 : 1;
+
+  const x = ox.replace('-', '');
+  const y = oy.replace('-', '');
+  const z = oz.replace('-', '');
+
+  return (point) => new Point(point[x] * mx, point[y] * my, point[z] * mz);
+}
+
+const ROTATIONS = VALID_ORIENTATIONS.reduce((out, o) => ({ ...out, [o]: rotate(o) }), {});
 
 class Vector extends Point {
   constructor(first, second) {
@@ -174,7 +174,7 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    let [s0, ...scanners] = input;
+    let [s0, ...scanners] = input; // eslint-disable-line prefer-const
     while (scanners.length) {
       scanners = scanners.filter((it) => !s0.add(it));
     }

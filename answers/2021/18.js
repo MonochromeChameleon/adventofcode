@@ -87,6 +87,8 @@ function reduce(input) {
         break;
       case 'done':
         break;
+      default:
+        throw new Error('Unknown state');
     }
   }
   return characters;
@@ -98,7 +100,7 @@ class SnailfishNumber {
     const reducedCharacters = reduce(characters);
 
     let stack = 0;
-    const split = {
+    const spl = {
       left: '',
       right: '',
     };
@@ -112,12 +114,12 @@ class SnailfishNumber {
       if (stack === 0 && next === ',') {
         tgt = 'right';
       } else {
-        split[tgt] += next;
+        spl[tgt] += next;
       }
     }
 
-    this.left = split.left.startsWith('[') ? new SnailfishNumber(split.left) : Number(split.left);
-    this.right = split.right.startsWith('[') ? new SnailfishNumber(split.right) : Number(split.right);
+    this.left = spl.left.startsWith('[') ? new SnailfishNumber(spl.left) : Number(spl.left);
+    this.right = spl.right.startsWith('[') ? new SnailfishNumber(spl.right) : Number(spl.right);
   }
 
   toString() {

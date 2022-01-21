@@ -15,17 +15,17 @@ class Computer {
 
   hlf(register) {
     this[register] = Math.floor(this[register] / 2);
-    this.pointer++;
+    this.pointer += 1;
   }
 
   tpl(register) {
-    this[register] = this[register] * 3;
-    this.pointer++;
+    this[register] *= 3;
+    this.pointer += 1;
   }
 
   inc(register) {
-    this[register]++;
-    this.pointer++;
+    this[register] += 1;
+    this.pointer += 1;
   }
 
   jmp(register, offset) {

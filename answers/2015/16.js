@@ -52,16 +52,14 @@ export class Question extends QuestionBase {
   }
 
   part1(sues) {
-    return sues.find((sue) => {
-      return Object.entries(this.tickerTape).every(([key, value]) => {
-        return sue[key] === value || sue[key] === undefined;
-      });
-    }).number;
+    return sues.find((sue) =>
+      Object.entries(this.tickerTape).every(([key, value]) => sue[key] === value || sue[key] === undefined)
+    ).number;
   }
 
   part2(sues) {
-    return sues.find((sue) => {
-      return Object.entries(this.tickerTape).every(([key, value]) => {
+    return sues.find((sue) =>
+      Object.entries(this.tickerTape).every(([key, value]) => {
         if (sue[key] === undefined) return true;
         if (key === 'cats' || key === 'trees') {
           return sue[key] > value;
@@ -71,7 +69,7 @@ export class Question extends QuestionBase {
         }
 
         return sue[key] === value;
-      });
-    }).number;
+      })
+    ).number;
   }
 }

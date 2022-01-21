@@ -41,9 +41,9 @@ export class Question extends QuestionBase {
       }
     }
 
-    const score = stack.reduce((score, next) => score * 5 + completionScores[matchers[next]], 0);
+    const total = stack.reduce((score, next) => score * 5 + completionScores[matchers[next]], 0);
 
-    return { corrupt: false, score };
+    return { corrupt: false, score: total };
   }
 
   part1(input) {

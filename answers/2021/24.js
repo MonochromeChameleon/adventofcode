@@ -21,13 +21,13 @@ class ALU {
         break;
       case 'add':
         this.instructions[this.instructions.length - 1].push((state) => {
-          state[tgt] = state[tgt] + value(state);
+          state[tgt] += value(state);
           return state;
         });
         break;
       case 'mul':
         this.instructions[this.instructions.length - 1].push((state) => {
-          state[tgt] = state[tgt] * value(state);
+          state[tgt] *= value(state);
           return state;
         });
         break;
@@ -39,7 +39,7 @@ class ALU {
         break;
       case 'mod':
         this.instructions[this.instructions.length - 1].push((state) => {
-          state[tgt] = state[tgt] % value(state);
+          state[tgt] %= value(state);
           return state;
         });
         break;
@@ -48,6 +48,9 @@ class ALU {
           state[tgt] = state[tgt] === value(state) ? 1 : 0;
           return state;
         });
+        break;
+      default:
+        throw new Error(`Unknown op: ${op}`);
     }
     return this;
   }

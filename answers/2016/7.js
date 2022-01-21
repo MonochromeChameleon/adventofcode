@@ -20,7 +20,7 @@ export class Question extends QuestionBase {
   }
 
   supportsTLS(input) {
-    const { result } = input.split('').reduce(
+    const { result: ans } = input.split('').reduce(
       ({ result, brackets }, character, index) => {
         if (result === false) return { result, brackets };
         if (character === '[') return { brackets: true, result };
@@ -32,11 +32,11 @@ export class Question extends QuestionBase {
       { brackets: false, result: undefined }
     );
 
-    return result;
+    return ans;
   }
 
   supportsSSL(input) {
-    const { supernet, hypernet } = input.split('').reduce(
+    const { supernet: snet, hypernet: hnet } = input.split('').reduce(
       ({ brackets, supernet, hypernet }, character, index) => {
         if (character === '[') return { brackets: true, supernet, hypernet };
         if (character === ']') return { brackets: false, supernet, hypernet };
@@ -55,7 +55,7 @@ export class Question extends QuestionBase {
       { brackets: false, supernet: [], hypernet: [] }
     );
 
-    return supernet.some((s) => hypernet.includes(`${s[1]}${s[0]}${s[1]}`));
+    return snet.some((s) => hnet.includes(`${s[1]}${s[0]}${s[1]}`));
   }
 
   part1(input) {

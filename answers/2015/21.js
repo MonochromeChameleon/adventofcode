@@ -79,8 +79,8 @@ export class Question extends QuestionBase {
   player(hitPoints, { weapon, armor, rings }) {
     return {
       hitPoints,
-      damage: [weapon, ...rings].reduce((sum, { damage }) => sum + damage, 0),
-      armor: [armor, ...rings].reduce((sum, { armor }) => sum + armor, 0),
+      damage: [weapon, ...rings].reduce((sum, { damage: d }) => sum + d, 0),
+      armor: [armor, ...rings].reduce((sum, { armor: a }) => sum + a, 0),
     };
   }
 

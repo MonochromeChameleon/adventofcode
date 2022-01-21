@@ -24,23 +24,24 @@ export class Question extends QuestionBase {
         return values[0] < values[1] ? 1 : 0;
       case 7:
         return values[0] === values[1] ? 1 : 0;
+      default:
+        throw new Error('Invalid type');
     }
   }
 
   processSubPackets(input) {
-    const lengthType = parseInt(input[0]);
+    const lengthType = Number(input[0]);
     if (lengthType === 0) {
       const lengthInBits = parseInt(input.substr(1, 15), 2);
       const subPacketBits = input.substr(16, lengthInBits);
       const packets = this.processPacket(subPacketBits);
       const rest = input.substr(16 + lengthInBits);
       return { packets, rest };
-    } else {
-      const lengthInPackets = parseInt(input.substr(1, 11), 2);
-      const packets = this.processPacket(input.substr(12), lengthInPackets);
-      const { rest } = 'rest' in packets[packets.length - 1] ? packets.pop() : { rest: '' };
-      return { packets, rest };
     }
+    const lengthInPackets = parseInt(input.substr(1, 11), 2);
+    const packets = this.processPacket(input.substr(12), lengthInPackets);
+    const { rest } = 'rest' in packets[packets.length - 1] ? packets.pop() : { rest: '' };
+    return { packets, rest };
   }
 
   processPacket(input, limit = Infinity) {
@@ -61,12 +62,11 @@ export class Question extends QuestionBase {
       rest = rest.slice(5);
       const value = parseInt(digits, 2);
       return [{ version, type, value, versionSum: version }, ...this.processPacket(rest, limit - 1)];
-    } else {
-      const { packets, rest: newRest } = this.processSubPackets(rest);
-      const versionSum = packets.reduce((sum, { versionSum: v }) => sum + v, version);
-      const value = this.getValue(type, packets);
-      return [{ version, type, packets, value, versionSum }, ...this.processPacket(newRest, limit - 1)];
     }
+    const { packets, rest: newRest } = this.processSubPackets(rest);
+    const versionSum = packets.reduce((sum, { versionSum: v }) => sum + v, version);
+    const value = this.getValue(type, packets);
+    return [{ version, type, packets, value, versionSum }, ...this.processPacket(newRest, limit - 1)];
   }
 
   parseLine(line) {

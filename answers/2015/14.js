@@ -47,7 +47,9 @@ class Race {
 
   updateScoreboard(seconds) {
     const winners = this.winnerAfter(seconds);
-    winners.forEach((it) => this.scoreboard[it.name]++);
+    winners.forEach((it) => {
+      this.scoreboard[it.name] += 1;
+    });
     return this;
   }
 }

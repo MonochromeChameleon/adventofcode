@@ -29,19 +29,17 @@ export class Question extends QuestionBase {
         6: six = 0,
         7: seven = 0,
         8: eight = 0,
-      }) => {
-        return {
-          0: one,
-          1: two,
-          2: three,
-          3: four,
-          4: five,
-          5: six,
-          6: seven + zero,
-          7: eight,
-          8: zero,
-        };
-      },
+      }) => ({
+        0: one,
+        1: two,
+        2: three,
+        3: four,
+        4: five,
+        5: six,
+        6: seven + zero,
+        7: eight,
+        8: zero,
+      }),
       startingCount
     );
 

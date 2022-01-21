@@ -44,15 +44,15 @@ export function padGrid({ grid, width, pad, padSize = 1 }) {
 export function shrinkGrid({ grid, pad, width }) {
   const height = grid.length / width;
 
-  const minPad = grid.reduce((minPad, g, ix) => {
-    if (g === pad) return minPad;
+  const minPad = grid.reduce((min, g, ix) => {
+    if (g === pad) return min;
 
     const row = ~~(ix / width);
     const unRow = height - 1 - row;
     const col = ix % width;
     const unCol = width - 1 - col;
 
-    return Math.min(minPad, row, unRow, col, unCol);
+    return Math.min(min, row, unRow, col, unCol);
   }, Infinity);
 
   return grid.reduce((out, g, ix) => {
@@ -68,16 +68,15 @@ export function parseGrid({ lines, parseLine = (line) => line.split('').map(Numb
   if (pad === undefined) {
     const grid = lines.flatMap(parseLine);
     const width = lines[0].length;
-    const adjacentIndexes = buildAdjacencyMap({ length: grid.length, width, adjacency: adjacency });
-    return { grid, width, adjacentIndexes };
-  } else {
-    const paddedPad = Array.from({ length: padSize }).fill(pad);
-    const paddedParseLine = (line) => [...paddedPad, ...parseLine(line), ...paddedPad];
-    const padRow = paddedParseLine(lines[0]).map(() => pad);
-    const paddedPadRow = Array.from({ length: padSize }).flatMap(() => padRow);
-    const grid = [...paddedPadRow, ...lines.flatMap(paddedParseLine), ...paddedPadRow];
-    const width = padRow.length;
-    const adjacentIndexes = buildAdjacencyMap({ length: grid.length, width, adjacency: adjacency });
+    const adjacentIndexes = buildAdjacencyMap({ length: grid.length, width, adjacency });
     return { grid, width, adjacentIndexes };
   }
+  const paddedPad = Array.from({ length: padSize }).fill(pad);
+  const paddedParseLine = (line) => [...paddedPad, ...parseLine(line), ...paddedPad];
+  const padRow = paddedParseLine(lines[0]).map(() => pad);
+  const paddedPadRow = Array.from({ length: padSize }).flatMap(() => padRow);
+  const grid = [...paddedPadRow, ...lines.flatMap(paddedParseLine), ...paddedPadRow];
+  const width = padRow.length;
+  const adjacentIndexes = buildAdjacencyMap({ length: grid.length, width, adjacency });
+  return { grid, width, adjacentIndexes };
 }

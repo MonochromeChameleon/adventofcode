@@ -20,7 +20,7 @@ export class Question extends QuestionBase {
   }
 
   solveRow({ signal, output }) {
-    const [one, seven, four, a, b, c, d, e, f, eight] = signal.sort((a, b) => a.length - b.length);
+    const [one, seven, four, a, b, c, d, e, f, eight] = signal.sort((aa, bb) => aa.length - bb.length);
     const fourNotOne = four.filter((line) => !one.includes(line));
 
     const three = [a, b, c].find((it) => one.every((line) => it.includes(line)));

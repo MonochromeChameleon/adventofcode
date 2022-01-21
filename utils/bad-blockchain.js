@@ -11,7 +11,7 @@ export function find0xHash(algorithm, prefix, numZeroes, start = 0) {
   let hash = doHash(algorithm, prefix, i);
   const target = '0'.repeat(numZeroes);
   while (hash.substr(0, numZeroes) !== target) {
-    i++;
+    i += 1;
     hash = doHash(algorithm, prefix, i);
   }
 

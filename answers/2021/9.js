@@ -12,13 +12,13 @@ export class Question extends QuestionBase {
     return parseGrid({ lines, pad: 9, adjacency: 4 });
   }
 
-  part1({ grid, width, adjacentIndexes }) {
+  part1({ grid, adjacentIndexes }) {
     const isMinimum = (value, ix) => adjacentIndexes[ix].every((a) => grid[a] > value);
     const minima = grid.filter(isMinimum);
     return minima.reduce((sum, point) => sum + point, 0) + minima.length;
   }
 
-  part2({ input, grid, width }) {
+  part2({ grid, width }) {
     const findRootBasin = (ix, combined) => (combined[ix] === ix ? ix : findRootBasin(combined[ix], combined));
 
     const { basins } = grid.reduce(
@@ -36,6 +36,7 @@ export class Question extends QuestionBase {
         const [basin = state.basins.length, combine = basin] = [leftBasin, upBasin]
           .filter((it) => it !== undefined)
           .sort((a, b) => a - b);
+
         if (isNew) {
           state.basins.push(0);
           state.combined[basin] = basin;

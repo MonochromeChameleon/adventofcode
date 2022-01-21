@@ -63,7 +63,7 @@ export class Question extends QuestionBase {
     return { cukes, rows, cols };
   }
 
-  part1({ cukes, rows, cols }) {
+  part1({ cukes }) {
     // SLOW
     if (cukes.length > 50) return 360;
 
@@ -74,7 +74,7 @@ export class Question extends QuestionBase {
       const right = this.move(cukes, true);
       const down = this.move(cukes, false);
       keepGoing = right || down;
-      moves++;
+      moves += 1;
     }
 
     return moves;

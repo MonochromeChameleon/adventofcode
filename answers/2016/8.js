@@ -2,7 +2,7 @@ import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
-    super(2016, 8, 106, 'CFLELOYFCS');
+    super(2016, 8, 106, 3375032044483544);
   }
 
   get parser() {
@@ -13,10 +13,9 @@ export class Question extends QuestionBase {
     if (line.startsWith('rect')) {
       const [width, height] = line.replace('rect ', '').split('x').map(Number);
       return { action: 'rect', width, height };
-    } else {
-      const [, axis, location, amount] = line.match(/^rotate (row|column) \w=(\d+) by (\d+)$/);
-      return { action: 'rotate', axis, location: Number(location), amount: Number(amount) };
     }
+    const [, axis, location, amount] = line.match(/^rotate (row|column) \w=(\d+) by (\d+)$/);
+    return { action: 'rotate', axis, location: Number(location), amount: Number(amount) };
   }
 
   rect(screen, { width, height }) {
@@ -35,12 +34,15 @@ export class Question extends QuestionBase {
 
   part1(input) {
     const blankScreen = Array.from({ length: 6 }, () => Array(50).fill(' '));
-    const screen = input.reduce((screen, { action, ...params }) => this[action](screen, params), blankScreen);
-    console.log(screen.map((row) => row.join('')).join('\n'));
+    const screen = input.reduce((s, { action, ...params }) => this[action](s, params), blankScreen);
+    console.log(screen.map((row) => row.join('')).join('\n')); // eslint-disable-line no-console
     return screen.flat(Infinity).filter((it) => it === '#').length;
   }
 
   part2(input) {
-    return 'CFLELOYFCS';
+    const blankScreen = Array.from({ length: 6 }, () => Array(50).fill(' '));
+    const screen = input.reduce((s, { action, ...params }) => this[action](s, params), blankScreen);
+    // Make it binary and then add the rows together so we have a sanity check for the tests.
+    return screen.map((row) => parseInt(row.map((cell) => (cell === '#' ? 1 : 0)).join(''), 2)).reduce((a, b) => a + b);
   }
 }

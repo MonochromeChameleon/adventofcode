@@ -17,6 +17,8 @@ export class Question extends QuestionBase {
           return () => 0;
         case 'toggle':
           return (i) => 1 - i;
+        default:
+          throw new Error('Unknown action');
       }
     };
 
@@ -28,6 +30,8 @@ export class Question extends QuestionBase {
           return (i) => Math.max(i - 1, 0);
         case 'toggle':
           return (i) => i + 2;
+        default:
+          throw new Error('Unknown action');
       }
     };
 
@@ -43,8 +47,8 @@ export class Question extends QuestionBase {
 
   applyFunction(input, func) {
     return input.reduce((state, { [func]: action, x1, y1, x2, y2 }) => {
-      for (let x = x1; x <= x2; x++) {
-        for (let y = y1; y <= y2; y++) {
+      for (let x = x1; x <= x2; x += 1) {
+        for (let y = y1; y <= y2; y += 1) {
           const ix = x + y * 1000;
           state[ix] = action(state[ix]);
         }

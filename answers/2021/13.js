@@ -10,9 +10,8 @@ export class Question extends QuestionBase {
   applyFold({ x, y }, { axis, value }) {
     if (axis === 'x') {
       return { x: value - Math.abs(x - value), y };
-    } else {
-      return { x, y: value - Math.abs(y - value) };
     }
+    return { x, y: value - Math.abs(y - value) };
   }
 
   fold(dots, fold) {
@@ -50,11 +49,15 @@ export class Question extends QuestionBase {
     const maxY = final.reduce((max, dot) => Math.max(max, dot.y), 0);
 
     const grid = new Array(maxY + 1).fill(' ').map(() => new Array(maxX + 1).fill(' '));
-    final.forEach(({ x, y }) => (grid[y][x] = 'X'));
-    console.log(grid.map((line) => line.join('')).join('\n'));
+    final.forEach(({ x, y }) => {
+      grid[y][x] = 'X';
+    });
+    console.log(grid.map((line) => line.join('')).join('\n')); // eslint-disable-line no-console
 
     const binaryGrid = new Array(maxY + 1).fill(0).map(() => new Array(maxX + 1).fill(0));
-    final.forEach(({ x, y }) => (binaryGrid[y][x] = 1));
+    final.forEach(({ x, y }) => {
+      binaryGrid[y][x] = 1;
+    });
     return binaryGrid.map((line) => parseInt(line.join(''), 2)).reduce((a, b) => a + b);
   }
 }

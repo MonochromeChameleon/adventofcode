@@ -14,14 +14,25 @@ export class Question extends QuestionBase {
     return Parsers.SINGLE_LINE_SPLIT;
   }
 
+  getDir(neg, pos, val) {
+    switch (val) {
+      case neg:
+        return -1;
+      case pos:
+        return 1;
+      default:
+        return 0;
+    }
+  }
+
   part1(input) {
     return Object.values(
       input
         .reduce(
           ([lastStop, ...stops], dir) => {
             const [x, y] = lastStop.split(':').map(Number);
-            const dx = dir === '^' || dir === 'v' ? 0 : dir === '<' ? -1 : 1;
-            const dy = dir === '>' || dir === '<' ? 0 : dir === 'v' ? 1 : -1;
+            const dx = this.getDir('<', '>', dir);
+            const dy = this.getDir('^', 'v', dir);
             return [`${x + dx}:${y + dy}`, lastStop, ...stops];
           },
           ['0:0']
@@ -35,8 +46,8 @@ export class Question extends QuestionBase {
 
   part2(input) {
     const next = (x, y, d) => {
-      const dx = d === '^' || d === 'v' ? 0 : d === '<' ? -1 : 1;
-      const dy = d === '>' || d === '<' ? 0 : d === 'v' ? 1 : -1;
+      const dx = this.getDir('<', '>', d);
+      const dy = this.getDir('^', 'v', d);
       return `${x + dx}:${y + dy}`;
     };
 

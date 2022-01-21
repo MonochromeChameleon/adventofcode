@@ -1,7 +1,8 @@
 import { resolve } from 'path';
 import { existsSync, readFileSync } from 'fs';
-export * as Parsers from '../parsers/parsers.js';
 import * as Parsers from '../parsers/parsers.js';
+
+export * as Parsers from '../parsers/parsers.js';
 
 export class QuestionBase {
   constructor(year, day, part1, part2) {

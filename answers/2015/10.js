@@ -9,7 +9,7 @@ class LookAndSay {
   iterate(toValue) {
     while (this.iterations < toValue) {
       this.lookAndSay();
-      this.iterations++;
+      this.iterations += 1;
     }
   }
 

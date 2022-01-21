@@ -8,6 +8,11 @@ module.exports = {
     'prefer-destructuring': 0,
     'space-infix-ops': 2,
     'class-methods-use-this': 0,
+    'no-underscore-dangle': 0,
+    'no-bitwise': 0,
+    'max-classes-per-file': 0,
+    'no-param-reassign': 0,
+
 
     'filenames/no-index': 2,
     'import/extensions': 0,
@@ -17,5 +22,10 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2021,
     sourceType: 'module',
+  },
+  globals: {
+    BigInt: true,
+    describe: true,
+    it: true,
   },
 };

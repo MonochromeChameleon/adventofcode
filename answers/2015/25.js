@@ -66,7 +66,7 @@ export class Question extends QuestionBase {
     let value = start;
     while (its > 0) {
       value = (value * multiplier) % remainder;
-      its--;
+      its -= 1;
     }
     return value;
   }

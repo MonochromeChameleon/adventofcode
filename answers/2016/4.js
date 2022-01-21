@@ -14,7 +14,7 @@ export class Question extends QuestionBase {
   }
 
   map(value) {
-    const [_, name, id, checksum] = value.match(/^(.+)-(\d+)\[(.+)]$/);
+    const [, name, id, checksum] = value.match(/^(.+)-(\d+)\[(.+)]$/);
     return { name, sector: Number(id), checksum };
   }
 
@@ -44,15 +44,15 @@ export class Question extends QuestionBase {
 
     const decoded = name
       .split('-')
-      .map((word) => {
-        return word
+      .map((word) =>
+        word
           .split('')
           .map((letter) => {
             const rotated = letter.charCodeAt(0) + modSector;
             return String.fromCharCode(rotated > 122 ? rotated - 26 : rotated);
           })
-          .join('');
-      })
+          .join('')
+      )
       .join(' ');
 
     return { name: decoded, sector };

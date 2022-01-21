@@ -43,39 +43,37 @@ class Cube {
   add(other) {
     if (!this.intersect(other)) {
       return [this];
-    } else {
-      const getCoords = (axis) => {
-        return [
-          {
-            from: this[`${axis}1`],
-            to: Math.max(this[`${axis}1`], other[`${axis}1`]) - 1,
-            middle: false,
-          },
-          {
-            from: Math.max(this[`${axis}1`], other[`${axis}1`]),
-            to: Math.min(this[`${axis}2`], other[`${axis}2`]),
-            middle: true,
-          },
-          {
-            from: Math.min(this[`${axis}2`], other[`${axis}2`]) + 1,
-            to: this[`${axis}2`],
-            middle: false,
-          },
-        ].filter(({ from, to }) => from <= to);
-      };
-
-      const xs = getCoords('x');
-      const ys = getCoords('y');
-      const zs = getCoords('z');
-
-      return xs.flatMap(({ from: x1, to: x2, middle: mx }) =>
-        ys.flatMap(({ from: y1, to: y2, middle: my }) =>
-          zs.flatMap(({ from: z1, to: z2, middle: mz }) => {
-            return mz && my && mx ? [] : [new Cube(true, x1, x2, y1, y2, z1, z2)];
-          })
-        )
-      );
     }
+    const getCoords = (axis) =>
+      [
+        {
+          from: this[`${axis}1`],
+          to: Math.max(this[`${axis}1`], other[`${axis}1`]) - 1,
+          middle: false,
+        },
+        {
+          from: Math.max(this[`${axis}1`], other[`${axis}1`]),
+          to: Math.min(this[`${axis}2`], other[`${axis}2`]),
+          middle: true,
+        },
+        {
+          from: Math.min(this[`${axis}2`], other[`${axis}2`]) + 1,
+          to: this[`${axis}2`],
+          middle: false,
+        },
+      ].filter(({ from, to }) => from <= to);
+
+    const xs = getCoords('x');
+    const ys = getCoords('y');
+    const zs = getCoords('z');
+
+    return xs.flatMap(({ from: x1, to: x2, middle: mx }) =>
+      ys.flatMap(({ from: y1, to: y2, middle: my }) =>
+        zs.flatMap(({ from: z1, to: z2, middle: mz }) =>
+          mz && my && mx ? [] : [new Cube(true, x1, x2, y1, y2, z1, z2)]
+        )
+      )
+    );
   }
 
   get size() {

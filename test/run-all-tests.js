@@ -1,5 +1,5 @@
-import { loadQuestion } from '../utils/load-question.js';
 import { expect } from 'chai';
+import { loadQuestion } from '../utils/load-question.js';
 
 const month = new Date().getMonth();
 const year = new Date().getFullYear() + ~~(month / 11) - 1;
@@ -13,7 +13,7 @@ const getDays = (y) => {
 };
 
 export default async function runAllTests({ years = allYears, wip = false } = {}) {
-  const allQuestions = await Promise.all(years.map((y) => Promise.all(getDays(y).map((day) => loadQuestion(y, day)))));
+  const allQuestions = await Promise.all(years.map((y) => Promise.all(getDays(y).map((d) => loadQuestion(y, d)))));
 
   allQuestions.forEach((questions, yix) =>
     describe(`${years[yix]}`, () => {
@@ -23,9 +23,8 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
         .filter((q) => {
           if (wip) {
             return q.expectedResult(1) === undefined || q.expectedResult(2) === undefined;
-          } else {
-            return q.expectedResult(1) !== undefined || q.expectedResult(2) !== undefined || !!q.examples.length;
           }
+          return q.expectedResult(1) !== undefined || q.expectedResult(2) !== undefined || !!q.examples.length;
         });
       if (!qs.length) return;
 

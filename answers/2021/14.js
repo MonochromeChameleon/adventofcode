@@ -1,5 +1,4 @@
 import { QuestionBase } from '../../utils/question-base.js';
-import { countByValue } from '../../utils/count-by-value.js';
 
 export class Question extends QuestionBase {
   constructor() {
@@ -28,7 +27,7 @@ export class Question extends QuestionBase {
   countElements(polymer) {
     return Object.keys(polymer).reduce(
       (acc, key) => {
-        const [_, second] = key.split('');
+        const [, second] = key.split('');
         acc[second] = acc[second] || 0;
         acc[second] += polymer[key];
         return acc;

@@ -47,13 +47,13 @@ export class Question extends QuestionBase {
     });
   }
 
-  part1({ enhancementAlgorithm, grid, width }) {
+  part1({ enhancementAlgorithm, grid }) {
     return Array.from({ length: 2 })
       .reduce((g, _, ix) => this.enhance(g, enhancementAlgorithm, ix + 1), grid)
       .reduce((acc, it) => acc + it, 0);
   }
 
-  part2({ enhancementAlgorithm, grid, width }) {
+  part2({ enhancementAlgorithm, grid }) {
     return Array.from({ length: 50 })
       .reduce((g, _, ix) => this.enhance(g, enhancementAlgorithm, ix + 1), grid)
       .reduce((acc, it) => acc + it, 0);

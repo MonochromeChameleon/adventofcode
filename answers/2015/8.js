@@ -14,7 +14,7 @@ export class Question extends QuestionBase {
       .replaceAll(/\\\\/g, 'X')
       .replaceAll(/(\\x.{2})/g, 'X');
 
-    const long = '"' + line.replaceAll(/\\/g, '\\\\').replaceAll(/"/g, '\\"') + '"';
+    const long = `"${line.replaceAll(/\\/g, '\\\\').replaceAll(/"/g, '\\"')}"`;
     return {
       code: line.length,
       memory: short.length,

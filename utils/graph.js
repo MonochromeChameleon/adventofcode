@@ -39,12 +39,10 @@ export class Graph {
   calculateRoute(previous, ...route) {
     const start = this.closedRoute ? this.links[route[route.length - 1]][previous] : 0;
     const { distance } = route.reduce(
-      ({ distance, previous }, next) => {
-        return {
-          distance: distance + this.links[previous][next],
-          previous: next,
-        };
-      },
+      ({ distance: d, previous: p }, next) => ({
+        distance: d + this.links[p][next],
+        previous: next,
+      }),
       { distance: start, previous }
     );
     return { distance, route };

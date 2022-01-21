@@ -21,8 +21,11 @@ class Grid {
     const flashIndexes = this.octopodes.reduce((acc, value, ix) => (value === 10 ? [...acc, ix] : acc), []);
     const energyBoosts = countByValue(flashIndexes.flatMap((ix) => this.adjacencyMap[ix]));
 
-    flashIndexes.forEach((ix) => (this.octopodes[ix] = 11));
-    for (let [ix, boost] of Object.entries(energyBoosts)) {
+    flashIndexes.forEach((ix) => {
+      this.octopodes[ix] = 11;
+    });
+
+    for (const [ix, boost] of Object.entries(energyBoosts)) {
       if (this.octopodes[ix] < 10) {
         this.octopodes[ix] = Math.min(10, this.octopodes[ix] + boost);
       }
@@ -48,7 +51,9 @@ export class Question extends QuestionBase {
   }
 
   part2(grid) {
-    while (grid.step() < grid.octopodes.length) {}
+    while (grid.step() < grid.octopodes.length) {
+      // no-op
+    }
     return grid.steps;
   }
 }

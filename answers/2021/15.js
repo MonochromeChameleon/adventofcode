@@ -23,7 +23,7 @@ export class Question extends QuestionBase {
   }
 
   part1({ grid, width, adjacentIndexes }) {
-    const [start, ...path] = aStarSearch(
+    const [, ...path] = aStarSearch(
       0,
       width * width - 1,
       (_, ix) => grid[ix],
@@ -49,7 +49,7 @@ export class Question extends QuestionBase {
       return (grid[sourceIndex] + increment) % 9 || 9;
     };
 
-    const [start, ...path] = aStarSearch(0, fiveW * fiveW - 1, getGridRisk, this.h(fiveW), (ix) =>
+    const [, ...path] = aStarSearch(0, fiveW * fiveW - 1, getGridRisk, this.h(fiveW), (ix) =>
       adjacentIndices(ix, fiveW, 4)
     );
     return path.reduce((acc, ix) => acc + getGridRisk(ix), 0);
