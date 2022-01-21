@@ -107,7 +107,7 @@ class SnailfishNumber {
 
     let tgt = 'left';
 
-    for (const next of reducedCharacters) {
+    reducedCharacters.forEach((next) => {
       if (next === '[') stack += 1;
       if (next === ']') stack -= 1;
 
@@ -116,7 +116,7 @@ class SnailfishNumber {
       } else {
         spl[tgt] += next;
       }
-    }
+    });
 
     this.left = spl.left.startsWith('[') ? new SnailfishNumber(spl.left) : Number(spl.left);
     this.right = spl.right.startsWith('[') ? new SnailfishNumber(spl.right) : Number(spl.right);

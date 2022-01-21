@@ -5,6 +5,10 @@ const matchers = {
   '[': ']',
   '{': '}',
   '<': '>',
+  ')': '(',
+  ']': '[',
+  '}': '{',
+  '>': '<',
 };
 
 const errorScores = {
@@ -30,20 +34,17 @@ export class Question extends QuestionBase {
 
   parseLine(line) {
     const characters = line.split('');
-    const stack = [];
 
-    for (const next of characters) {
-      if (['(', '[', '{', '<'].includes(next)) {
-        stack.unshift(next);
-      } else {
-        const previous = stack.shift();
-        if (next !== matchers[previous]) return { corrupt: true, score: errorScores[next] };
-      }
-    }
+    const { stack: s, corrupt: c } = characters.reduce(({ stack, corrupt }, next) => {
+      if (corrupt) return { stack, corrupt };
+      if (['(', '[', '{', '<'].includes(next)) return { stack: [next, ...stack] };
+      const [previous, ...rest] = stack;
+      if (next !== matchers[previous]) return { stack: [matchers[next]], corrupt: true };
+      return { stack: rest };
+    }, { stack: [] });
 
-    const total = stack.reduce((score, next) => score * 5 + completionScores[matchers[next]], 0);
-
-    return { corrupt: false, score: total };
+    const scores = c ? errorScores : completionScores;
+    return { corrupt: c, score: s.reduce((tot, next) => tot * 5 + scores[matchers[next]], 0) };
   }
 
   part1(input) {

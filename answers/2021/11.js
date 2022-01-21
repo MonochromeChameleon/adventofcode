@@ -25,11 +25,11 @@ class Grid {
       this.octopodes[ix] = 11;
     });
 
-    for (const [ix, boost] of Object.entries(energyBoosts)) {
+    Object.entries(energyBoosts).forEach(([ix, boost]) => {
       if (this.octopodes[ix] < 10) {
         this.octopodes[ix] = Math.min(10, this.octopodes[ix] + boost);
       }
-    }
+    });
 
     return flashIndexes.length;
   }

@@ -22,7 +22,7 @@ export class Question extends QuestionBase {
     };
   }
 
-  part1({ grid, width, adjacentIndexes }) {
+  part1({ grid, width }) {
     const [, ...path] = aStarSearch(
       0,
       width * width - 1,
