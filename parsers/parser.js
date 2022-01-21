@@ -3,6 +3,10 @@ export class Parser {
     return '';
   }
 
+  map(value) {
+    return value;
+  }
+
   parseKey(key) {
     return key;
   }

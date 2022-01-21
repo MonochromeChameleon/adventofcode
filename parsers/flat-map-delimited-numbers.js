@@ -1,6 +1,6 @@
 import { Parser } from './parser.js';
 
-export class MultiLineDelimitedNumbersParser extends Parser {
+export class FlatMapDelimitedNumbersParser extends Parser {
   get split() {
     return ',';
   }
@@ -10,5 +10,9 @@ export class MultiLineDelimitedNumbersParser extends Parser {
       .split(this.split)
       .filter((it) => it)
       .map(Number);
+  }
+
+  parseInput(lines) {
+    return lines.flatMap(this.parseLine.bind(this));
   }
 }

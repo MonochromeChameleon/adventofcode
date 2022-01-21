@@ -1,5 +1,5 @@
 import { QuestionBase, Parsers } from '../../utils/question-base.js';
-import { createHash } from 'crypto';
+import { find0xHash } from '../../utils/bad-blockchain.js';
 
 export class Question extends QuestionBase {
   constructor() {
@@ -15,28 +15,10 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    let i = 0;
-    let hash = 'x';
-    while (hash.substr(0, 5) !== '00000') {
-      i++;
-      hash = createHash('md5')
-        .update(input + i)
-        .digest('hex');
-    }
-
-    return i;
+    return find0xHash('md5', input, 5);
   }
 
   part2(input) {
-    let i = this.answers.part1;
-    let hash = 'x';
-    while (hash.substr(0, 6) !== '000000') {
-      i++;
-      hash = createHash('md5')
-        .update(input + i)
-        .digest('hex');
-    }
-
-    return i;
+    return find0xHash('md5', input, 6, this.answers.part1);
   }
 }

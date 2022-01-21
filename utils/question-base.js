@@ -35,6 +35,7 @@ export class QuestionBase {
   }
 
   expectedResult(part) {
+    if (part === 2 && this.day === 25) return null;
     const { [`part${part}`]: expected } = this.answers;
     return expected;
   }
@@ -45,6 +46,10 @@ export class QuestionBase {
 
   get split() {
     return this.parser.split;
+  }
+
+  map(value) {
+    return this.parser.map.call(this, value);
   }
 
   parseKey(key) {

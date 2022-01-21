@@ -42,7 +42,7 @@ class Computer {
     this.pointer += delta;
   }
 
-  run({ a = 0, b = 0, pointer = 0} = {}) {
+  run({ a = 0, b = 0, pointer = 0 } = {}) {
     const state = { a, b, pointer };
     while (this.instructions[state.pointer]) {
       const { command, register, offset } = this.instructions[state.pointer];

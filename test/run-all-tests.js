@@ -20,10 +20,16 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
       const qs = questions
         .filter(({ skip }) => !skip)
         .map((Question) => new Question())
-        .filter((q) => q.expectedResult(1) !== undefined || q.expectedResult(2) !== undefined || !!q.examples.length);
+        .filter((q) => {
+          if (wip) {
+            return q.expectedResult(1) === undefined || q.expectedResult(2) === undefined;
+          } else {
+            return q.expectedResult(1) !== undefined || q.expectedResult(2) !== undefined || !!q.examples.length;
+          }
+        });
       if (!qs.length) return;
 
-      (wip ? [qs[qs.length - 1]] : qs).forEach((q) => {
+      (wip ? [qs[0]] : qs).forEach((q) => {
         describe(`Day ${q.day}`, () => {
           [1, 2]
             .map((part) => ({
@@ -33,6 +39,7 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
             }))
             .filter(({ part, expected, examples }) => {
               if (wip && part === 2 && q.expectedResult(1) !== undefined) return true;
+              if (wip && part === 1) return true;
               return [expected, ...examples].filter((it) => it !== undefined).length;
             })
             .forEach(({ part, expected }) =>
@@ -45,58 +52,19 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
                     it(`Example ${ix + 1} should be ${ans}`, async () => {
                       const result = await q[partid](input, ...params);
                       expect(result).to.equal(ans);
-                    }).timeout(10000);
+                    }).timeout(40000);
                   });
 
-                if (wip || expected !== undefined) {
+                if ((wip || expected !== undefined) && expected !== null) {
                   it(`Result should be ${expected}`, async () => {
                     const result = await q.run(part);
                     expect(result).to.equal(q.expectedResult(part));
-                  }).timeout(10000);
+                  }).timeout(40000);
                 }
               })
             );
         });
       });
-
-      [].forEach((Question, dix) =>
-        describe(`Day ${dix + 1}`, () => {
-          if (Question.skip) {
-            return;
-          }
-
-          const q = new Question();
-
-          [1, 2]
-            .map((part) => ({
-              part,
-              expected: q.expectedResult(part),
-              examples: q.examples.filter(({ [`part${part}`]: ans }) => ans !== undefined),
-            }))
-            .filter(({ expected, examples }) => [expected, ...examples].filter((it) => it !== undefined).length)
-            .forEach(({ part, expected }) =>
-              describe(`Part ${part}`, () => {
-                const partid = `part${part}`;
-
-                q.examples
-                  .filter(({ [partid]: ans }) => ans !== undefined)
-                  .forEach(({ input, [partid]: ans }, ix) => {
-                    it(`Example ${ix + 1} should be ${ans}`, async () => {
-                      const result = await q[partid](input);
-                      expect(result).to.equal(ans);
-                    }).timeout(10000);
-                  });
-
-                if (expected !== undefined) {
-                  it(`Result should be ${expected}`, async () => {
-                    const result = await q.run(part);
-                    expect(result).to.equal(q.expectedResult(part));
-                  }).timeout(10000);
-                }
-              })
-            );
-        })
-      );
     })
   );
 }
