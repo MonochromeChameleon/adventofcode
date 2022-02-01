@@ -24,8 +24,6 @@ export class Question extends QuestionBase {
         return values[0] < values[1] ? 1 : 0;
       case 7:
         return values[0] === values[1] ? 1 : 0;
-      default:
-        throw new Error('Invalid type');
     }
   }
 

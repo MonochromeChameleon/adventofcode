@@ -17,8 +17,6 @@ export class Question extends QuestionBase {
           return () => 0;
         case 'toggle':
           return (i) => 1 - i;
-        default:
-          throw new Error('Unknown action');
       }
     };
 
@@ -30,8 +28,6 @@ export class Question extends QuestionBase {
           return (i) => Math.max(i - 1, 0);
         case 'toggle':
           return (i) => i + 2;
-        default:
-          throw new Error('Unknown action');
       }
     };
 

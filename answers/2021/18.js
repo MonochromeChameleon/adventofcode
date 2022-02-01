@@ -87,8 +87,6 @@ function reduce(input) {
         break;
       case 'done':
         break;
-      default:
-        throw new Error('Unknown state');
     }
   }
   return characters;

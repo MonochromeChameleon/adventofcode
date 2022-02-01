@@ -12,6 +12,8 @@ module.exports = {
     'no-bitwise': 0,
     'max-classes-per-file': 0,
     'no-param-reassign': 0,
+    'default-case': 0,
+    'consistent-return': 0,
 
 
     'filenames/no-index': 2,
@@ -20,7 +22,7 @@ module.exports = {
     'import/prefer-default-export': 0,
   },
   parserOptions: {
-    ecmaVersion: 2021,
+    ecmaVersion: 2022,
     sourceType: 'module',
   },
   globals: {

@@ -49,8 +49,6 @@ class ALU {
           return state;
         });
         break;
-      default:
-        throw new Error(`Unknown op: ${op}`);
     }
     return this;
   }

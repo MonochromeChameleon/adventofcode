@@ -53,8 +53,6 @@ export class Question extends QuestionBase {
       case 'Recharge':
         player.mana += 101;
         break;
-      default:
-        throw new Error(`Unknown spell: ${spell}`);
     }
 
     return { p: player, b: boss };

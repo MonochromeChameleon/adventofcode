@@ -27,14 +27,17 @@ export function aStarSearch(start, goal, d, h, neighbours, searchSpaceSize = goa
       return reconstructPath(cameFrom, current);
     }
 
-    for (const neighbour of neighbours(current)) {
+    neighbours(current).forEach((neighbour) => {
       const tentativeGScore = gScore[current] + d(current, neighbour);
-      if (tentativeGScore >= gScore[neighbour]) continue; // eslint-disable-line no-continue
-      cameFrom[neighbour] = current;
-      gScore[neighbour] = tentativeGScore;
-      fScore[neighbour] = gScore[neighbour] + h(neighbour);
-      openSet.push(neighbour);
-    }
+      if (tentativeGScore >= gScore[neighbour]) {
+        // no-op - this is a sneaky way to handle infinite paths where we can't fill the gScore
+      } else {
+        cameFrom[neighbour] = current;
+        gScore[neighbour] = tentativeGScore;
+        fScore[neighbour] = gScore[neighbour] + h(neighbour);
+        openSet.push(neighbour);
+      }
+    });
   }
 
   throw new Error('No path found');
