@@ -1,16 +1,29 @@
 import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
-class Computer {
+export class Question extends QuestionBase {
   constructor() {
-    this.instructions = [];
+    super(2015, 23, 307, 160);
   }
 
-  addLine(line) {
+  get parser() {
+    return Parsers.MULTI_LINE_MAP;
+  }
+
+  map(line) {
     const [command, arg1, arg2] = line.replace(',', '').split(' ');
     const register = command !== 'jmp' ? arg1 : undefined;
     const offset = Number(command !== 'jmp' ? arg2 : arg1) || undefined;
 
-    this.instructions.push({ command, register, offset });
+    return { command, register, offset };
+  }
+
+  execute(instructions, { a = 0, b = 0, pointer = 0 } = {}) {
+    const state = { a, b, pointer };
+    while (instructions[state.pointer]) {
+      const { command, register, offset } = instructions[state.pointer];
+      this[command].call(state, register, offset);
+    }
+    return state;
   }
 
   hlf(register) {
@@ -42,34 +55,11 @@ class Computer {
     this.pointer += delta;
   }
 
-  run({ a = 0, b = 0, pointer = 0 } = {}) {
-    const state = { a, b, pointer };
-    while (this.instructions[state.pointer]) {
-      const { command, register, offset } = this.instructions[state.pointer];
-      this[command].call(state, register, offset);
-    }
-    return state;
-  }
-}
-
-export class Question extends QuestionBase {
-  constructor() {
-    super(2015, 23, 307, 160);
+  part1(instructions) {
+    return this.execute(instructions).b;
   }
 
-  get parser() {
-    return Parsers.REDUCE;
-  }
-
-  get reducer() {
-    return Computer;
-  }
-
-  part1(computer) {
-    return computer.run().b;
-  }
-
-  part2(computer) {
-    return computer.run({ a: 1 }).b;
+  part2(instructions) {
+    return this.execute(instructions, { a: 1 }).b;
   }
 }

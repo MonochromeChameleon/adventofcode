@@ -156,7 +156,11 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    const [, ...route] = dijkstra({ start: input.toString(), goal: input.targetState.toString(), neighbours: (state) => State.fromString(state).neighbours() });
+    const [, ...route] = dijkstra({
+      start: input.toString(),
+      goal: input.targetState.toString(),
+      neighbours: (state) => State.fromString(state).neighbours(),
+    });
     return route.length;
   }
 

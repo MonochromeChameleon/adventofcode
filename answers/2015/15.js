@@ -39,19 +39,24 @@ class Ingredient {
   }
 }
 
-class Recipe {
+export class Question extends QuestionBase {
   constructor() {
-    this.ingredients = {};
+    super(2015, 15, 13882464, 11171160);
+
+    this.exampleInput({ filename: '15a', part1: 62842880, part2: 57600000 });
   }
 
-  addLine(line) {
-    const ingredient = new Ingredient(line);
-    this.ingredients[ingredient.name] = ingredient;
+  get parser() {
+    return Parsers.MULTI_LINE_CONSTRUCTOR;
   }
 
-  getScore(measurements) {
+  get inputConstructor() {
+    return Ingredient;
+  }
+
+  getScore(ingredients, measurements) {
     const { capacity, durability, flavor, texture, calories } = Object.entries(measurements)
-      .map(([ingredient, amount]) => this.ingredients[ingredient].score(amount))
+      .map(([ingredient, amount]) => ingredients[ingredient].score(amount))
       .reduce((acc, score) => ({
         capacity: acc.capacity + score.capacity,
         durability: acc.durability + score.durability,
@@ -64,39 +69,23 @@ class Recipe {
     return { score, calories };
   }
 
-  get possibleMeasurements() {
-    const ingredients = Object.keys(this.ingredients);
-    return getPossibleMeasurements(100, ...ingredients);
+  possibleMeasurements(ingredients) {
+    return getPossibleMeasurements(100, ...Object.keys(ingredients));
   }
 
-  get allScores() {
-    if (!this._allScores) {
-      this._allScores = this.possibleMeasurements.map((m) => this.getScore(m));
-    }
-    return this._allScores;
-  }
-}
-
-export class Question extends QuestionBase {
-  constructor() {
-    super(2015, 15, 13882464, 11171160);
-
-    this.exampleInput({ filename: '15a', part1: 62842880, part2: 57600000 });
+  allScores(ingredients) {
+    return this.possibleMeasurements(ingredients).map((m) => this.getScore(ingredients, m));
   }
 
-  get parser() {
-    return Parsers.REDUCE;
+  part1(ing) {
+    const ingredients = ing.reduce((out, i) => ({ ...out, [i.name]: i }), {});
+    return this.allScores(ingredients).reduce((acc, { score }) => Math.max(acc, score), 0);
   }
 
-  get reducer() {
-    return Recipe;
-  }
-
-  part1(recipe) {
-    return recipe.allScores.reduce((acc, { score }) => Math.max(acc, score), 0);
-  }
-
-  part2(recipe) {
-    return recipe.allScores.filter((m) => m.calories === 500).reduce((acc, { score }) => Math.max(acc, score), 0);
+  part2(ing) {
+    const ingredients = ing.reduce((out, i) => ({ ...out, [i.name]: i }), {});
+    return this.allScores(ingredients)
+      .filter((m) => m.calories === 500)
+      .reduce((acc, { score }) => Math.max(acc, score), 0);
   }
 }

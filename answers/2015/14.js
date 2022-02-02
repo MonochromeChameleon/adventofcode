@@ -24,55 +24,45 @@ class Reindeer {
   }
 }
 
-class Race {
-  constructor() {
-    this.reindeer = [];
-    this.scoreboard = {};
-  }
-
-  addLine(line) {
-    const reindeer = new Reindeer(line);
-    this.reindeer.push(reindeer);
-    this.scoreboard[reindeer.name] = 0;
-  }
-
-  maxDistanceAfter(seconds) {
-    return this.reindeer.map((r) => r.distanceAfter(seconds)).reduce((a, b) => Math.max(a, b));
-  }
-
-  winnerAfter(seconds) {
-    const maxDistance = this.maxDistanceAfter(seconds);
-    return this.reindeer.filter((it) => it.distanceAfter(seconds) === maxDistance);
-  }
-
-  updateScoreboard(seconds) {
-    const winners = this.winnerAfter(seconds);
-    winners.forEach((it) => {
-      this.scoreboard[it.name] += 1;
-    });
-    return this;
-  }
-}
-
 export class Question extends QuestionBase {
   constructor() {
     super(2015, 14, 2640, 1102);
   }
 
   get parser() {
-    return Parsers.REDUCE;
+    return Parsers.MULTI_LINE_CONSTRUCTOR;
   }
 
-  get reducer() {
-    return Race;
+  get inputConstructor() {
+    return Reindeer;
   }
 
-  part1(race) {
-    return race.maxDistanceAfter(2503);
+  maxDistanceAfter(reindeer, seconds) {
+    return reindeer.map((r) => r.distanceAfter(seconds)).reduce((a, b) => Math.max(a, b));
   }
 
-  part2(race) {
-    Array.from({ length: 2503 }).forEach((_, i) => race.updateScoreboard(i + 1));
-    return Object.values(race.scoreboard).reduce((a, b) => Math.max(a, b));
+  winnerAfter(reindeer, seconds) {
+    const maxDistance = this.maxDistanceAfter(reindeer, seconds);
+    return reindeer.filter((it) => it.distanceAfter(seconds) === maxDistance);
+  }
+
+  updateScoreboard(scoreboard, reindeer, seconds) {
+    const winners = this.winnerAfter(reindeer, seconds);
+    winners.forEach((it) => {
+      scoreboard[it.name] += 1;
+    });
+    return scoreboard;
+  }
+
+  part1(reindeer) {
+    return this.maxDistanceAfter(reindeer, 2503);
+  }
+
+  part2(reindeer) {
+    const scoreboard = Array.from({ length: 2503 }).reduce(
+      (scores, _, i) => this.updateScoreboard(scores, reindeer, i + 1),
+      reindeer.reduce((acc, it) => ({ ...acc, [it.name]: 0 }), {})
+    );
+    return Object.values(scoreboard).reduce((a, b) => Math.max(a, b));
   }
 }
