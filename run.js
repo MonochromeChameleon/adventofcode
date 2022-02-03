@@ -13,6 +13,4 @@ const hasFlag = (flagName, shortFlag = flagName[0]) =>
   process.argv.includes(`--${flagName}`) ||
   !!process.argv.filter((it) => /^-\w/.test(it)).find((it) => it.includes(shortFlag));
 
-const useTestData = hasFlag('test');
-
-run({ year, day, part, useTestData });
+run({ year, day, part });

@@ -39,18 +39,14 @@ class Quantum {
   step() {
     this.state = Object.keys(this.state).reduce((ste, k) => {
       const value = this.state[k];
-      if (/21/.test(k)) {
-        ste[k] = value;
-      } else {
-        const change = quantumRoll(k, value, this.isP1);
-        Object.keys(change).forEach((c) => {
-          if (/21/.test(c)) {
-            this.wins[this.isP1 ? 0 : 1] += change[c];
-          } else {
-            ste[c] = (ste[c] || 0) + change[c];
-          }
-        });
-      }
+      const change = quantumRoll(k, value, this.isP1);
+      Object.keys(change).forEach((c) => {
+        if (/21/.test(c)) {
+          this.wins[this.isP1 ? 0 : 1] += change[c];
+        } else {
+          ste[c] = (ste[c] || 0) + change[c];
+        }
+      });
       return ste;
     }, {});
     this.isP1 = !this.isP1;
@@ -85,7 +81,7 @@ export class Question extends QuestionBase {
         pPos1 = (pPos1 + delta) % 10 || 10;
         p1 += pPos1;
       } else {
-        pPos2 = (pPos2 + delta) % 10 || 10;
+        pPos2 = (pPos2 + delta) % 10;
         p2 += pPos2;
       }
     }

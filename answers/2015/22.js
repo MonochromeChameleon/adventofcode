@@ -80,7 +80,6 @@ export class Question extends QuestionBase {
     return availableSpells.flatMap((s) => {
       const { p: p1, b: b1, s: s1 } = this.applySpells(player, boss, spells);
       if (b1.hitPoints <= 0) {
-        if (mana < wins[0]) wins.unshift(mana);
         return { mana, spells: castingHistory };
       }
       p1.mana -= MANA_COST[s];

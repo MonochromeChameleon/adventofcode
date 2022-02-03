@@ -53,12 +53,6 @@ class State {
     });
   }
 
-  addItems(items, atFloor) {
-    const floors = JSON.parse(JSON.stringify(this.floors));
-    floors[atFloor] = floors[atFloor].concat(items);
-    return new State(this.elevator, floors);
-  }
-
   moveItems(itemsToMove, toFloor) {
     const floors = JSON.parse(JSON.stringify(this.floors));
     const items = floors[this.elevator];
@@ -112,16 +106,6 @@ class State {
       .map((state) => state.toString());
 
     return [...moveUpPairs, ...moveUpSingles, ...moveDownPairs, ...moveDownSingles];
-  }
-
-  get minStepsToGoal() {
-    return this.floors.reduce((tot, f, ix) => {
-      const itemsToMove = this.floors.slice(0, ix + 1).flat().length;
-      const steps = Math.max(1, 2 * itemsToMove - 3);
-      return tot + steps;
-    }, 0);
-
-    // return this.floors.reduce((tot, f, ix) => tot + (f.length * (this.floors.length - ix - 1)), 0);
   }
 }
 

@@ -24,7 +24,7 @@ class Circuit {
           if (/OR/.test(signal))
             return signal
               .split(' OR ')
-              .map((n) => (/\d+/.test(n) ? Number(n) : this[n]))
+              .map((n) => this[n])
               .reduce((a, b) => a | b);
           if (/NOT/.test(signal)) return ~this[signal.replace('NOT ', '')];
           if (/LSHIFT/.test(signal))

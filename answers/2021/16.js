@@ -38,7 +38,7 @@ export class Question extends QuestionBase {
     }
     const lengthInPackets = parseInt(input.substr(1, 11), 2);
     const packets = this.processPacket(input.substr(12), lengthInPackets);
-    const { rest } = 'rest' in packets[packets.length - 1] ? packets.pop() : { rest: '' };
+    const { rest } = packets.pop();
     return { packets, rest };
   }
 

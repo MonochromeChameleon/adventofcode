@@ -36,7 +36,6 @@ export class Question extends QuestionBase {
 
   part1(ranges) {
     const uniqueRanges = this.squashRanges(ranges).sort(([a], [b]) => a - b);
-    if (uniqueRanges[0][0] > 0) return 0;
     return uniqueRanges[0][1] + 1;
   }
 

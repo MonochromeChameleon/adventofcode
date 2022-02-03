@@ -9,12 +9,6 @@ export class Question extends QuestionBase {
     return Parsers.SINGLE_NUMBER;
   }
 
-  stuff(number) {
-    return Array.from({ length: number }, (_, i) => i + 1)
-      .filter((i) => number % i === 0)
-      .reduce((acc, i) => acc + i * 10, 0);
-  }
-
   part1(input) {
     const houses = new Array(input / 10).fill(0);
     for (let i = 1; i < input / 10; i += 1) {

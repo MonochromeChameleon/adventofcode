@@ -1,19 +1,28 @@
-import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { Assembunny } from './assembunny/assembunny.js';
 
-export class Question extends QuestionBase {
+export class Question extends Assembunny {
   constructor() {
-    super(2016, 23);
+    super(2016, 23, 11760, 479008320);
+
+    this.exampleInput({ filename: '23a', part1: 3 });
   }
 
-  get parser() {
-    return Parsers.ONE_NUMBER_PER_LINE;
+  canOptimize() {
+    return this.pointer === 4;
   }
 
-  part1(input) {
-    return input.length;
+  optimize() {
+    this.a = this.b * this.d;
+    this.c = 0;
+    this.d = 0;
+    this.pointer = 10;
   }
 
-  part2(input) {
-    return input.reduce((a, b) => a + b, 0);
+  part1(instructions) {
+    return this.execute(instructions, { a: 7 }, instructions.length > 7).a;
+  }
+
+  part2(instructions) {
+    return this.execute(instructions, { a: 12 }, true).a;
   }
 }

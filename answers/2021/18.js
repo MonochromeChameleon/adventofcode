@@ -85,8 +85,6 @@ function reduce(input) {
       case 'split':
         [next, characters] = split(characters);
         break;
-      case 'done':
-        break;
     }
   }
   return characters;

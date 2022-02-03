@@ -70,7 +70,6 @@ export class Question extends QuestionBase {
 
     let i = 11 + toRoom;
     while (i <= to) {
-      if (state[i] !== '.') return false;
       i += 4;
     }
     while (i < state.length) {

@@ -70,15 +70,10 @@ export class Question extends QuestionBase {
 
   monad(number, alu) {
     const splitNum = `${number}`.split('').map(Number);
-    if (splitNum.some((n) => n === 0)) return -1;
     return splitNum.reduce((state, num, ix) => alu.execute(num, ix, { ...state }), { w: 0, x: 0, y: 0, z: 0 }).z;
   }
 
   part1(alu) {
-    if (this.useTestData) {
-      return 0;
-    }
-
     // by inspection:
     // (S-3)(R)91(N-5)(N)(Q)(P)(M)(M-2)(P-4)(Q-6)(R-3)(S)
 
@@ -90,17 +85,10 @@ export class Question extends QuestionBase {
     const m = 9;
 
     const value = Number(`${s - 3}${r}91${n - 5}${n}${q}${p}${m}${m - 2}${p - 4}${q - 6}${r - 3}${s}`);
-    if (this.monad(value, alu) === 0) {
-      return value;
-    }
-    return 0;
+    return [value].find((v) => this.monad(v, alu) === 0);
   }
 
   part2(alu) {
-    if (this.useTestData) {
-      return 0;
-    }
-
     // by inspection:
     // (S-3)(R)91(N-5)(N)(Q)(P)(M)(M-2)(P-4)(Q-6)(R-3)(S)
 
@@ -112,9 +100,6 @@ export class Question extends QuestionBase {
     const m = 3;
 
     const value = Number(`${s - 3}${r}91${n - 5}${n}${q}${p}${m}${m - 2}${p - 4}${q - 6}${r - 3}${s}`);
-    if (this.monad(value, alu) === 0) {
-      return value;
-    }
-    return 0;
+    return [value].find((v) => this.monad(v, alu) === 0);
   }
 }

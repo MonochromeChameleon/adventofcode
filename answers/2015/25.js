@@ -57,10 +57,6 @@ export class Question extends QuestionBase {
       .map(Number);
   }
 
-  get split() {
-    return ',';
-  }
-
   getValue(index, start, multiplier, remainder) {
     let its = index;
     let value = start;
