@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 
-export function doHash(algorithm, prefix, i) {
+export function doHash(algorithm, prefix, i = '') {
   return createHash(algorithm)
     .update(prefix + i)
     .digest('hex');

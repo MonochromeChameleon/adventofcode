@@ -10,6 +10,8 @@ export function reconstructPath(cameFrom, current) {
 }
 
 export function dijkstra({ start, goal, neighbours, distance = () => 1 }) {
+  const isGoal = typeof goal === 'function' ? goal : (maybeGoal) => goal === maybeGoal;
+
   const openSet = new PriorityQueue((a, b) => a.distance < b.distance);
   openSet.push({ id: start, distance: 0 });
 
@@ -19,7 +21,7 @@ export function dijkstra({ start, goal, neighbours, distance = () => 1 }) {
 
   while (!openSet.isEmpty()) {
     const { id: current, distance: dist } = openSet.pop();
-    if (current === goal) {
+    if (isGoal(current)) {
       return reconstructPath(cameFrom, current);
     }
     explored.add(current);

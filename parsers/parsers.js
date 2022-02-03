@@ -16,6 +16,7 @@ import { SingleLineSplitParser } from './single-line-split.js';
 import { SingleLineSplitMapParser } from './single-line-split-map.js';
 import { SingleLineStringParser } from './single-line-string.js';
 import { SingleNumberParser } from './single-number.js';
+import { SingleStringParser } from './single-string.js';
 
 export const GRID = new GridParser();
 export const FLAT_MAP_LINE_DELIMITED_NUMBERS = new FlatMapDelimitedNumbersParser();
@@ -35,3 +36,4 @@ export const SINGLE_LINE_SPLIT = new SingleLineSplitParser();
 export const SINGLE_LINE_SPLIT_MAP = new SingleLineSplitMapParser();
 export const SINGLE_LINE_STRING = new SingleLineStringParser();
 export const SINGLE_NUMBER = new SingleNumberParser();
+export const SINGLE_STRING = new SingleStringParser();
