@@ -23,13 +23,13 @@ export class Question extends QuestionBase {
   }
 
   part1({ grid, width }) {
-    const [, ...path] = aStarSearch(
-      0,
-      width * width - 1,
-      (_, ix) => grid[ix],
-      this.h(width),
-      (ix) => adjacentIndices(ix, width, 4)
-    );
+    const [, ...path] = aStarSearch({
+      start: 0,
+      goal: width * width - 1,
+      d: (_, ix) => grid[ix],
+      h: this.h(width),
+      neighbours: (ix) => adjacentIndices(ix, width, 4),
+    });
     return path.reduce((acc, ix) => acc + grid[ix], 0);
   }
 
@@ -49,9 +49,13 @@ export class Question extends QuestionBase {
       return (grid[sourceIndex] + increment) % 9 || 9;
     };
 
-    const [, ...path] = aStarSearch(0, fiveW * fiveW - 1, getGridRisk, this.h(fiveW), (ix) =>
-      adjacentIndices(ix, fiveW, 4)
-    );
+    const [, ...path] = aStarSearch({
+      start: 0,
+      goal: fiveW * fiveW - 1,
+      d: getGridRisk,
+      h: this.h(fiveW),
+      neighbours: (ix) => adjacentIndices(ix, fiveW, 4),
+    });
     return path.reduce((acc, ix) => acc + getGridRisk(ix), 0);
   }
 }

@@ -9,7 +9,7 @@ export function reconstructPath(cameFrom, current) {
   return totalPath;
 }
 
-export function aStarSearch(start, goal, d, h, neighbours, searchSpaceSize = goal) {
+export function aStarSearch({ start, goal, d = () => 1, h, neighbours, searchSpaceSize = goal }) {
   const gScore = Array.from({ length: searchSpaceSize }).fill(Infinity);
   gScore[start] = 0;
 

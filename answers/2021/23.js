@@ -139,14 +139,14 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    const [start, ...steps] = aStarSearch(
-      input,
-      '...........ABCDABCD',
-      this.d.bind(this),
-      this.h.bind(this),
-      this.moves.bind(this),
-      0
-    );
+    const [start, ...steps] = aStarSearch({
+      start: input,
+      goal: '...........ABCDABCD',
+      d: this.d.bind(this),
+      h: this.h.bind(this),
+      neighbours: this.moves.bind(this),
+      searchSpaceSize: 0,
+    });
     return steps.reduce(({ state, score }, newState) => ({ state: newState, score: score + this.d(state, newState) }), {
       state: start,
       score: 0,
@@ -156,14 +156,14 @@ export class Question extends QuestionBase {
   part2(input) {
     const startCondition = `${input.substr(0, 15)}DCBADBAC${input.substr(15)}`;
 
-    const [start, ...steps] = aStarSearch(
-      startCondition,
-      '...........ABCDABCDABCDABCD',
-      this.d.bind(this),
-      this.h.bind(this),
-      this.moves.bind(this),
-      0
-    );
+    const [start, ...steps] = aStarSearch({
+      start: startCondition,
+      goal: '...........ABCDABCDABCDABCD',
+      d: this.d.bind(this),
+      h: this.h.bind(this),
+      neighbours: this.moves.bind(this),
+      searchSpaceSize: 0,
+    });
     return steps.reduce(({ state, score }, newState) => ({ state: newState, score: score + this.d(state, newState) }), {
       state: start,
       score: 0,

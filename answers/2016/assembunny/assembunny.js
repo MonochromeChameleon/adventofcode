@@ -11,27 +11,34 @@ export class Assembunny extends QuestionBase {
     return Parsers.MULTI_LINE_MAP;
   }
 
-  canOptimize() {
-    return false;
-  }
-
-  execute(instructions, { a = 0, b = 0, c = 0, d = 0 } = {}, optimize = false) {
+  execute(
+    instructions,
+    { a = 0, b = 0, c = 0, d = 0 } = {},
+    { optimize = false, limit = Infinity, breakFn = () => false } = {}
+  ) {
     const state = {
-      a, b, c, d,
+      a,
+      b,
+      c,
+      d,
       pointer: 0,
       instructions: JSON.parse(JSON.stringify(instructions)),
       get instruction() {
         return this.instructions[this.pointer];
-      }
+      },
+      output: [],
     };
 
-    while (state.instruction) {
-      if ((optimize) && this.canOptimize.call(state)) {
+    let count = 0;
+
+    while (state.instruction && count < limit && !breakFn(state)) {
+      if (optimize && this.canOptimize.call(state)) {
         this.optimize.call(state);
       } else {
         const { instruction, params } = state.instruction;
         this[instruction].call(state, ...params);
       }
+      count += 1;
     }
     return state;
   }
@@ -60,22 +67,26 @@ export class Assembunny extends QuestionBase {
   }
 
   tgl(offset) {
-    const point = Number.isInteger(offset) ? offset : this[offset];
+    const point = this[offset];
     const instruction = this.instructions[this.pointer + point];
     const findNewType = (type) => {
       switch (type) {
-        case 'inc':
-          return 'dec';
-        case 'dec':
-        case 'tgl':
-          return 'inc';
         case 'jnz':
           return 'cpy';
         case 'cpy':
           return 'jnz';
+        case 'inc':
+          return 'dec';
+        default:
+          return 'inc';
       }
-    }
+    };
     if (instruction) instruction.instruction = findNewType(instruction.instruction);
+    this.pointer += 1;
+  }
+
+  out(signal) {
+    this.output.push(this[signal]);
     this.pointer += 1;
   }
 }

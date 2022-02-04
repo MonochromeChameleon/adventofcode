@@ -2,14 +2,6 @@ import { QuestionBase, Parsers } from '../../utils/question-base.js';
 import { Graph } from '../../utils/graph.js';
 
 class RouteMap extends Graph {
-  get closedRoute() {
-    return false;
-  }
-
-  get isDirected() {
-    return false;
-  }
-
   addLine(line) {
     const [from, to, distance] = line.replace(' to ', '|').replace(' = ', '|').split('|');
     super.addEdge({ from, to, distance: Number(distance) });

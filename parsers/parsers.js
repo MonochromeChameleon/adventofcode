@@ -1,5 +1,6 @@
 import { GridParser } from './grid.js';
 import { FlatMapDelimitedNumbersParser } from './flat-map-delimited-numbers.js';
+import { MazeParser } from './maze.js';
 import { MultiLineConstructorParser } from './multi-line-constructor.js';
 import { MultiLineMapParser } from './multi-line-map.js';
 import { MultiLineSplitParser } from './multi-line-split.js';
@@ -20,6 +21,7 @@ import { SingleStringParser } from './single-string.js';
 
 export const GRID = new GridParser();
 export const FLAT_MAP_LINE_DELIMITED_NUMBERS = new FlatMapDelimitedNumbersParser();
+export const MAZE = new MazeParser();
 export const MULTI_LINE_DELIMITED_NUMBERS = new MultiLineDelimitedNumbersParser();
 export const MULTI_LINE_CONSTRUCTOR = new MultiLineConstructorParser();
 export const MULTI_LINE_MAP = new MultiLineMapParser();

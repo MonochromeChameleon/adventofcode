@@ -2,10 +2,6 @@ import { Parser } from './parser.js';
 import { buildAdjacencyMap } from '../utils/grid-utils.js';
 
 export class GridParser extends Parser {
-  parseValue(value) {
-    return Number(value);
-  }
-
   parseLine(line) {
     return line.split(this.split).map(this.parseValue.bind(this));
   }

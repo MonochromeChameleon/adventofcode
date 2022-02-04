@@ -1,8 +1,10 @@
 import { permutations } from './array-utils.js';
 
 export class Graph {
-  constructor() {
+  constructor({ closed = false, directed = false } = {}) {
     this.links = {};
+    this.closedRoute = closed;
+    this.isDirected = directed;
   }
 
   addEdge({ from, to, distance }) {
@@ -45,6 +47,6 @@ export class Graph {
       }),
       { distance: start, previous }
     );
-    return { distance, route };
+    return { distance, route: [previous, ...route] };
   }
 }

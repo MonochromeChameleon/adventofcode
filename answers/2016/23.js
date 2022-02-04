@@ -19,10 +19,10 @@ export class Question extends Assembunny {
   }
 
   part1(instructions) {
-    return this.execute(instructions, { a: 7 }, instructions.length > 7).a;
+    return this.execute(instructions, { a: 7 }, { optimize: instructions.length > 7 }).a;
   }
 
   part2(instructions) {
-    return this.execute(instructions, { a: 12 }, true).a;
+    return this.execute(instructions, { a: 12 }, { optimize: true }).a;
   }
 }

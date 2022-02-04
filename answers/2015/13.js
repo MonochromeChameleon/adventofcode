@@ -2,12 +2,8 @@ import { QuestionBase, Parsers } from '../../utils/question-base.js';
 import { Graph } from '../../utils/graph.js';
 
 class TablePlan extends Graph {
-  get closedRoute() {
-    return true;
-  }
-
-  get isDirected() {
-    return true;
+  constructor() {
+    super({ closed: true, directed: true });
   }
 
   addLine(line) {

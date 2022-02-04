@@ -72,11 +72,11 @@ export class Question extends QuestionBase {
       const steps = index % 2 === 1 ? (index + 1) / 2 : (6 + ((8 + (index - 2)) % 8) / 2) % 8;
       if (!steps) return this;
       return this.substr(steps) + this.substr(0, steps);
-    } else {
-      const steps = (index + (index >= 4 ? 2 : 1)) % this.length;
-      if (!steps) return this;
-      return this.substr(-steps) + this.substr(0, this.length - steps);
     }
+
+    const steps = (index + (index >= 4 ? 2 : 1)) % this.length;
+    if (!steps) return this;
+    return this.substr(-steps) + this.substr(0, this.length - steps);
   }
 
   reverse({ first, second }) {

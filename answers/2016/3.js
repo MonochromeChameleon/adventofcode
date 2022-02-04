@@ -15,10 +15,6 @@ export class Question extends QuestionBase {
     return Parsers.FLAT_MAP_LINE_DELIMITED_NUMBERS;
   }
 
-  get split() {
-    return ' ';
-  }
-
   isValidTriangle(sides) {
     const [long, ...others] = sides.sort((a, b) => b - a);
     return long < others.reduce((sum, side) => sum + side);

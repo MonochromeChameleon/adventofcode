@@ -2,7 +2,7 @@ import { Parser } from './parser.js';
 
 export class FlatMapDelimitedNumbersParser extends Parser {
   get split() {
-    return ',';
+    return ' ';
   }
 
   parseLine(line) {
