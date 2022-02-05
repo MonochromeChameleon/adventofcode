@@ -18,7 +18,7 @@ export class Question extends QuestionBase {
     return ',';
   }
 
-  map(value) {
+  parseValue(value) {
     const [turn, ...distance] = value;
     return {
       turn,

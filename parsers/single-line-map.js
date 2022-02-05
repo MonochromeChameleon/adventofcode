@@ -1,7 +1,7 @@
 import { Parser } from './parser.js';
 
-export class SingleLineMapParser extends Parser {
+export class SingleLineParser extends Parser {
   parseInput(lines) {
-    return this.map.call(this, lines[0]); // eslint-disable-line no-useless-call
+    return this.parseLine.call(this, lines[0]); // eslint-disable-line no-useless-call
   }
 }

@@ -1,4 +1,4 @@
-import { QuestionBase } from '../../utils/question-base.js';
+import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
@@ -7,8 +7,8 @@ export class Question extends QuestionBase {
     this.exampleInput({ filename: 'testinputs/3', part1: 198, part2: 230 });
   }
 
-  parseLine(line) {
-    return line.split('').map(Number);
+  get parser() {
+    return Parsers.MULTI_LINE_DELIMITED_NUMBERS;
   }
 
   part1(input) {

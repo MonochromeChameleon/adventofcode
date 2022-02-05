@@ -1,4 +1,4 @@
-import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
@@ -8,11 +8,7 @@ export class Question extends QuestionBase {
     this.exampleInput({ filename: '21', part2: 'abcdefgh' }, 'hcdefbag');
   }
 
-  get parser() {
-    return Parsers.MULTI_LINE_MAP;
-  }
-
-  map(line) {
+  parseLine(line) {
     if (line.startsWith('swap position')) {
       const [, ...positions] = line.match(/swap position (\d+) with position (\d+)/);
       const [first, second] = positions.map(Number).sort();

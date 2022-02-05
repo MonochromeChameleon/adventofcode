@@ -18,8 +18,8 @@ export class Question extends QuestionBase {
     return Parsers.SINGLE_LINE_SPLIT_MAP;
   }
 
-  get map() {
-    return (char) => char.charCodeAt(0);
+  parseValue(char) {
+    return char.charCodeAt(0);
   }
 
   iteratePassword(charCodes) {

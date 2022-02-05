@@ -1,4 +1,4 @@
-import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
@@ -9,11 +9,7 @@ export class Question extends QuestionBase {
     this.exampleInput({ input: 'totally-real-room-200[decoy]', part1: 0 });
   }
 
-  get parser() {
-    return Parsers.MULTI_LINE_MAP;
-  }
-
-  map(value) {
+  parseLine(value) {
     const [, name, id, checksum] = value.match(/^(.+)-(\d+)\[(.+)]$/);
     return { name, sector: Number(id), checksum };
   }

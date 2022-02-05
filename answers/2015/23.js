@@ -1,15 +1,11 @@
-import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
     super(2015, 23, 307, 160);
   }
 
-  get parser() {
-    return Parsers.MULTI_LINE_MAP;
-  }
-
-  map(line) {
+  parseLine(line) {
     const [command, arg1, arg2] = line.replace(',', '').split(' ');
     const register = command !== 'jmp' ? arg1 : undefined;
     const offset = Number(command !== 'jmp' ? arg2 : arg1) || undefined;

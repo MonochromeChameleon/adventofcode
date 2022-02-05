@@ -3,23 +3,11 @@ export class Parser {
     return '';
   }
 
-  map(value) {
-    return value;
-  }
-
-  parseKey(key) {
-    return key;
-  }
-
-  parseValue(value) {
-    return value;
-  }
-
   parseLine(line) {
     return line;
   }
 
   parseInput(lines) {
-    return lines.map(this.parseLine.bind(this));
+    return lines.map(this.parseLine.bind(this)).filter((it) => it !== undefined);
   }
 }

@@ -11,7 +11,7 @@ export class Question extends QuestionBase {
 
   get parsers() {
     return {
-      reactions: Parsers.MULTI_LINE_MAP,
+      reactions: Parsers.PARSER,
       input: Parsers.SINGLE_LINE_STRING,
     };
   }
@@ -21,7 +21,7 @@ export class Question extends QuestionBase {
     return 'input';
   }
 
-  map(line) {
+  parseLine(line) {
     const [from, to] = line.split(' => ');
     return { from, to };
   }

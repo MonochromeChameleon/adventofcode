@@ -19,10 +19,10 @@ export class Question extends QuestionBase {
   }
 
   get parser() {
-    return Parsers.SINGLE_LINE_MAP;
+    return Parsers.SINGLE_LINE;
   }
 
-  get map() {
+  get parseLine() {
     return (line) => flattenObject(JSON.parse(line));
   }
 

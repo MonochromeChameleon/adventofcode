@@ -1,4 +1,4 @@
-import { QuestionBase } from '../../utils/question-base.js';
+import { Parsers, QuestionBase } from '../../utils/question-base.js';
 import { countByValue } from '../../utils/count-by-value.js';
 
 export class Question extends QuestionBase {
@@ -8,8 +8,12 @@ export class Question extends QuestionBase {
     this.exampleInput({ filename: 'testinputs/7', part1: 37, part2: 168 });
   }
 
-  parseLine(line) {
-    return line.split(',').map(Number);
+  get parser() {
+    return Parsers.SINGLE_LINE_DELIMITED_NUMBERS;
+  }
+
+  get split() {
+    return ',';
   }
 
   parseInput(lines) {

@@ -46,10 +46,10 @@ export class Question extends QuestionBase {
   }
 
   get parser() {
-    return Parsers.SINGLE_LINE_MAP;
+    return Parsers.SINGLE_LINE;
   }
 
-  map(value) {
+  parseLine(value) {
     return value
       .replace(/[^\d,]/g, '')
       .split(',')

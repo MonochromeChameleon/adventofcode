@@ -1,4 +1,4 @@
-import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { QuestionBase } from '../../utils/question-base.js';
 
 class Disc {
   constructor({ name, size, position }) {
@@ -19,11 +19,7 @@ export class Question extends QuestionBase {
     this.exampleInput({ filename: '15a', part1: 5 });
   }
 
-  get parser() {
-    return Parsers.MULTI_LINE_MAP;
-  }
-
-  map(line) {
+  parseLine(line) {
     const [, ...params] = line.match(/^Disc #(\d+) has (\d+) positions; at time=0, it is at position (\d+).$/);
     const [name, size, position] = params.map(Number);
     return new Disc({ name, size, position });

@@ -1,10 +1,14 @@
-import { QuestionBase } from '../../utils/question-base.js';
+import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
     super(2021, 1, 1292, 1262);
 
     this.exampleInput({ filename: 'testinputs/1', part1: 7, part2: 5 });
+  }
+
+  get parser() {
+    return Parsers.ONE_NUMBER_PER_LINE;
   }
 
   compareWindows(input, size = 1) {

@@ -12,7 +12,7 @@ export class Question extends QuestionBase {
     return Parsers.SINGLE_LINE_SPLIT_MAP;
   }
 
-  map(char) {
+  parseValue(char) {
     return char === '.' ? 1 : 0;
   }
 

@@ -1,14 +1,10 @@
-import { QuestionBase, Parsers } from '../../../utils/question-base.js';
+import { QuestionBase } from '../../../utils/question-base.js';
 
 export class Assembunny extends QuestionBase {
-  map(line) {
+  parseLine(line) {
     const [instruction, ...args] = line.split(' ');
     const params = args.map((a) => (Number.isNaN(Number(a)) ? a : Number(a)));
     return { instruction, params };
-  }
-
-  get parser() {
-    return Parsers.MULTI_LINE_MAP;
   }
 
   execute(

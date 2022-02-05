@@ -1,4 +1,4 @@
-import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { QuestionBase } from '../../utils/question-base.js';
 import { Maze } from '../../utils/maze.js';
 
 export class Question extends QuestionBase {
@@ -8,11 +8,7 @@ export class Question extends QuestionBase {
     this.exampleInput({ filename: '22a', part2: 7 });
   }
 
-  get parser() {
-    return Parsers.MULTI_LINE_MAP;
-  }
-
-  map(line) {
+  parseLine(line) {
     if (!line.startsWith('/dev/grid')) return undefined;
     const [, ...values] = /\/dev\/grid\/node-x(\d+)-y(\d+) +(\d+)T +(\d+)T +(\d+)T +(\d+)%/.exec(line);
     const [x, y, size, used, avail, use] = values.map(Number);

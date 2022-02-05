@@ -57,7 +57,7 @@ export class QuestionBase {
   }
 
   get parser() {
-    return Parsers.ONE_NUMBER_PER_LINE;
+    return Parsers.PARSER;
   }
 
   async part1() {

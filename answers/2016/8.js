@@ -1,15 +1,11 @@
-import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
     super(2016, 8, 106, 3375032044483544);
   }
 
-  get parser() {
-    return Parsers.MULTI_LINE_MAP;
-  }
-
-  map(line) {
+  parseLine(line) {
     if (line.startsWith('rect')) {
       const [width, height] = line.replace('rect ', '').split('x').map(Number);
       return { action: 'rect', width, height };
