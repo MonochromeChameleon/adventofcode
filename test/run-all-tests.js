@@ -29,27 +29,33 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
       if (!qs.length) return;
 
       (wip ? [qs[0]] : qs).forEach((q) => {
+        const examples = q.examples.map(({ ix, input, part1, part2, params }) => {
+          const qq = new q.constructor();
+          qq.answers = { part1, part2 };
+          qq._input = input;
+          return { ix, qq, params, part1, part2 };
+        });
+
         describe(`Day ${q.day}`, () => {
           [1, 2]
             .map((part) => ({
               part,
               expected: q.expectedResult(part),
-              examples: q.examples.filter(({ [`part${part}`]: ans }) => ans !== undefined),
+              examples: examples.filter(({ [`part${part}`]: ans }) => ans !== undefined),
             }))
             .filter(({ part, expected, examples }) => {
               if (wip && part === 2 && q.expectedResult(1) !== undefined) return true;
               if (wip && part === 1) return true;
               return [expected, ...examples].filter((it) => it !== undefined).length;
             })
-            .forEach(({ part, expected }) =>
+            .forEach(({ part, expected, examples }) =>
               describe(`Part ${part}`, () => {
                 const partid = `part${part}`;
 
-                q.examples
-                  .filter(({ [partid]: ans }) => ans !== undefined)
-                  .forEach(({ input, [partid]: ans, params }, ix) => {
-                    it(`Example ${ix + 1} should be ${ans}`, async () => {
-                      const result = await q[partid](input, ...params);
+                examples
+                  .forEach(({ ix, qq, [partid]: ans, params }) => {
+                    it(`Example ${ix} should be ${ans}`, async () => {
+                      const result = await qq.run(part, ...params);
                       expect(result).to.equal(ans);
                     }).timeout(40000);
                   });

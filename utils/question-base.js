@@ -35,12 +35,19 @@ export class QuestionBase {
     if (!this._input) {
       this._input = this.readFile(this.day);
     }
+    if (this.mutates) {
+      return JSON.parse(JSON.stringify(this._input));
+    }
     return this._input;
+  }
+
+  get mutates() {
+    return false;
   }
 
   exampleInput({ filename, input, part1, part2 }, ...params) {
     const parsedInput = input ? this.parseInput([input].flat()) : this.readFile(filename);
-    this.examples.push({ input: parsedInput, part1, part2, params });
+    this.examples.push({ ix: this.examples.length + 1, input: parsedInput, part1, part2, params });
   }
 
   readFile(filename) {
@@ -68,8 +75,8 @@ export class QuestionBase {
     return this.input.length;
   }
 
-  async run(part) {
-    const result = await (part === 1 ? this.part1(this.input) : this.part2(this.input));
+  async run(part, ...params) {
+    const result = await (part === 1 ? this.part1(this.input, ...params) : this.part2(this.input, ...params));
     return result;
   }
 }
