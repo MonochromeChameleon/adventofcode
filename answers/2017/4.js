@@ -29,7 +29,7 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    return input.filter(line => line.length === [...new Set(line)].length).length;
+    return input.filter((line) => line.length === [...new Set(line)].length).length;
   }
 
   part2(input) {

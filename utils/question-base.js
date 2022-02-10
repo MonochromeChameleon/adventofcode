@@ -29,11 +29,13 @@ export class QuestionBase {
         const p = this.parser[prop];
         this[prop] = typeof p === 'function' ? p.bind(this) : p;
       });
+
+    this._wip = false;
   }
 
   get input() {
-    if (!this._input) {
-      this._input = this.readFile(this.day);
+    if (this._input === undefined) {
+      this._input = this.postParse(this.readFile(this.day));
     }
     if (this.mutates) {
       return JSON.parse(JSON.stringify(this._input));
@@ -45,9 +47,13 @@ export class QuestionBase {
     return false;
   }
 
+  postParse(lines) {
+    return lines;
+  }
+
   exampleInput({ filename, input, part1, part2 }, ...params) {
-    const parsedInput = input ? this.parseInput([input].flat()) : this.readFile(filename);
-    this.examples.push({ ix: this.examples.length + 1, input: parsedInput, part1, part2, params });
+    const parsedInput = input !== undefined ? this.parseInput([input].flat()) : this.readFile(filename);
+    this.examples.push({ ix: this.examples.length + 1, input: this.postParse(parsedInput), part1, part2, params });
   }
 
   readFile(filename) {
@@ -75,8 +81,23 @@ export class QuestionBase {
     return this.input.length;
   }
 
+  get wip() {
+    if (this._wip) return true;
+    if (this.expectedResult(1) === undefined || this.expectedResult(2) === undefined) return true;
+    return false;
+  }
+
+  set wip(value) {
+    this._wip = value;
+  }
+
+  reset() {
+    // no-op
+  }
+
   async run(part, ...params) {
     const result = await (part === 1 ? this.part1(this.input, ...params) : this.part2(this.input, ...params));
+    this.reset(this.input, ...params);
     return result;
   }
 }

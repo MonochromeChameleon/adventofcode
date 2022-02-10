@@ -21,15 +21,13 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
         .filter(({ skip }) => !skip)
         .map((Question) => new Question())
         .filter((q) => {
-          if (wip) {
-            return q.expectedResult(1) === undefined || q.expectedResult(2) === undefined;
-          }
+          if (wip) return q.wip;
           return q.expectedResult(1) !== undefined || q.expectedResult(2) !== undefined || !!q.examples.length;
         });
       if (!qs.length) return;
 
       (wip ? [qs[0]] : qs).forEach((q) => {
-        const examples = q.examples.map(({ ix, input, part1, part2, params }) => {
+        const exes = q.examples.map(({ ix, input, part1, part2, params }) => {
           const qq = new q.constructor();
           qq.answers = { part1, part2 };
           qq._input = input;
@@ -41,7 +39,7 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
             .map((part) => ({
               part,
               expected: q.expectedResult(part),
-              examples: examples.filter(({ [`part${part}`]: ans }) => ans !== undefined),
+              examples: exes.filter(({ [`part${part}`]: ans }) => ans !== undefined),
             }))
             .filter(({ part, expected, examples }) => {
               if (wip && part === 2 && q.expectedResult(1) !== undefined) return true;
@@ -52,13 +50,12 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
               describe(`Part ${part}`, () => {
                 const partid = `part${part}`;
 
-                examples
-                  .forEach(({ ix, qq, [partid]: ans, params }) => {
-                    it(`Example ${ix} should be ${ans}`, async () => {
-                      const result = await qq.run(part, ...params);
-                      expect(result).to.equal(ans);
-                    }).timeout(40000);
-                  });
+                examples.forEach(({ ix, qq, [partid]: ans, params }) => {
+                  it(`Example ${ix} should be ${ans}`, async () => {
+                    const result = await qq.run(part, ...params);
+                    expect(result).to.equal(ans);
+                  }).timeout(40000);
+                });
 
                 if ((wip || expected !== undefined) && expected !== null) {
                   it(`Result should be ${expected}`, async () => {

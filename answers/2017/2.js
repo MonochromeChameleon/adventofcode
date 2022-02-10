@@ -17,10 +17,13 @@ export class Question extends QuestionBase {
   }
 
   getMinMax(row) {
-    return row.reduce(({ max, min }, c) => ({
-      max: Math.max(max, c),
-      min: Math.min(min, c)
-    }), { max: 0, min: Infinity });
+    return row.reduce(
+      ({ max, min }, c) => ({
+        max: Math.max(max, c),
+        min: Math.min(min, c),
+      }),
+      { max: 0, min: Infinity }
+    );
   }
 
   getWholeDivider(row) {

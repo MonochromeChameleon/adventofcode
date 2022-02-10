@@ -14,8 +14,10 @@ export class PropertyListParser extends Parser {
   }
 
   parseLine(line) {
-    const [key, value] = line.split(this.split).map((it) => it.trim());
-    return [this.parseKey(key), this.parseValue(value)];
+    const [k, v] = line.split(this.split).map((it) => it.trim());
+    const key = this.parseKey(k);
+    const value = this.parseValue(v, key);
+    return [key, value];
   }
 
   parseInput(lines) {

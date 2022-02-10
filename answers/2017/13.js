@@ -1,19 +1,33 @@
-import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { QuestionBase } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
-    super(2017, 13);
+    super(2017, 13, 1632, 3834136);
+
+    this.exampleInput({ filename: '13a', part1: 24, part2: 10 });
   }
 
-  get parser() {
-    return Parsers.ONE_NUMBER_PER_LINE;
+  parseLine(line) {
+    const [depth, range] = line.split(':').map(Number);
+    const repeat = 2 * (range - 1);
+    return { depth, range, severity: range * depth, repeat, offset: depth % repeat };
+  }
+
+  isCaught(input, time) {
+    return input.some(({ repeat, offset }) => (repeat - (offset + time)) % repeat === 0);
   }
 
   part1(input) {
-    return input.length;
+    return input.reduce((total, { depth, severity, repeat }) => {
+      if (depth % repeat) return total;
+
+      return total + severity;
+    }, 0);
   }
 
   part2(input) {
-    return input.reduce((a, b) => a + b, 0);
+    let i = 0;
+    while (this.isCaught(input, i)) i += 1;
+    return i;
   }
 }
