@@ -8,72 +8,68 @@ export class Question extends QuestionBase {
   }
 
   get parser() {
-    return Parsers.SINGLE_LINE_SPLIT_MAP;
+    return Parsers.DAISY_CHAIN;
+  }
+
+  get parsers() {
+    return {
+      split: Parsers.SINGLE_LINE_SPLIT,
+      instructions: Parsers.INSTRUCTIONS,
+    };
   }
 
   get split() {
     return ',';
   }
 
-  parseValue(value) {
-    const type = value[0];
-    switch (type) {
-      case 's': {
-        const amount = Number(value.slice(1));
-        return { type: 'spin', amount };
-      }
-      case 'x': {
-        const [first, second] = value
-          .slice(1)
-          .split('/')
-          .map(Number)
-          .sort((a, b) => a - b);
-        return { type: 'exchange', first, second };
-      }
-      case 'p': {
-        const [first, second] = value.slice(1).split('/');
-        return { type: 'partner', first, second };
-      }
+  parseInstruction(instruction) {
+    switch (instruction[0]) {
+      case 's':
+        return 'spin';
+      case 'x':
+        return 'exchange';
+      case 'p':
+        return 'partner';
     }
   }
 
-  spin({ amount }) {
-    return this.slice(-amount).concat(this.slice(0, -amount));
+  parseParams(instruction) {
+    return instruction.slice(1).split('/').map((it) => Number.isNaN(Number(it)) ? it : Number(it)).sort((a, b) => a - b);
   }
 
-  exchange({ first, second }) {
-    return this.slice(0, first)
-      .concat(this[second])
-      .concat(this.slice(first + 1, second))
-      .concat(this[first])
-      .concat(this.slice(second + 1));
+  spin(amount) {
+    this.state = this.state.slice(-amount).concat(this.state.slice(0, -amount));
   }
 
-  partner({ first, second }) {
-    const [f, s] = [this.indexOf(first), this.indexOf(second)].sort((a, b) => a - b);
-    return this.slice(0, f)
-      .concat(this[s])
-      .concat(this.slice(f + 1, s))
-      .concat(this[f])
-      .concat(this.slice(s + 1));
+  exchange(first, second) {
+    this.state = this.state.slice(0, first)
+      .concat(this.state[second])
+      .concat(this.state.slice(first + 1, second))
+      .concat(this.state[first])
+      .concat(this.state.slice(second + 1));
   }
 
-  dance(steps, start) {
-    return steps.reduce((state, { type, ...params }) => this[type].call(state, params), start);
+  partner(first, second) {
+    const [f, s] = [this.state.indexOf(first), this.state.indexOf(second)].sort((a, b) => a - b);
+    this.state = this.state.slice(0, f)
+      .concat(this.state[s])
+      .concat(this.state.slice(f + 1, s))
+      .concat(this.state[f])
+      .concat(this.state.slice(s + 1));
   }
 
   part1(steps, length = 16) {
-    const start = Array.from({ length }, (_, i) => String.fromCharCode(i + 97));
-    return this.dance(steps, start).join('');
+    const state = Array.from({ length }, (_, i) => String.fromCharCode(i + 97));
+    const { state: final } = this.execute(steps, { state }, {}, length);
+    return final.join('');
   }
 
   part2(steps, length = 16, repeats = 1_000_000_000) {
-    const start = Array.from({ length }, (_, i) => String.fromCharCode(i + 97));
     const seen = [];
-    let out = start;
+    let out = Array.from({ length }, (_, i) => String.fromCharCode(i + 97));
     while (out.join('') !== seen[0] && seen.length < repeats) {
       seen.push(out.join(''));
-      out = this.dance(steps, out);
+      out = this.execute(steps, { state: out }).state;
     }
     if (seen.length === repeats) {
       return out.join('');

@@ -4,11 +4,6 @@ import * as Parsers from '../parsers/parsers.js';
 
 export * as Parsers from '../parsers/parsers.js';
 
-function getAllMethodNames(obj) {
-  if (obj === null) return [];
-  return new Set([...Reflect.ownKeys(obj), ...getAllMethodNames(Reflect.getPrototypeOf(obj))]);
-}
-
 export class QuestionBase {
   constructor(year, day, part1, part2) {
     this.year = year;
@@ -20,16 +15,7 @@ export class QuestionBase {
 
     this.examples = [];
 
-    const parserProps = getAllMethodNames(this.parser);
-    const ownProps = getAllMethodNames(this);
-
-    [...parserProps]
-      .filter((prop) => !ownProps.has(prop))
-      .forEach((prop) => {
-        const p = this.parser[prop];
-        this[prop] = typeof p === 'function' ? p.bind(this) : p;
-      });
-
+    this.parser.mixin(this);
     this._wip = false;
   }
 
@@ -71,6 +57,10 @@ export class QuestionBase {
 
   get parser() {
     return Parsers.PARSER;
+  }
+
+  get parsers() {
+    return [this.parser];
   }
 
   async part1() {

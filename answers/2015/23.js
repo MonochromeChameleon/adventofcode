@@ -1,43 +1,32 @@
-import { QuestionBase } from '../../utils/question-base.js';
+import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 export class Question extends QuestionBase {
   constructor() {
     super(2015, 23, 307, 160);
   }
 
-  parseLine(line) {
-    const [command, arg1, arg2] = line.replace(',', '').split(' ');
-    const register = command !== 'jmp' ? arg1 : undefined;
-    const offset = Number(command !== 'jmp' ? arg2 : arg1) || undefined;
-
-    return { command, register, offset };
+  get parser() {
+    return Parsers.INSTRUCTIONS;
   }
 
-  execute(instructions, { a = 0, b = 0, pointer = 0 } = {}) {
-    const state = { a, b, pointer };
-    while (instructions[state.pointer]) {
-      const { command, register, offset } = instructions[state.pointer];
-      this[command].call(state, register, offset);
-    }
-    return state;
+  parseParams(line) {
+    const [, ...params] = line.replace(',', '').split(' ');
+    return params.map((p) => Number.isNaN(Number(p)) ? p : Number(p));
   }
 
   hlf(register) {
     this[register] = Math.floor(this[register] / 2);
-    this.pointer += 1;
   }
 
   tpl(register) {
     this[register] *= 3;
-    this.pointer += 1;
   }
 
   inc(register) {
     this[register] += 1;
-    this.pointer += 1;
   }
 
-  jmp(register, offset) {
+  jmp(offset) {
     this.pointer += offset;
   }
 
@@ -51,11 +40,21 @@ export class Question extends QuestionBase {
     this.pointer += delta;
   }
 
+  autoIncrementPointer(instruction) {
+    return ['hlf', 'tpl', 'inc'].includes(instruction);
+  }
+
+  defaultParams({ a = 0, b = 0, c = 0, d = 0 } = {}) {
+    return { a, b, c, d };
+  }
+
   part1(instructions) {
-    return this.execute(instructions).b;
+    const { b } = this.execute(instructions);
+    return b;
   }
 
   part2(instructions) {
-    return this.execute(instructions, { a: 1 }).b;
+    const { b } = this.execute(instructions, { a: 1 });
+    return b;
   }
 }

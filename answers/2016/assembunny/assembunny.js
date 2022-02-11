@@ -1,59 +1,35 @@
-import { QuestionBase } from '../../../utils/question-base.js';
+import { QuestionBase, Parsers } from '../../../utils/question-base.js';
 
 export class Assembunny extends QuestionBase {
-  parseLine(line) {
-    const [instruction, ...args] = line.split(' ');
-    const params = args.map((a) => (Number.isNaN(Number(a)) ? a : Number(a)));
-    return { instruction, params };
+  parseParams(line) {
+    const [, ...args] = line.split(' ');
+    return args.map((a) => (Number.isNaN(Number(a)) ? a : Number(a)));
   }
 
-  execute(
-    instructions,
-    { a = 0, b = 0, c = 0, d = 0 } = {},
-    { optimize = false, limit = Infinity, breakFn = () => false } = {}
-  ) {
-    const state = {
-      a,
-      b,
-      c,
-      d,
-      pointer: 0,
-      instructions: JSON.parse(JSON.stringify(instructions)),
-      get instruction() {
-        return this.instructions[this.pointer];
-      },
-      output: [],
-    };
+  get parser() {
+    return Parsers.INSTRUCTIONS;
+  }
 
-    let count = 0;
+  autoIncrementPointer(instruction) {
+    return instruction !== 'jnz';
+  }
 
-    while (state.instruction && count < limit && !breakFn(state)) {
-      if (optimize && this.canOptimize.call(state)) {
-        this.optimize.call(state);
-      } else {
-        const { instruction, params } = state.instruction;
-        this[instruction].call(state, ...params);
-      }
-      count += 1;
-    }
-    return state;
+  defaultParams({ a = 0, b = 0, c = 0, d = 0 } = {}) {
+    return { a, b, c, d };
   }
 
   cpy(from, to) {
     if (!Number.isInteger(to)) {
       this[to] = Number.isInteger(from) ? from : this[from];
     }
-    this.pointer += 1;
   }
 
   inc(reg) {
     this[reg] += 1;
-    this.pointer += 1;
   }
 
   dec(reg) {
     this[reg] -= 1;
-    this.pointer += 1;
   }
 
   jnz(reg, step) {
@@ -78,11 +54,9 @@ export class Assembunny extends QuestionBase {
       }
     };
     if (instruction) instruction.instruction = findNewType(instruction.instruction);
-    this.pointer += 1;
   }
 
   out(signal) {
     this.output.push(this[signal]);
-    this.pointer += 1;
   }
 }
