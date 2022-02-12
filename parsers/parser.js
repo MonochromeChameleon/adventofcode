@@ -8,6 +8,10 @@ export class Parser {
     return '';
   }
 
+  parseValue(value) {
+    return value;
+  }
+
   parseLine(line) {
     return line;
   }

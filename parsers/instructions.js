@@ -6,6 +6,11 @@ export class InstructionsParser extends Parser {
     return line.split(' ')[0];
   }
 
+  parseParams(line) {
+    const [, ...params] = line.split(' ');
+    return params.map((p) => Number.isNaN(Number(p)) ? p : Number(p));
+  }
+
   parseLine(line) {
     const instruction = this.parseInstruction(line);
     const params = this.parseParams(line);
@@ -27,18 +32,27 @@ export class InstructionsParser extends Parser {
   execute(
     instructions,
     startCondition = { },
-    { optimize = false, limit = Infinity, breakFn = () => false } = {},
+    { optimize = false, limit = Infinity, breakFn = () => false, defaultValue = 0, ...extraCommands } = {},
     ...params
   ) {
     const baseState = this.defaultParams(startCondition, ...params);
     const state = {
-      ...baseState,
-      pointer: 0,
       instructions: JSON.parse(JSON.stringify(instructions)),
+      pointer: 0,
+      output: [],
+      ...baseState,
       get instruction() {
         return this.instructions[this.pointer];
       },
-      output: []
+      getValue(param) {
+        if (param in this) {
+          return this[param];
+        }
+        if (Number.isInteger(param)) {
+          return param;
+        }
+        return defaultValue;
+      },
     };
 
     let count = 0;
@@ -48,7 +62,7 @@ export class InstructionsParser extends Parser {
         this.optimize.call(state);
       } else {
         const { instruction, params } = state.instruction;
-        this[instruction].call(state, ...params);
+        (extraCommands[instruction] || this[instruction]).call(state, ...params);
         if (this.autoIncrementPointer(instruction)) {
           state.pointer += 1;
         }
