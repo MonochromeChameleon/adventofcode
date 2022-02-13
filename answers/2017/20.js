@@ -1,4 +1,4 @@
-import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { QuestionBase } from '../../utils/question-base.js';
 
 class Vector {
   constructor([x, y, z]) {
@@ -8,11 +8,7 @@ class Vector {
   }
 
   add(other) {
-    return new Vector([
-      this.x + other.x,
-      this.y + other.y,
-      this.z + other.z
-    ]);
+    return new Vector([this.x + other.x, this.y + other.y, this.z + other.z]);
   }
 
   equals(other) {
@@ -61,7 +57,7 @@ Particle.fromString = (line, ix) => {
     id: ix,
     position: Vector.fromString(p),
     velocity: Vector.fromString(v),
-    acceleration: Vector.fromString(a)
+    acceleration: Vector.fromString(a),
   });
 };
 
@@ -71,7 +67,7 @@ export class Question extends QuestionBase {
 
     this.exampleInput({
       input: ['p=< 3,0,0>, v=< 2,0,0>, a=<-1,0,0>', 'p=< 4,0,0>, v=< 0,0,0>, a=<-2,0,0>'],
-      part1: 0
+      part1: 0,
     });
   }
 
@@ -84,7 +80,7 @@ export class Question extends QuestionBase {
       const { acceleration: aa, velocity: av, position: ap } = a;
       const { acceleration: ba, velocity: bv, position: bp } = b;
 
-      return (aa.manhattan - ba.manhattan) || (av.manhattan - bv.manhattan) || (ap.manhattan - bp.manhattan);
+      return aa.manhattan - ba.manhattan || av.manhattan - bv.manhattan || ap.manhattan - bp.manhattan;
     });
 
     const [{ id }] = sorted;
@@ -96,7 +92,9 @@ export class Question extends QuestionBase {
     for (let i = 0; i < 1_000_000; i += 1) {
       const notDestroyed = input.filter(({ destroyed }) => !destroyed);
       notDestroyed.forEach((it) => it.step());
-      notDestroyed.forEach((it) => it.destroyed = notDestroyed.some((other) => other.id !== it.id && it.collidesWith(other)));
+      notDestroyed.forEach((it) => {
+        it.destroyed = notDestroyed.some((other) => other.id !== it.id && it.collidesWith(other));
+      });
       // This doesn't feel like a definitive terminating condition, but it works
       if (notDestroyed.length === remaining && remaining < 1000) return remaining;
       remaining = notDestroyed.length;

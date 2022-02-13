@@ -24,7 +24,7 @@ export class Parser {
     const parserProps = getAllMethodNames(this);
     const tgtProps = getAllMethodNames(tgt);
 
-    const propsToAdd = [...parserProps].filter(prop => !tgtProps.has(prop) && prop !== 'mixin');
+    const propsToAdd = [...parserProps].filter((prop) => !tgtProps.has(prop) && prop !== 'mixin');
 
     propsToAdd.forEach((prop) => {
       const p = this[prop];
@@ -37,7 +37,7 @@ export class Parser {
       });
       delete tgt.mixout;
       return tgt;
-    }
+    };
 
     return tgt;
   }

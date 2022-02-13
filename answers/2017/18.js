@@ -45,7 +45,7 @@ export class Question extends QuestionBase {
   }
 
   part1(instructions) {
-    const breakFn = ({  recovered }) => recovered;
+    const breakFn = ({ recovered }) => recovered;
     const { recovered } = this.execute(instructions, {}, { breakFn });
     return recovered;
   }
@@ -61,15 +61,15 @@ export class Question extends QuestionBase {
         stack: [],
         waiting: false,
         pointer: 0,
-      }
-    }
-
-    const snd = function(tgt) {
-      interProcessComms[this.other].stack.push(this.getValue(tgt));
-      interProcessComms[this.other].waiting = false;
+      },
     };
 
-    const rcv = function(tgt) {
+    function snd(tgt) {
+      interProcessComms[this.other].stack.push(this.getValue(tgt));
+      interProcessComms[this.other].waiting = false;
+    }
+
+    function rcv(tgt) {
       const { stack, pointer } = interProcessComms[this.id];
       if (stack[pointer]) {
         this[tgt] = stack[pointer];
@@ -78,12 +78,12 @@ export class Question extends QuestionBase {
         interProcessComms[this.id].waiting = true;
         this.pointer -= 1;
       }
-    };
+    }
 
     const breakFn = ({ id }) => {
       const { stack, waiting, pointer } = interProcessComms[id];
       return waiting && !stack[pointer];
-    }
+    };
 
     let s0 = { p: 0, id: 'p0', other: 'p1' };
     let s1 = { p: 1, id: 'p1', other: 'p0' };

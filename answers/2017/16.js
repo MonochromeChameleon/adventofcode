@@ -34,7 +34,11 @@ export class Question extends QuestionBase {
   }
 
   parseParams(instruction) {
-    return instruction.slice(1).split('/').map((it) => Number.isNaN(Number(it)) ? it : Number(it)).sort((a, b) => a - b);
+    return instruction
+      .slice(1)
+      .split('/')
+      .map((it) => (Number.isNaN(Number(it)) ? it : Number(it)))
+      .sort((a, b) => a - b);
   }
 
   spin(amount) {
@@ -42,7 +46,8 @@ export class Question extends QuestionBase {
   }
 
   exchange(first, second) {
-    this.state = this.state.slice(0, first)
+    this.state = this.state
+      .slice(0, first)
       .concat(this.state[second])
       .concat(this.state.slice(first + 1, second))
       .concat(this.state[first])
@@ -51,7 +56,8 @@ export class Question extends QuestionBase {
 
   partner(first, second) {
     const [f, s] = [this.state.indexOf(first), this.state.indexOf(second)].sort((a, b) => a - b);
-    this.state = this.state.slice(0, f)
+    this.state = this.state
+      .slice(0, f)
       .concat(this.state[s])
       .concat(this.state.slice(f + 1, s))
       .concat(this.state[f])

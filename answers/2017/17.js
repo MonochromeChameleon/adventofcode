@@ -12,11 +12,14 @@ export class Question extends QuestionBase {
   }
 
   stuff(stepSize, limit) {
-    const { arr: final } = Array.from({ length: limit }).reduce(({ position, arr }, _, i) => {
-      const newPosition = (position + stepSize) % (i + 1);
-      arr.splice(newPosition + 1, 0, i + 1);
-      return { position: newPosition + 1, arr };
-    }, { position: 0, arr: [0] });
+    const { arr: final } = Array.from({ length: limit }).reduce(
+      ({ position, arr }, _, i) => {
+        const newPosition = (position + stepSize) % (i + 1);
+        arr.splice(newPosition + 1, 0, i + 1);
+        return { position: newPosition + 1, arr };
+      },
+      { position: 0, arr: [0] }
+    );
 
     return final;
   }
@@ -28,10 +31,13 @@ export class Question extends QuestionBase {
   }
 
   part2(stepSize) {
-    const { latest: final } = Array.from({ length: 50000000 }).reduce(({ position, latest }, _, i) => {
-      const newPosition = (position + stepSize) % (i + 1);
-      return { position: newPosition + 1, latest: newPosition ? latest : i + 1 };
-    }, { position: 0, latest: 0 });
+    const { latest: final } = Array.from({ length: 50000000 }).reduce(
+      ({ position, latest }, _, i) => {
+        const newPosition = (position + stepSize) % (i + 1);
+        return { position: newPosition + 1, latest: newPosition ? latest : i + 1 };
+      },
+      { position: 0, latest: 0 }
+    );
 
     return final;
   }

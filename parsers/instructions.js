@@ -1,14 +1,13 @@
 import { Parser } from './parser.js';
 
 export class InstructionsParser extends Parser {
-
   parseInstruction(line) {
     return line.split(' ')[0];
   }
 
   parseParams(line) {
     const [, ...params] = line.split(' ');
-    return params.map((p) => Number.isNaN(Number(p)) ? p : Number(p));
+    return params.map((p) => (Number.isNaN(Number(p)) ? p : Number(p)));
   }
 
   parseLine(line) {
@@ -31,11 +30,11 @@ export class InstructionsParser extends Parser {
 
   execute(
     instructions,
-    startCondition = { },
+    startCondition = {},
     { optimize = false, limit = Infinity, breakFn = () => false, defaultValue = 0, ...extraCommands } = {},
-    ...params
+    ...args
   ) {
-    const baseState = this.defaultParams(startCondition, ...params);
+    const baseState = this.defaultParams(startCondition, ...args);
     const state = {
       instructions: JSON.parse(JSON.stringify(instructions)),
       pointer: 0,

@@ -11,25 +11,32 @@ export class Question extends QuestionBase {
     return Parsers.GRID;
   }
 
+  findDir(grid, next, dir, adjacencyMap) {
+    if (grid[next] !== '+') return dir;
+    if (grid[next + dir] && grid[next + dir] !== ' ') return dir;
+
+    const prev = next - dir;
+    const newNext = adjacencyMap[next].find((it) => it !== prev && grid[it] !== ' ');
+    return newNext - next;
+  }
+
+  findNext(next, dir, adjacencyMap) {
+    return adjacencyMap[next].find((it) => it === next + dir);
+  }
+
   runGrid({ grid, width, adjacencyMap }) {
     const start = grid.findIndex((it) => it === '|');
     let dir = width;
     let next = start + dir;
     const out = [];
     let steps = 1;
-    while (next && next > 0 && next < grid.length) {
+    while (next && next > 0 && next < grid.length && grid[next] !== ' ') {
       const c = grid[next];
+      if (!['|', '-', '+', ' '].includes(c)) out.push(c);
       steps += 1;
 
-      if (!['|', '-', '+', ' '].includes(c)) {
-        out.push(c);
-      }
-
-      if (c === '+' && (grid[next + dir] === ' ' || !grid[next + dir])) {
-        const newNext = adjacencyMap[next].find((it) => it !== next - dir && grid[it] !== ' ');
-        dir = newNext - next;
-      }
-      next = adjacencyMap[next].find((it) => it === next + dir && grid[it] !== ' ');
+      dir = this.findDir(grid, next, dir, adjacencyMap);
+      next = this.findNext(next, dir, adjacencyMap);
     }
 
     return { out: out.join(''), steps };
@@ -47,8 +54,8 @@ export class Question extends QuestionBase {
     return out;
   }
 
-  part2(input) {
+  part2() {
     const { steps } = this.result;
     return steps;
-   }
+  }
 }

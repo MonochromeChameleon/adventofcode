@@ -11,7 +11,7 @@ export class Question extends QuestionBase {
 
   parseParams(line) {
     const [, ...params] = line.replace(',', '').split(' ');
-    return params.map((p) => Number.isNaN(Number(p)) ? p : Number(p));
+    return params.map((p) => (Number.isNaN(Number(p)) ? p : Number(p)));
   }
 
   hlf(register) {
