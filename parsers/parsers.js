@@ -1,5 +1,6 @@
 import { DaisyChainParser } from './daisy-chain.js';
 import { GridParser } from './grid.js';
+import { FlatMapParser } from './flat-map.js';
 import { FlatMapDelimitedNumbersParser } from './flat-map-delimited-numbers.js';
 import { InstructionsParser } from './instructions.js';
 import { MazeParser } from './maze.js';
@@ -24,6 +25,7 @@ import { SingleStringParser } from './single-string.js';
 export const DAISY_CHAIN = new DaisyChainParser();
 export const GRID = new GridParser();
 export const FLAT_MAP_LINE_DELIMITED_NUMBERS = new FlatMapDelimitedNumbersParser();
+export const FLAT_MAP = new FlatMapParser();
 export const INSTRUCTIONS = new InstructionsParser();
 export const MAZE = new MazeParser();
 export const MULTI_LINE_DELIMITED_NUMBERS = new MultiLineDelimitedNumbersParser();

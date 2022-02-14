@@ -16,10 +16,6 @@ export class InstructionsParser extends Parser {
     return { instruction, params };
   }
 
-  canOptimize() {
-    return false;
-  }
-
   autoIncrementPointer() {
     return true;
   }
@@ -57,7 +53,7 @@ export class InstructionsParser extends Parser {
     let count = 0;
 
     while (state.instruction && !breakFn(state) && count < limit) {
-      if (optimize && this.canOptimize.call(state)) {
+      if (optimize && this.canOptimize.call(state, state)) {
         this.optimize.call(state);
       } else {
         const { instruction, params } = state.instruction;
