@@ -1,6 +1,9 @@
 import { resolve } from 'path';
 import { existsSync, readFileSync } from 'fs';
 import * as Parsers from '../parsers/parsers.js';
+import { alphabet } from './alphabet.js';
+
+const ALPHABET = alphabet();
 
 export * as Parsers from '../parsers/parsers.js';
 
@@ -38,8 +41,24 @@ export class QuestionBase {
   }
 
   exampleInput({ filename, input, part1, part2 }, ...params) {
-    const parsedInput = input !== undefined ? this.parseInput([input].flat()) : this.readFile(filename);
-    this.examples.push({ ix: this.examples.length + 1, input: this.postParse(parsedInput), part1, part2, params });
+    const getFilename = () => {
+      if (filename) return filename;
+      const filenames = this.examples
+        .map(({ filename: fn }) => fn)
+        .filter(Boolean)
+        .filter((f) => f.startsWith(this.day))
+        .filter((f, ix) => f === `${this.day}${ALPHABET[ix]}`);
+      return `${this.day}${ALPHABET[filenames.length]}`;
+    };
+    const parsedInput = input !== undefined ? this.parseInput([input].flat()) : this.readFile(getFilename());
+    this.examples.push({
+      ix: this.examples.length + 1,
+      input: this.postParse(parsedInput),
+      filename: input ? undefined : getFilename(),
+      part1,
+      part2,
+      params,
+    });
   }
 
   readFile(filename) {

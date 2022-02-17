@@ -4,7 +4,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2017, 12, 175, 213);
 
-    this.exampleInput({ filename: '12a', part1: 6, part2: 2 });
+    this.exampleInput({ part1: 6, part2: 2 });
   }
 
   parseLine(line) {

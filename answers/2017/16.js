@@ -1,4 +1,5 @@
 import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { alphabet } from '../../utils/alphabet.js';
 
 export class Question extends QuestionBase {
   constructor() {
@@ -65,14 +66,14 @@ export class Question extends QuestionBase {
   }
 
   part1(steps, length = 16) {
-    const state = Array.from({ length }, (_, i) => String.fromCharCode(i + 97));
+    const state = alphabet(length);
     const { state: final } = this.execute(steps, { state }, {}, length);
     return final.join('');
   }
 
   part2(steps, length = 16, repeats = 1_000_000_000) {
     const seen = [];
-    let out = Array.from({ length }, (_, i) => String.fromCharCode(i + 97));
+    let out = alphabet(length);
     while (out.join('') !== seen[0] && seen.length < repeats) {
       seen.push(out.join(''));
       out = this.execute(steps, { state: out }).state;

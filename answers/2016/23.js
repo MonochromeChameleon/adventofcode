@@ -4,7 +4,7 @@ export class Question extends Assembunny {
   constructor() {
     super(2016, 23, 11760, 479008320);
 
-    this.exampleInput({ filename: '23a', part1: 3 });
+    this.exampleInput({ part1: 3 });
   }
 
   canOptimize() {

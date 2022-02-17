@@ -43,7 +43,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2015, 15, 13882464, 11171160);
 
-    this.exampleInput({ filename: '15a', part1: 62842880, part2: 57600000 });
+    this.exampleInput({ part1: 62842880, part2: 57600000 });
   }
 
   get parser() {

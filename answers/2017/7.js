@@ -13,7 +13,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2017, 7, 'airlri', 1206);
 
-    this.exampleInput({ filename: '7a', part1: 'tknk', part2: 60 });
+    this.exampleInput({ part1: 'tknk', part2: 60 });
   }
 
   get parser() {

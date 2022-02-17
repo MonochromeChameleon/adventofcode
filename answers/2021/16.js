@@ -4,7 +4,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2021, 16, 913, 1510977819698);
 
-    this.exampleInput({ filename: 'testinputs/16', part1: 31, part2: 54 });
+    this.exampleInput({ input: 'A0016C880162017C3686B18A3D4780', part1: 31, part2: 54 });
   }
 
   getValue(type, packets) {

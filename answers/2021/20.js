@@ -19,7 +19,7 @@ export class Question extends QuestionBase {
   constructor() {
     super(2021, 20, 5291, 16665);
 
-    this.exampleInput({ filename: 'testinputs/20', part1: 35, part2: 3351 });
+    this.exampleInput({ part1: 35, part2: 3351 });
   }
 
   parseLine(line) {
