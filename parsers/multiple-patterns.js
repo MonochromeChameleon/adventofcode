@@ -3,16 +3,20 @@ import { Parser } from './parser.js';
 export class MultiplePatternsParser extends Parser {
   parseInput(lines) {
     const lineGroups = lines.reduce((groups, line) => {
-      const g = this.parserGroup(line);
+      const g = this.m.parserGroup.call(this, line);
       const { [g]: group = [] } = groups;
       return { ...groups, [g]: [...group, line] };
     }, {});
 
-    return Object.fromEntries(
+    const input = Object.fromEntries(
       Object.entries(lineGroups).map(([group, ls]) => {
-        const parser = this.parsers[group];
-        return [group, parser.parseInput.call(this, ls)];
+        const parser = this.m.parsers[group];
+        this.mixout();
+        parser.mixin(this);
+        return [group, this.m.parseInput.call(this, ls)];
       })
     );
+    this.parseInput = new MultiplePatternsParser().parseInput;
+    return input;
   }
 }

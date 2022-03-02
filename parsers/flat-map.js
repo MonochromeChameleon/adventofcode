@@ -3,12 +3,12 @@ import { Parser } from './parser.js';
 export class FlatMapParser extends Parser {
   parseLine(line) {
     return line
-      .split(this.split)
+      .split(this.m.split)
       .filter((it) => it)
-      .map(this.parseValue.bind(this));
+      .map(this.m.parseValue.bind(this));
   }
 
   parseInput(lines) {
-    return lines.flatMap(this.parseLine.bind(this));
+    return lines.flatMap(this.m.parseLine.bind(this));
   }
 }

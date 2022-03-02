@@ -14,13 +14,13 @@ export class PropertyListParser extends Parser {
   }
 
   parseLine(line) {
-    const [k, v] = line.split(this.split).map((it) => it.trim());
-    const key = this.parseKey(k);
-    const value = this.parseValue(v, key);
+    const [k, v] = line.split(this.m.split).map((it) => it.trim());
+    const key = this.m.parseKey.call(this, k);
+    const value = this.m.parseValue.call(this, v, key);
     return [key, value];
   }
 
   parseInput(lines) {
-    return Object.fromEntries(lines.map(this.parseLine.bind(this)));
+    return Object.fromEntries(lines.map(this.m.parseLine.bind(this)));
   }
 }

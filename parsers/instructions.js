@@ -11,8 +11,8 @@ export class InstructionsParser extends Parser {
   }
 
   parseLine(line) {
-    const instruction = this.parseInstruction(line);
-    const params = this.parseParams(line);
+    const instruction = this.m.parseInstruction.call(this, line);
+    const params = this.m.parseParams.call(this, line);
     return { instruction, params };
   }
 
@@ -30,7 +30,7 @@ export class InstructionsParser extends Parser {
     { optimize = false, limit = Infinity, breakFn = () => false, defaultValue = 0, ...extraCommands } = {},
     ...args
   ) {
-    const baseState = this.defaultParams(startCondition, ...args);
+    const baseState = this.m.defaultParams.call(this, startCondition, ...args);
     const state = {
       instructions: JSON.parse(JSON.stringify(instructions)),
       pointer: 0,
@@ -53,12 +53,12 @@ export class InstructionsParser extends Parser {
     let count = 0;
 
     while (state.instruction && !breakFn(state) && count < limit) {
-      if (optimize && this.canOptimize.call(state, state)) {
+      if (optimize && this.m.canOptimize.call(state, state)) {
         this.optimize.call(state);
       } else {
         const { instruction, params } = state.instruction;
         (extraCommands[instruction] || this[instruction]).call(state, ...params);
-        if (this.autoIncrementPointer(instruction)) {
+        if (this.m.autoIncrementPointer.call(this, instruction)) {
           state.pointer += 1;
         }
       }

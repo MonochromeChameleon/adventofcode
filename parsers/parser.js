@@ -4,6 +4,18 @@ function getAllMethodNames(obj) {
 }
 
 export class Parser {
+  constructor(propertyMap = {}) {
+    this.propertyMap = propertyMap;
+  }
+
+  mappedPropertyName(name) {
+    return this.propertyMap[name] || name;
+  }
+
+  mappedProperty(name) {
+    return this[this.mappedPropertyName(name)];
+  }
+
   get split() {
     return '';
   }
@@ -17,23 +29,31 @@ export class Parser {
   }
 
   parseInput(lines) {
-    return lines.map(this.parseLine.bind(this)).filter((it) => it !== undefined);
+    return lines.map(this.m.parseLine).filter((it) => it !== undefined);
   }
 
   mixin(tgt) {
     const parserProps = getAllMethodNames(this);
     const tgtProps = getAllMethodNames(tgt);
 
-    const propsToAdd = [...parserProps].filter((prop) => !tgtProps.has(prop) && prop !== 'mixin');
+    const propsToAdd = [...parserProps].filter((prop) => (!tgtProps.has(prop) || Object.hasOwnProperty.call(this.propertyMap, prop)) && prop !== 'mixin' && prop !== 'propertyMap');
 
     propsToAdd.forEach((prop) => {
-      const p = this[prop];
-      tgt[prop] = typeof p === 'function' ? p.bind(tgt) : p;
+      const mappedProp = this.mappedPropertyName(prop);
+      const p = mappedProp in this ? this[mappedProp] : this[prop];
+      if (!tgtProps.has(prop)) {
+        tgt[mappedProp] = typeof p === 'function' ? p.bind(tgt) : p;
+      }
     });
+
+    tgt.propertyMap = { ...this.propertyMap, ...tgt.propertyMap };
 
     tgt.mixout = () => {
       propsToAdd.forEach((prop) => {
         delete tgt[prop];
+      });
+      Object.keys(this.propertyMap).forEach((prop) => {
+        delete tgt.propertyMap[prop];
       });
       delete tgt.mixout;
       return tgt;

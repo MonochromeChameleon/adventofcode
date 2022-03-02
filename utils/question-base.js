@@ -17,6 +17,17 @@ export class QuestionBase {
     };
 
     this.examples = [];
+    this.propertyMap = {};
+
+    this.m = new Proxy(this, {
+      get: (target, prop) => {
+        if (prop in target.propertyMap) {
+          return target.m[target.propertyMap[prop]];
+        }
+
+        return target[prop];
+      },
+    });
 
     this.parser.mixin(this);
     this._wip = false;
@@ -50,7 +61,7 @@ export class QuestionBase {
         .filter((f, ix) => f === `${this.day}${ALPHABET[ix]}`);
       return `${this.day}${ALPHABET[filenames.length]}`;
     };
-    const parsedInput = input !== undefined ? this.parseInput([input].flat()) : this.readFile(getFilename());
+    const parsedInput = input !== undefined ? this.m.parseInput.call(this, [input].flat()) : this.readFile(getFilename());
     this.examples.push({
       ix: this.examples.length + 1,
       input: this.postParse(parsedInput),
@@ -64,8 +75,8 @@ export class QuestionBase {
   readFile(filename) {
     const inputFile = resolve(`./inputs/${this.year}/${filename}.txt`);
     const rawData = existsSync(inputFile) ? readFileSync(inputFile, 'utf8') : '';
-    const lines = rawData.split('\n').filter((it) => it);
-    return this.parseInput(lines);
+    this._rawData = rawData.split('\n').filter((it) => it);
+    return this.m.parseInput.call(this, this._rawData);
   }
 
   expectedResult(part) {

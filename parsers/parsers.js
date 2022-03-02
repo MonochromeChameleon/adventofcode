@@ -23,27 +23,41 @@ import { SingleLineStringParser } from './single-line-string.js';
 import { SingleNumberParser } from './single-number.js';
 import { SingleStringParser } from './single-string.js';
 
-export const DAISY_CHAIN = new DaisyChainParser();
-export const GRID = new GridParser();
-export const FLAT_MAP_LINE_DELIMITED_NUMBERS = new FlatMapDelimitedNumbersParser();
-export const FLAT_MAP = new FlatMapParser();
-export const INSTRUCTIONS = new InstructionsParser();
-export const MAZE = new MazeParser();
-export const MULTI_LINE_DELIMITED_NUMBERS = new MultiLineDelimitedNumbersParser();
-export const MULTI_LINE_CONSTRUCTOR = new MultiLineConstructorParser();
-export const MULTI_LINE_SPLIT = new MultiLineSplitParser();
-export const MULTIPLE = new MultiplePatternsParser();
-export const ONE_NUMBER_PER_LINE = new OneNumberPerLineParser();
-export const ONE_STRING_PER_LINE = new OneStringPerLineParser();
-export const PARSER = new Parser();
-export const PROPERTY_LIST = new PropertyListParser();
-export const REDUCE = new ReduceParser();
-export const REGEX = new RegexParser();
-export const SINGLE_LINE_CONSTRUCTOR = new SingleLineConstructorParser();
-export const SINGLE_LINE_DELIMITED_NUMBERS = new SingleLineDelimitedNumbersParser();
-export const SINGLE_LINE = new SingleLineParser();
-export const SINGLE_LINE_SPLIT = new SingleLineSplitParser();
-export const SINGLE_LINE_SPLIT_MAP = new SingleLineSplitMapParser();
-export const SINGLE_LINE_STRING = new SingleLineStringParser();
-export const SINGLE_NUMBER = new SingleNumberParser();
-export const SINGLE_STRING = new SingleStringParser();
+function extend(ParserClass, propertyMap = {}) {
+  return {
+    mixin(target) {
+      return new ParserClass(propertyMap).mixin(target);
+    },
+    withMappedProps (props = {}) {
+      return extend(ParserClass, { ...propertyMap, ...props });
+    },
+    lookup(prop) {
+      return propertyMap[prop] || prop;
+    }
+  }
+}
+
+export const DAISY_CHAIN = extend(DaisyChainParser);
+export const GRID = extend(GridParser);
+export const FLAT_MAP_LINE_DELIMITED_NUMBERS = extend(FlatMapDelimitedNumbersParser);
+export const FLAT_MAP = extend(FlatMapParser);
+export const INSTRUCTIONS = extend(InstructionsParser);
+export const MAZE = extend(MazeParser);
+export const MULTI_LINE_DELIMITED_NUMBERS = extend(MultiLineDelimitedNumbersParser);
+export const MULTI_LINE_CONSTRUCTOR = extend(MultiLineConstructorParser);
+export const MULTI_LINE_SPLIT = extend(MultiLineSplitParser);
+export const MULTIPLE = extend(MultiplePatternsParser);
+export const ONE_NUMBER_PER_LINE = extend(OneNumberPerLineParser);
+export const ONE_STRING_PER_LINE = extend(OneStringPerLineParser);
+export const PARSER = extend(Parser);
+export const PROPERTY_LIST = extend(PropertyListParser);
+export const REDUCE = extend(ReduceParser);
+export const REGEX = extend(RegexParser);
+export const SINGLE_LINE_CONSTRUCTOR = extend(SingleLineConstructorParser);
+export const SINGLE_LINE_DELIMITED_NUMBERS = extend(SingleLineDelimitedNumbersParser);
+export const SINGLE_LINE = extend(SingleLineParser);
+export const SINGLE_LINE_SPLIT = extend(SingleLineSplitParser);
+export const SINGLE_LINE_SPLIT_MAP = extend(SingleLineSplitMapParser);
+export const SINGLE_LINE_STRING = extend(SingleLineStringParser);
+export const SINGLE_NUMBER = extend(SingleNumberParser);
+export const SINGLE_STRING = extend(SingleStringParser);

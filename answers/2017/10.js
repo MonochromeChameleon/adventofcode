@@ -22,7 +22,12 @@ export class Question extends QuestionBase {
   }
 
   part1(rawInput, size = 256) {
-    const lengths = Parsers.SINGLE_LINE_DELIMITED_NUMBERS.parseLine.call(this, rawInput);
+    const lengths = Parsers.SINGLE_LINE_DELIMITED_NUMBERS
+      .withMappedProps({ parseLine: 'splitNumbers' })
+      .mixin(this)
+      .splitNumbers
+      .call(this, rawInput);
+
     const {
       crypt: [a, b],
     } = knotHashRound(

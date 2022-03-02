@@ -26,13 +26,13 @@ class ListNode {
   insertAfter(value) {
     const oldNext = this.next;
     this.next = new ListNode(value, this, oldNext);
-    oldNext.prev = this.next;
+    if (oldNext) oldNext.prev = this.next;
   }
 
   insertBefore(value) {
     const oldPrev = this.prev;
     this.prev = new ListNode(value, oldPrev, this);
-    oldPrev.next = this.prev;
+    if (oldPrev) oldPrev.next = this.prev;
   }
 
   pop() {
