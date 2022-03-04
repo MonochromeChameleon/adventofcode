@@ -13,6 +13,10 @@ class ListNode {
     return this.next ? this.next.length + 1 : 1;
   }
 
+  get values() {
+    return this.next ? [this.value, ...this.next.values] : [this.value];
+  }
+
   find(value) {
     if (this.value === value) {
       return this;
@@ -51,6 +55,7 @@ export class LinkedList {
   constructor(...items) {
     this.head = null;
     this._tail = null;
+    this._length = 0;
 
     this.add(...items);
   }
@@ -72,6 +77,7 @@ export class LinkedList {
     if (this.head === null) {
       this.head = new ListNode(item);
       this._tail = this.head;
+      this._length = 1;
       if (this.circular) {
         this.head.next = this.head;
         this.head.prev = this.head;
@@ -79,6 +85,7 @@ export class LinkedList {
     }
 
     appends.forEach((a) => this.tail.insertAfter(a));
+    this._length += appends.length;
 
     if (this.circular) {
       this.tail.next = this.head;
@@ -91,15 +98,21 @@ export class LinkedList {
   }
 
   pop() {
-    return this.tail.remove();
+    if (this.head === null) return null;
+    this._length -= 1;
+    return this.tail.pop();
   }
 
   shift() {
-    return this.head.remove();
+    if (this.head === null) return null;
+    this._length -= 1;
+    const oldHead = this.head;
+    this.head = this.head.next;
+    return oldHead.pop();
   }
 
   get length() {
-    return this.head.length;
+    return this._length;
   }
 
   get circular() {
@@ -111,6 +124,13 @@ export class LinkedList {
     const str = this.head.toString();
     if (this.circular) this.tail.next = this.head;
     return `[${str}]`;
+  }
+
+  get values() {
+    this.tail.next = null;
+    const values = this.head.values;
+    if (this.circular) this.tail.next = this.head;
+    return values;
   }
 }
 
