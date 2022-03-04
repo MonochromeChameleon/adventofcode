@@ -24,11 +24,11 @@ export class Maze {
     return Math.abs(sx - ex) + Math.abs(sy - ey);
   }
 
-  neighbours(square) {
-    return this.adjacencyMap[square].filter((ix) => this.squares[ix] !== '#');
+  neighbours(square, blockages = []) {
+    return this.adjacencyMap[square].filter((ix) => this.squares[ix] !== '#').filter((ix) => !blockages.includes(ix));
   }
 
-  route(start, end) {
+  route(start, end, blockages = []) {
     const startIndex = Number.isInteger(start) ? start : this.find(start);
     const endIndex = Number.isInteger(end) ? end : this.find(end);
 
@@ -36,7 +36,7 @@ export class Maze {
       start: startIndex,
       goal: endIndex,
       h: (ix) => this.manhattan(ix, endIndex),
-      neighbours: (ix) => this.neighbours(ix),
+      neighbours: (ix) => this.neighbours(ix, blockages),
       searchSpaceSize: this.squares.length,
     });
   }
