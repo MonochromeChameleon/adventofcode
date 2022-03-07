@@ -1,11 +1,11 @@
 import { QuestionBase, Parsers } from '../../utils/question-base.js';
 
 class Orc {
-  constructor(type, ix) {
+  constructor(type, ix, atk = 3) {
     this.type = type;
     this.ix = ix;
     this.hp = 200;
-    this.atk = 3;
+    this.atk = atk;
   }
 
   move(squaresInRange, occupied, maze) {
@@ -54,8 +54,8 @@ class Orc {
 
     if (!targets.length) return false;
 
-    const occupied = orcs.map(({ ix }) => ix).filter((ix) => ix !== this.ix);
-    const squaresInRange = [... new Set(targets.flatMap(({ ix }) => maze.neighbours(ix)).filter((ix) => !occupied.includes(ix)))];
+    const occupied = orcs.filter(({ hp }) => hp > 0).map(({ ix }) => ix).filter((ix) => ix !== this.ix);
+    const squaresInRange = [...new Set(targets.flatMap(({ ix }) => maze.neighbours(ix)).filter((ix) => !occupied.includes(ix)))];
     if (!squaresInRange.includes(this.ix)) {
       this.move(squaresInRange, occupied, maze);
     }
@@ -77,22 +77,23 @@ class Goblin extends Orc {
     super('goblin', ix);
   }
 }
+
 class Elf extends Orc {
-  constructor(ix) {
-    super('elf', ix);
+  constructor(ix, atk = 3) {
+    super('elf', ix, atk);
   }
 }
 
 export class Question extends QuestionBase {
   constructor() {
-    super(2018, 15);
+    super(2018, 15, 228240, 52626);
 
-    this.exampleInput({ part1: 27730 });
+    this.exampleInput({ part1: 27730, part2: 4988 }, 15);
     this.exampleInput({ part1: 36334 });
-    this.exampleInput({ part1: 39514 });
-    this.exampleInput({ part1: 27755 });
-    this.exampleInput({ part1: 28944 });
-    this.exampleInput({ part1: 18740 });
+    this.exampleInput({ part1: 39514, part2: 31284 }, 4);
+    this.exampleInput({ part1: 27755, part2: 3478 }, 15);
+    this.exampleInput({ part1: 28944, part2: 6474 }, 12);
+    this.exampleInput({ part1: 18740, part2: 1140 }, 34);
   }
 
   get parser() {
@@ -111,19 +112,25 @@ export class Question extends QuestionBase {
     return orderedOrcs.every((orc) => orc.hp <= 0 || orc.takeTurn(orcs, maze));
   }
 
-  part1(maze) {
-    // Less than 233415
-    // Less than 233130
-    // Less than 230676
+  debugOutput(orcs, maze, rounds) {
+    console.log(`After round ${rounds}`);
+    console.log(maze.toString());
+    orcs.sort((a, b) => a.ix - b.ix)
+      .filter(({ hp }) => hp > 0)
+      .forEach(({ type, ix, hp }) => {
+        const w = ix % maze.width;
+        const h = ~~(ix / maze.width);
 
-    // 90 * 2533 = 227970
+        console.log(type[0].toUpperCase(), w, h, hp);
+      });
+    console.log('');
+  }
 
-    // NOT 227970
-
+  execute(maze, atk = 3) {
     const goblinsAndElves = maze.squares.reduce((orcs, sq, ix) => {
       if (sq !== 'G' && sq !== 'E') return orcs;
-      const orc = sq === 'G' ? new Goblin(ix) : new Elf(ix);
-      return [...orcs, orc]
+      const orc = sq === 'G' ? new Goblin(ix) : new Elf(ix, atk);
+      return [...orcs, orc];
     }, []);
 
     let rounds = 0;
@@ -135,7 +142,11 @@ export class Question extends QuestionBase {
     return remainingHp * rounds;
   }
 
-  part2(input) {
-    return input.reduce((a, b) => a + b, 0);
+  part1(maze) {
+    return this.execute(maze);
+  }
+
+  part2(maze, atk = 19) { // By binary chopspection, 19 is the lowest value that doesn't kill any elves
+    return this.execute(maze, atk);
   }
 }

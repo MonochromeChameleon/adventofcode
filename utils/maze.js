@@ -15,6 +15,10 @@ export class Maze {
     return this.squares.indexOf(char);
   }
 
+  coordinates(ix) {
+    return { x: ix % this.width, y: ~~(ix / this.width) };
+  }
+
   manhattan(start, end) {
     const sx = start % this.width;
     const sy = ~~(start / this.width);
