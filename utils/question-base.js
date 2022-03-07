@@ -61,7 +61,8 @@ export class QuestionBase {
         .filter((f, ix) => f === `${this.day}${ALPHABET[ix]}`);
       return `${this.day}${ALPHABET[filenames.length]}`;
     };
-    const parsedInput = input !== undefined ? this.m.parseInput.call(this, [input].flat()) : this.readFile(getFilename());
+    const parsedInput =
+      input !== undefined ? this.m.parseInput.call(this, [input].flat()) : this.readFile(getFilename());
     this.examples.push({
       ix: this.examples.length + 1,
       input: this.postParse(parsedInput),

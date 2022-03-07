@@ -6,7 +6,7 @@ export class FixedLengthList {
   }
 
   add(...items) {
-    items.forEach(item => {
+    items.forEach((item) => {
       this.list.shift();
       this.list.push(item);
     });

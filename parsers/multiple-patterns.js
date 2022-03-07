@@ -2,8 +2,8 @@ import { Parser } from './parser.js';
 
 export class MultiplePatternsParser extends Parser {
   parseInput(lines) {
-    const lineGroups = lines.reduce((groups, line) => {
-      const g = this.m.parserGroup.call(this, line);
+    const lineGroups = lines.reduce((groups, line, ix, lns) => {
+      const g = this.m.parserGroup.call(this, line, ix, lns);
       const { [g]: group = [] } = groups;
       return { ...groups, [g]: [...group, line] };
     }, {});

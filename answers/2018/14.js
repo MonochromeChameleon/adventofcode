@@ -1,7 +1,6 @@
 import { QuestionBase, Parsers } from '../../utils/question-base.js';
 import { CircularLinkedList } from '../../utils/linked-list.js';
 import { FixedLengthList } from '../../utils/fixed-length-list.js';
-import * as fs from 'fs/promises';
 
 class Elf {
   constructor(node) {

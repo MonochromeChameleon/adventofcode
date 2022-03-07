@@ -9,37 +9,45 @@ class Orc {
   }
 
   move(squaresInRange, occupied, maze) {
-    const routeDetails = squaresInRange.map((ix) => {
-      try {
-        const route = maze.route(this.ix, ix, occupied);
-        return { target: ix, route, distance: route.length };
-      } catch (e) {
-        return undefined;
-      }
-    }).filter(Boolean);
+    const routeDetails = squaresInRange
+      .map((ix) => {
+        try {
+          const route = maze.route(this.ix, ix, occupied);
+          return { target: ix, route, distance: route.length };
+        } catch (e) {
+          return undefined;
+        }
+      })
+      .filter(Boolean);
 
-    const { routes, distance } = routeDetails.reduce(({ routes, distance }, route) => {
-      if (route.distance < distance) {
-        return { routes: [route], distance: route.distance };
-      } else if (route.distance === distance) {
-        return { routes: [...routes, route], distance };
-      } else {
-        return { routes, distance };
-      }
-    }, { routes: [], distance: Infinity });
+    const { routes, distance } = routeDetails.reduce(
+      ({ routes: rtes, distance: dstnc }, route) => {
+        if (route.distance < dstnc) {
+          return { routes: [route], distance: route.distance };
+        }
+        if (route.distance === dstnc) {
+          return { routes: [...rtes, route], distance: dstnc };
+        }
+        return { routes: rtes, distance: dstnc };
+      },
+      { routes: [], distance: Infinity }
+    );
 
     if (distance === Infinity) return;
     const targetSquare = routes.map(({ target }) => target).reduce((min, tgt) => Math.min(min, tgt));
     const possibleSteps = maze.neighbours(this.ix, occupied);
 
-    const nextRoute = possibleSteps.map((ix) => {
-      try {
-        const route = maze.route(ix, targetSquare, occupied);
-        return { target: ix, route, distance: route.length };
-      } catch (e) {
-        return undefined;
-      }
-    }).filter(Boolean).reduce((best, next) => next.distance < best.distance ? next : best);
+    const nextRoute = possibleSteps
+      .map((ix) => {
+        try {
+          const route = maze.route(ix, targetSquare, occupied);
+          return { target: ix, route, distance: route.length };
+        } catch (e) {
+          return undefined;
+        }
+      })
+      .filter(Boolean)
+      .reduce((best, next) => (next.distance < best.distance ? next : best));
     this.ix = nextRoute.target;
   }
 
@@ -54,8 +62,13 @@ class Orc {
 
     if (!targets.length) return false;
 
-    const occupied = orcs.filter(({ hp }) => hp > 0).map(({ ix }) => ix).filter((ix) => ix !== this.ix);
-    const squaresInRange = [...new Set(targets.flatMap(({ ix }) => maze.neighbours(ix)).filter((ix) => !occupied.includes(ix)))];
+    const occupied = orcs
+      .filter(({ hp }) => hp > 0)
+      .map(({ ix }) => ix)
+      .filter((ix) => ix !== this.ix);
+    const squaresInRange = [
+      ...new Set(targets.flatMap(({ ix }) => maze.neighbours(ix)).filter((ix) => !occupied.includes(ix))),
+    ];
     if (!squaresInRange.includes(this.ix)) {
       this.move(squaresInRange, occupied, maze);
     }
@@ -101,8 +114,8 @@ export class Question extends QuestionBase {
   }
 
   isBattleOver(orcs) {
-    const someGoblins = orcs.some(orc => orc.type === 'goblin' && orc.hp > 0);
-    const someElves = orcs.some(orc => orc.type === 'elf' && orc.hp > 0);
+    const someGoblins = orcs.some((orc) => orc.type === 'goblin' && orc.hp > 0);
+    const someElves = orcs.some((orc) => orc.type === 'elf' && orc.hp > 0);
 
     return !(someGoblins && someElves);
   }
@@ -110,20 +123,6 @@ export class Question extends QuestionBase {
   attack(orcs, maze) {
     const orderedOrcs = orcs.sort((a, b) => a.ix - b.ix);
     return orderedOrcs.every((orc) => orc.hp <= 0 || orc.takeTurn(orcs, maze));
-  }
-
-  debugOutput(orcs, maze, rounds) {
-    console.log(`After round ${rounds}`);
-    console.log(maze.toString());
-    orcs.sort((a, b) => a.ix - b.ix)
-      .filter(({ hp }) => hp > 0)
-      .forEach(({ type, ix, hp }) => {
-        const w = ix % maze.width;
-        const h = ~~(ix / maze.width);
-
-        console.log(type[0].toUpperCase(), w, h, hp);
-      });
-    console.log('');
   }
 
   execute(maze, atk = 3) {
@@ -135,10 +134,16 @@ export class Question extends QuestionBase {
 
     let rounds = 0;
     while (!this.isBattleOver(goblinsAndElves)) {
-      const increment = this.attack(goblinsAndElves.filter(({ hp }) => hp > 0), maze);
+      const increment = this.attack(
+        goblinsAndElves.filter(({ hp }) => hp > 0),
+        maze
+      );
       if (increment) rounds += 1;
     }
-    const remainingHp = goblinsAndElves.filter(({ hp }) => hp > 0).map(({ hp }) => hp).reduce((sum, hp) => sum + hp);
+    const remainingHp = goblinsAndElves
+      .filter(({ hp }) => hp > 0)
+      .map(({ hp }) => hp)
+      .reduce((sum, hp) => sum + hp);
     return remainingHp * rounds;
   }
 
@@ -146,7 +151,8 @@ export class Question extends QuestionBase {
     return this.execute(maze);
   }
 
-  part2(maze, atk = 19) { // By binary chopspection, 19 is the lowest value that doesn't kill any elves
+  part2(maze, atk = 19) {
+    // By binary chopspection, 19 is the lowest value that doesn't kill any elves
     return this.execute(maze, atk);
   }
 }

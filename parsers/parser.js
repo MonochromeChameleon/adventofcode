@@ -36,12 +36,17 @@ export class Parser {
     const parserProps = getAllMethodNames(this);
     const tgtProps = getAllMethodNames(tgt);
 
-    const propsToAdd = [...parserProps].filter((prop) => (!tgtProps.has(prop) || Object.hasOwnProperty.call(this.propertyMap, prop)) && prop !== 'mixin' && prop !== 'propertyMap');
+    const propsToAdd = [...parserProps].filter(
+      (prop) =>
+        (!tgtProps.has(prop) || Object.hasOwnProperty.call(this.propertyMap, prop)) &&
+        prop !== 'mixin' &&
+        prop !== 'propertyMap'
+    );
 
     propsToAdd.forEach((prop) => {
       const mappedProp = this.mappedPropertyName(prop);
       const p = mappedProp in this ? this[mappedProp] : this[prop];
-      if (!tgtProps.has(prop)) {
+      if (!tgtProps.has(mappedProp)) {
         tgt[mappedProp] = typeof p === 'function' ? p.bind(tgt) : p;
       }
     });

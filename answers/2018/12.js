@@ -14,7 +14,7 @@ export class Question extends QuestionBase {
   get parsers() {
     return {
       initialState: Parsers.SINGLE_LINE.withMappedProps({ parseLine: 'parseInitialState' }),
-      rules: Parsers.PARSER
+      rules: Parsers.PARSER,
     };
   }
 
@@ -49,12 +49,16 @@ export class Question extends QuestionBase {
   }
 
   part1({ initialState, rules }) {
-    const { state, lix } = Array.from({ length: 20 }).reduce((s) => this.generation({
-      ...s,
-      rules
-    }), { state: initialState, lix: 0 });
+    const { state, lix } = Array.from({ length: 20 }).reduce(
+      (s) =>
+        this.generation({
+          ...s,
+          rules,
+        }),
+      { state: initialState, lix: 0 }
+    );
 
-    return state.split('').reduce((sum, c, i) => c === '.' ? sum : (sum + i + lix), 0);
+    return state.split('').reduce((sum, c, i) => (c === '.' ? sum : sum + i + lix), 0);
   }
 
   part2({ initialState, rules }) {
@@ -68,6 +72,6 @@ export class Question extends QuestionBase {
 
     const finalLix = lix + (50000000000 - states.length);
 
-    return state.split('').reduce((sum, c, i) => c === '.' ? sum : (sum + i + finalLix), 0);
+    return state.split('').reduce((sum, c, i) => (c === '.' ? sum : sum + i + finalLix), 0);
   }
 }

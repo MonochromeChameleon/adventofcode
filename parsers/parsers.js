@@ -1,7 +1,8 @@
 import { DaisyChainParser } from './daisy-chain.js';
-import { GridParser } from './grid.js';
 import { FlatMapParser } from './flat-map.js';
 import { FlatMapDelimitedNumbersParser } from './flat-map-delimited-numbers.js';
+import { GridParser } from './grid.js';
+import { GroupParser } from './group.js';
 import { InstructionsParser } from './instructions.js';
 import { MazeParser } from './maze.js';
 import { MultiLineConstructorParser } from './multi-line-constructor.js';
@@ -28,19 +29,20 @@ function extend(ParserClass, propertyMap = {}) {
     mixin(target) {
       return new ParserClass(propertyMap).mixin(target);
     },
-    withMappedProps (props = {}) {
+    withMappedProps(props = {}) {
       return extend(ParserClass, { ...propertyMap, ...props });
     },
     lookup(prop) {
       return propertyMap[prop] || prop;
-    }
-  }
+    },
+  };
 }
 
 export const DAISY_CHAIN = extend(DaisyChainParser);
-export const GRID = extend(GridParser);
 export const FLAT_MAP_LINE_DELIMITED_NUMBERS = extend(FlatMapDelimitedNumbersParser);
 export const FLAT_MAP = extend(FlatMapParser);
+export const GRID = extend(GridParser);
+export const GROUP = extend(GroupParser);
 export const INSTRUCTIONS = extend(InstructionsParser);
 export const MAZE = extend(MazeParser);
 export const MULTI_LINE_DELIMITED_NUMBERS = extend(MultiLineDelimitedNumbersParser);

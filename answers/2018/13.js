@@ -45,11 +45,11 @@ class Kart {
       this.junction = JUNCTIONS.head;
 
       this.position = new Vector(x, y);
-    }
+    };
   }
 
   get ix() {
-    return (this.y * this.track.width) + this.x;
+    return this.y * this.track.width + this.x;
   }
 
   get x() {
@@ -108,7 +108,7 @@ class Kart {
 }
 
 const blankTrack = (c) => {
-  switch(c) {
+  switch (c) {
     case '<':
     case '>':
       return '-';
@@ -118,7 +118,7 @@ const blankTrack = (c) => {
     default:
       return c;
   }
-}
+};
 
 class Track {
   constructor() {
@@ -134,15 +134,18 @@ class Track {
   }
 
   addLine(line) {
-    const { karts, row } = line.split('').reduce(({ karts, row }, c, ix) => {
-      const blanked = blankTrack(c);
-      if (blanked === c) return { karts, row: [...row, c] };
+    const { karts: k, row: r } = line.split('').reduce(
+      ({ karts, row }, c, ix) => {
+        const blanked = blankTrack(c);
+        if (blanked === c) return { karts, row: [...row, c] };
 
-      const kart = new Kart(c, ix, this.track.length, this);
-      return { karts: [...karts, kart], row: [...row, blanked] };
-    }, { karts: [], row: [] });
-    this.track.push(row);
-    this.karts.push(...karts);
+        const kart = new Kart(c, ix, this.track.length, this);
+        return { karts: [...karts, kart], row: [...row, blanked] };
+      },
+      { karts: [], row: [] }
+    );
+    this.track.push(r);
+    this.karts.push(...k);
   }
 
   at(position) {
@@ -162,12 +165,13 @@ class Track {
 
     for (let i = 0; i < orderedKarts.length && !(stopOnCollision && this.collision); i += 1) {
       const ok = orderedKarts[i];
-      if (ok.destroyed) continue;
-      ok.move();
-      const hit = orderedKarts.find((other) => ok.collision(other));
-      if (hit) {
-        hit.destroyed = true;
-        ok.destroyed = true;
+      if (!ok.destroyed) {
+        ok.move();
+        const hit = orderedKarts.find((other) => ok.collision(other));
+        if (hit) {
+          hit.destroyed = true;
+          ok.destroyed = true;
+        }
       }
     }
   }
@@ -177,10 +181,12 @@ class Track {
   }
 
   toString() {
-    const withKarts = this.track.map((row, y) => row.map((c, x) => {
-      const kart = this.karts.find((kart) => kart.x === x && kart.y === y);
-      return kart ? kart.toString() : c;
-    }));
+    const withKarts = this.track.map((row, y) =>
+      row.map((c, x) => {
+        const kart = this.karts.find((k) => k.x === x && k.y === y);
+        return kart ? kart.toString() : c;
+      })
+    );
 
     return withKarts.map((row) => row.join('')).join('\n');
   }
