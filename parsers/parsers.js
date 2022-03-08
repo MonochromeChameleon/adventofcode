@@ -1,6 +1,7 @@
 import { DaisyChainParser } from './daisy-chain.js';
 import { FlatMapParser } from './flat-map.js';
 import { FlatMapDelimitedNumbersParser } from './flat-map-delimited-numbers.js';
+import { GameOfLifeParser } from './game-of-life.js';
 import { GridParser } from './grid.js';
 import { GroupParser } from './group.js';
 import { InstructionsParser } from './instructions.js';
@@ -32,15 +33,13 @@ function extend(ParserClass, propertyMap = {}) {
     withMappedProps(props = {}) {
       return extend(ParserClass, { ...propertyMap, ...props });
     },
-    lookup(prop) {
-      return propertyMap[prop] || prop;
-    },
   };
 }
 
 export const DAISY_CHAIN = extend(DaisyChainParser);
 export const FLAT_MAP_LINE_DELIMITED_NUMBERS = extend(FlatMapDelimitedNumbersParser);
 export const FLAT_MAP = extend(FlatMapParser);
+export const GAME_OF_LIFE = extend(GameOfLifeParser);
 export const GRID = extend(GridParser);
 export const GROUP = extend(GroupParser);
 export const INSTRUCTIONS = extend(InstructionsParser);

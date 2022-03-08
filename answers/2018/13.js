@@ -25,8 +25,6 @@ const charToDir = (char) => {
       return DIRECTIONS.head.next.next;
     case '<':
       return DIRECTIONS.head.next.next.next;
-    default:
-      throw new Error(`Invalid direction: ${char}`);
   }
 };
 
@@ -64,24 +62,6 @@ class Kart {
     return this !== other && this.position.equals(other.position);
   }
 
-  annihilate(other) {
-    if (this === other) {
-      return false;
-    }
-
-    if (this.destroyed || other.destroyed) {
-      return false;
-    }
-
-    if (this.ix === other.ix) {
-      this.destroyed = true;
-      other.destroyed = true;
-      return true;
-    }
-
-    return false;
-  }
-
   move() {
     this.position = this.position.add(this.direction.value);
 
@@ -99,11 +79,6 @@ class Kart {
         this.junction = this.junction.next;
         break;
     }
-  }
-
-  toString() {
-    if (this.destroyed) return '*';
-    return this.id;
   }
 }
 
@@ -178,17 +153,6 @@ class Track {
 
   reset() {
     this.karts.forEach(({ reset }) => reset());
-  }
-
-  toString() {
-    const withKarts = this.track.map((row, y) =>
-      row.map((c, x) => {
-        const kart = this.karts.find((k) => k.x === x && k.y === y);
-        return kart ? kart.toString() : c;
-      })
-    );
-
-    return withKarts.map((row) => row.join('')).join('\n');
   }
 }
 

@@ -39,12 +39,8 @@ class Orc {
 
     const nextRoute = possibleSteps
       .map((ix) => {
-        try {
-          const route = maze.route(ix, targetSquare, occupied);
-          return { target: ix, route, distance: route.length };
-        } catch (e) {
-          return undefined;
-        }
+        const route = maze.route(ix, targetSquare, occupied);
+        return { target: ix, route, distance: route.length };
       })
       .filter(Boolean)
       .reduce((best, next) => (next.distance < best.distance ? next : best));

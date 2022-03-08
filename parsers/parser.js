@@ -12,10 +12,6 @@ export class Parser {
     return this.propertyMap[name] || name;
   }
 
-  mappedProperty(name) {
-    return this[this.mappedPropertyName(name)];
-  }
-
   get split() {
     return '';
   }

@@ -47,18 +47,6 @@ export class Question extends QuestionBase {
     return digits;
   }
 
-  foundTarget(target, recipes) {
-    let node = recipes.tail;
-
-    for (let i = 0; i < target.length; i += 1) {
-      if (node.value !== target[i]) {
-        return false;
-      }
-      node = node.prev;
-    }
-    return true;
-  }
-
   part1(input) {
     const inputValue = Number(input);
     const recipes = new CircularLinkedList(3, 7);
