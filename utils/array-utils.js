@@ -12,3 +12,11 @@ export function permutations(arr) {
 export function maxBy(arr, prop) {
   return arr.reduce((a, b) => (a[prop] > b[prop] ? a : b));
 }
+
+export function allCombinations(arr) {
+  return Array.from({ length: 2 ** arr.length }, (_, i) =>
+    Array.from({ length: arr.length }, (_, k) => k)
+      .filter((k) => i & (1 << k))
+      .map((k) => arr[k])
+  );
+}

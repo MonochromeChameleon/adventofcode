@@ -5,3 +5,9 @@ export const PRIMES = [
   383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463, 467, 479, 487, 491, 499, 503, 509, 521,
   523, 541,
 ];
+
+export function primeFactors(n) {
+  const fac = PRIMES.find((p) => n % p === 0);
+  if (!fac) return [n];
+  return [fac, ...primeFactors(n / fac)];
+}

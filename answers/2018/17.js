@@ -12,9 +12,12 @@ export class Question extends QuestionBase {
   }
 
   parseLine(line) {
-    const [,xy,v,yx,...rest] = /^(\w)=(\d+), (\w)=(\d+)\.\.(\d+)$/.exec(line);
+    const [, xy, v, yx, ...rest] = /^(\w)=(\d+), (\w)=(\d+)\.\.(\d+)$/.exec(line);
     const [from, to] = rest.map(Number);
-    return Array.from({ length: to + 1 - from }, (_, i) => ({ [xy]: Number(v), [yx]: from + i })).map(({ x, y }) => ({ x, y }));
+    return Array.from({ length: to + 1 - from }, (_, i) => ({ [xy]: Number(v), [yx]: from + i })).map(({ x, y }) => ({
+      x,
+      y,
+    }));
   }
 
   fill(grid, sources, width) {
@@ -29,7 +32,7 @@ export class Question extends QuestionBase {
       if (grid[ix + step] === '.') return false;
       if (grid[ix + step] === '#') return true;
       return wall(ix + step, step);
-    }
+    };
 
     const wallLeft = (ix) => wall(ix, -1);
     const wallRight = (ix) => wall(ix, 1);
@@ -46,7 +49,7 @@ export class Question extends QuestionBase {
       }
     });
 
-    nextSources.forEach((ix) => grid[ix] = '|');
+    nextSources.forEach((ix) => (grid[ix] = '|'));
     return nextSources;
   }
 
@@ -60,7 +63,7 @@ export class Question extends QuestionBase {
     const height = yMax + 1;
     const grid = new Array(width * height).fill('.');
     squares.forEach(({ x, y }) => {
-      grid[(y * width) + x + 1 - xMin] = '#';
+      grid[y * width + x + 1 - xMin] = '#';
     });
 
     const tap = 501 - xMin;

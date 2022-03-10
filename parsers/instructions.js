@@ -27,7 +27,14 @@ export class InstructionsParser extends Parser {
   execute(
     instructions,
     startCondition = {},
-    { optimize = false, limit = Infinity, breakFn = () => false, defaultValue = 0, ...extraCommands } = {},
+    {
+      optimize = false,
+      limit = Infinity,
+      breakFn = () => false,
+      defaultValue = 0,
+      debug = false,
+      ...extraCommands
+    } = {},
     ...args
   ) {
     const baseState = this.m.defaultParams.call(this, startCondition, ...args);
@@ -48,21 +55,24 @@ export class InstructionsParser extends Parser {
         }
         return defaultValue;
       },
+      count: 0,
     };
 
-    let count = 0;
-
-    while (state.instruction && !breakFn(state) && count < limit) {
+    while (state.instruction && !breakFn(state) && state.count < limit) {
       if (optimize && this.m.canOptimize.call(state, state)) {
         this.optimize.call(state);
       } else {
         const { instruction, params } = state.instruction;
         (extraCommands[instruction] || this[instruction]).call(state, ...params);
-        if (this.m.autoIncrementPointer.call(this, instruction)) {
+        if (this.m.autoIncrementPointer.call(state, instruction)) {
           state.pointer += 1;
         }
+        if (debug) {
+          const { instructions, instruction, output, getValue, ...rest } = state;
+          console.log(rest);
+        }
       }
-      count += 1;
+      state.count += 1;
     }
     return state;
   }

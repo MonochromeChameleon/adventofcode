@@ -7,7 +7,12 @@ export class GameOfLifeParser extends GridParser {
   }
 
   generation(grid, adjacencyMap) {
-    return grid.map((value, ix) => this.next(value, adjacencyMap[ix].map((n) => grid[n])));
+    return grid.map((value, ix) =>
+      this.next(
+        value,
+        adjacencyMap[ix].map((n) => grid[n])
+      )
+    );
   }
 
   generations(grid, count) {
@@ -26,7 +31,7 @@ export class GameOfLifeParser extends GridParser {
     const repeatStart = seen.indexOf(grd);
     const repeatLength = seen.length - repeatStart;
     const numRepeats = ~~((count - repeatStart) / repeatLength);
-    const outIndex = count - (repeatLength * numRepeats);
+    const outIndex = count - repeatLength * numRepeats;
     return seen[outIndex].split('');
   }
 
