@@ -57,8 +57,8 @@ export class Question extends InstructionSet {
     const tgt = endState['5'];
     const [a, b, c, d] = primeFactors(tgt);
     const combinations = allCombinations([a, b, c, d]);
-    const divisors = combinations.map((c) => c.reduce((a, b) => a * b, 1));
+    const divisors = combinations.map((z) => z.reduce((x, y) => x * y, 1));
     const uniqueDivisors = [...new Set(divisors)];
-    return uniqueDivisors.reduce((a, b) => a + b);
+    return uniqueDivisors.reduce((x, y) => x + y);
   }
 }

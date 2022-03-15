@@ -1,4 +1,4 @@
-import { QuestionBase, Parsers } from '../../../utils/question-base.js';
+import { QuestionBase } from '../../../utils/question-base.js';
 
 export class InstructionSet extends QuestionBase {
   constructor(...args) {

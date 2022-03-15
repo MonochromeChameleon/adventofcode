@@ -28,7 +28,7 @@ export class Question extends QuestionBase {
       goal: width * width - 1,
       d: (_, ix) => grid[ix],
       h: this.h(width),
-      neighbours: (ix) => adjacentIndices(ix, width, 4),
+      neighbours: (ix) => adjacentIndices({ ix, width, adjacency: 4 }),
     });
     return path.reduce((acc, ix) => acc + grid[ix], 0);
   }
@@ -54,7 +54,7 @@ export class Question extends QuestionBase {
       goal: fiveW * fiveW - 1,
       d: getGridRisk,
       h: this.h(fiveW),
-      neighbours: (ix) => adjacentIndices(ix, fiveW, 4),
+      neighbours: (ix) => adjacentIndices({ ix, width: fiveW, adjacency: 4 }),
     });
     return path.reduce((acc, ix) => acc + getGridRisk(ix), 0);
   }

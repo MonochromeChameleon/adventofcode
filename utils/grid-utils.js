@@ -1,4 +1,4 @@
-export function adjacentIndices(ix, width, adjacency) {
+export function adjacentIndices({ ix, width, adjacency, height = width }) {
   if (!adjacency) return [];
   // adjacency = 2, 4, 5, 8 or 9
   //   2 => down, right
@@ -13,16 +13,18 @@ export function adjacentIndices(ix, width, adjacency) {
   const left = adjacency > 2 && ix % width ? ix - 1 : undefined;
   const self = adjacency % 2 ? ix : undefined;
   const right = (ix + 1) % width ? ix + 1 : undefined;
-  const downLeft = adjacency > 5 && ix < width * (width - 1) && ix % width ? ix + width - 1 : undefined;
-  const down = ix < width * (width - 1) ? ix + width : undefined;
-  const downRight = adjacency > 5 && ix < width * (width - 1) && (ix + 1) % width ? ix + width + 1 : undefined;
+  const downLeft = adjacency > 5 && ix < width * (height - 1) && ix % width ? ix + width - 1 : undefined;
+  const down = ix < width * (height - 1) ? ix + width : undefined;
+  const downRight = adjacency > 5 && ix < width * (height - 1) && (ix + 1) % width ? ix + width + 1 : undefined;
 
   return [upLeft, up, upRight, left, self, right, downLeft, down, downRight].filter((it) => it !== undefined);
 }
 
 export function buildAdjacencyMap({ length, width, height, adjacency = 9 }) {
   const arrayLength = length || width * height;
-  return Array.from({ length: arrayLength }).map((_, ix) => adjacentIndices(ix, width, adjacency));
+  return Array.from({ length: arrayLength }).map((_, ix) =>
+    adjacentIndices({ ix, width, adjacency, height: arrayLength / width })
+  );
 }
 
 export function padGrid({ grid, width, pad, padSize = 1 }) {

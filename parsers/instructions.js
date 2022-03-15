@@ -68,8 +68,8 @@ export class InstructionsParser extends Parser {
           state.pointer += 1;
         }
         if (debug) {
-          const { instructions, instruction, output, getValue, ...rest } = state;
-          console.log(rest);
+          const { instructions: _, instruction: __, output, getValue, ...rest } = state;
+          console.log(rest); // eslint-disable-line no-console
         }
       }
       state.count += 1;

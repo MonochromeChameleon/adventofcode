@@ -6,7 +6,7 @@ class Map {
     this.y = 0;
     this.d = -1;
 
-    this.rows = { };
+    this.rows = {};
     this.stack = [];
     this.addRoom();
     this.branch();
@@ -29,7 +29,7 @@ class Map {
   }
 
   go(direction) {
-    switch(direction) {
+    switch (direction) {
       case 'N':
         this.y -= 1;
         break;
@@ -79,7 +79,7 @@ export class Question extends QuestionBase {
     this.exampleInput({ input: '^ESSWWN(E|NNENN(EESS(WNSE|)SSS|WWWSSSSE(SW|NNNE)))$', part1: 23 });
     this.exampleInput({
       input: '^WSSEESWWWNW(S|NENNEEEENN(ESSSSW(NWSW|SSEN)|WSWWN(E|WWS(E|SS))))$',
-      part1: 31
+      part1: 31,
     });
   }
 
@@ -88,8 +88,6 @@ export class Question extends QuestionBase {
   }
 
   postParse(input) {
-    const map = new Map();
-
     return input.slice(1, -1).reduce((map, char) => {
       switch (char) {
         case '(':
@@ -101,7 +99,7 @@ export class Question extends QuestionBase {
         default:
           return map.go(char);
       }
-    }, map);
+    }, new Map());
   }
 
   part1(map) {

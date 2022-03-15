@@ -49,7 +49,9 @@ export class Question extends QuestionBase {
       }
     });
 
-    nextSources.forEach((ix) => (grid[ix] = '|'));
+    nextSources.forEach((ix) => {
+      grid[ix] = '|'
+    });
     return nextSources;
   }
 

@@ -12,6 +12,13 @@ export class Vector {
     return new Vector(this.x + other.x, this.y + other.y, this.z + other.z);
   }
 
+  subtract(other) {
+    if (this.z === null) {
+      return new Vector(this.x - other.x, this.y - other.y, other.z);
+    }
+    return new Vector(this.x - other.x, this.y - other.y, this.z - other.z);
+  }
+
   equals(other) {
     return this.x === other.x && this.y === other.y && this.z === other.z;
   }
