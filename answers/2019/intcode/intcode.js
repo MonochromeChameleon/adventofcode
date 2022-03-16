@@ -1,6 +1,7 @@
 export class Intcode {
   constructor(program) {
     this.originalProgram = program;
+    this.outArray = [];
     this.reset();
   }
 
@@ -61,6 +62,7 @@ export class Intcode {
       case 4: {
         const value = this.look(this.modes[0], 1);
         this.output = value;
+        this.outArray.push(value);
         this.index += 2;
         this.paused = true;
         return this;
@@ -120,6 +122,7 @@ export class Intcode {
       }
       default:
         this.output = this.opcode;
+        this.outArray.push(this.opcode);
         return this;
     }
   }
@@ -175,6 +178,7 @@ export class Intcode {
     this.relativeBase = 0;
     this.paused = false;
     this.output = undefined;
+    this.outArray = [];
     return this;
   }
 

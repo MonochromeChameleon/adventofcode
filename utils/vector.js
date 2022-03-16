@@ -37,6 +37,11 @@ export class Vector {
     return new Vector(...points);
   }
 
+  multiply(...others) {
+    const points = others.map((other) => this.points.reduce((sum, p, i) => sum + p * other.points[i], 0));
+    return new Vector(...points);
+  }
+
   equals(other) {
     return this.points.every((p, i) => p === other.points[i]);
   }

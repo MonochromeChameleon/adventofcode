@@ -26,4 +26,12 @@ export class IntcodeQuestion extends QuestionBase {
   postParse(lines) {
     return new Intcode(lines);
   }
+
+  part1() {
+    return this.calculate();
+  }
+
+  part2() {
+    return this.calculate();
+  }
 }

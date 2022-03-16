@@ -9,6 +9,17 @@ const LETTER_HASHES = {
   398000030000200000: 'Z',
   '3c0912450c10200000': 'C',
   '3c0400000000000000': 'B',
+  c210a4c: 'J',
+  '19297a52': 'A',
+  '3d0e4210': 'F',
+  '39297292': 'R',
+  '1084210f': 'L',
+  '1c94b949': 'R',
+  '1e11110f': 'Z',
+  '1e87210f': 'E',
+  'c942126': 'C',
+  'c942d27': 'G',
+  '1e872108': 'F'
 };
 
 export function letterSlice(grid, width, letterWidth = 7) {
@@ -32,6 +43,12 @@ export function printLetter(grid, letterWidth = 7) {
     return grid.slice(startIndex, startIndex + letterWidth).join('');
   }).join('\n');
   console.log(out); // eslint-disable-line no-console
+}
+
+export function printLetters(grid, width) {
+  const rows = Array.from({ length: grid.length / width }).map((no, ix) => grid.slice(ix * width, (ix + 1) * width));
+  // eslint-disable-next-line no-console
+  rows.forEach(r => console.log(r.join('')));
 }
 
 function hex(grid) {

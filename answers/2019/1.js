@@ -11,6 +11,11 @@ const moduleAndFuel = (val) => (calc(val) > 0 ? [val, ...moduleAndFuel(calc(val)
 export class Question extends QuestionBase {
   constructor() {
     super(2019, 1, 3305115, 4954799);
+
+    this.exampleInput({ input: 12, part1: 2, part2: 2 });
+    this.exampleInput({ input: 14, part1: 2, part2: 2 });
+    this.exampleInput({ input: 1969, part1: 654, part2: 966 });
+    this.exampleInput({ input: 100756, part1: 33583, part2: 50346 });
   }
 
   get parser() {
