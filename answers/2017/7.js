@@ -41,7 +41,6 @@ export class Question extends QuestionBase {
 
   findWrongWeight(child, programs) {
     const program = programs.find(({ name }) => name === child);
-    if (!program.children.length) return false;
     const [first, ...rest] = program.children.map((c) => ({ child: c, ...this.findWeight(c, programs) }));
     if (rest.every((it) => it.totalWeight === first.totalWeight)) return false;
     const [maybeWrong, other] = rest.filter((it) => it.totalWeight !== first.totalWeight);

@@ -55,9 +55,6 @@ class BattleGroup {
         const bestDamage = best ? this.calculateDamage(best) : 0;
         if (thisDamage < bestDamage) return best;
         if (thisDamage > bestDamage) return g;
-        if (g.effectivePower > best.effectivePower) return g;
-        if (g.effectivePower < best.effectivePower) return best;
-        if (g.initiative > best.initiative) return g;
         return best;
       }, undefined);
 
@@ -91,27 +88,27 @@ export class Question extends QuestionBase {
     const immune = !immunoweak
       ? []
       : (
-        immunoweak
-          .split(';')
+          immunoweak
+            .split(';')
+            .map((it) => it.trim())
+            .find((it) => it.startsWith('immune')) || ''
+        )
+          .replace(/^immune to /, '')
+          .split(',')
           .map((it) => it.trim())
-          .find((it) => it.startsWith('immune')) || ''
-      )
-        .replace(/^immune to /, '')
-        .split(',')
-        .map((it) => it.trim())
-        .filter(Boolean);
+          .filter(Boolean);
     const weak = !immunoweak
       ? []
       : (
-        immunoweak
-          .split(';')
+          immunoweak
+            .split(';')
+            .map((it) => it.trim())
+            .find((it) => it.startsWith('weak')) || ''
+        )
+          .replace(/^weak to /, '')
+          .split(',')
           .map((it) => it.trim())
-          .find((it) => it.startsWith('weak')) || ''
-      )
-        .replace(/^weak to /, '')
-        .split(',')
-        .map((it) => it.trim())
-        .filter(Boolean);
+          .filter(Boolean);
 
     return {
       ix,
@@ -123,7 +120,7 @@ export class Question extends QuestionBase {
       damage,
       attackType,
       initiative,
-      effectivePower: damage * units
+      effectivePower: damage * units,
     };
   }
 
@@ -145,9 +142,7 @@ export class Question extends QuestionBase {
   }
 
   selectTarget(groups) {
-    return groups
-      .sort((a, b) => a.cmpSelectTarget(b))
-      .reduce((selected, g) => g.selectTarget(groups, selected), []);
+    return groups.sort((a, b) => a.cmpSelectTarget(b)).reduce((selected, g) => g.selectTarget(groups, selected), []);
   }
 
   battle(groups) {

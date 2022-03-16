@@ -13,7 +13,6 @@ export class Question extends QuestionBase {
 
   findDir(grid, next, dir, adjacencyMap) {
     if (grid[next] !== '+') return dir;
-    if (grid[next + dir] && grid[next + dir] !== ' ') return dir;
 
     const prev = next - dir;
     const newNext = adjacencyMap[next].find((it) => it !== prev && grid[it] !== ' ');

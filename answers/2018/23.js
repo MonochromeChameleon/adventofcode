@@ -28,10 +28,6 @@ export class Question extends QuestionBase {
     return lines.map((values) => new Nanobot(...values));
   }
 
-  getManhattanDistance(a, b) {
-    return Math.abs(a.x - b.x) + Math.abs(a.y - b.y) + Math.abs(a.z - b.z);
-  }
-
   part1(bots) {
     const maxRangeBot = bots.reduce((max, bot) => (max.r > bot.r ? max : bot));
     const manhattans = bots.map((bot) => bot.subtract(maxRangeBot)).map(({ manhattan }) => manhattan);

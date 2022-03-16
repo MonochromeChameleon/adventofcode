@@ -8,7 +8,7 @@ class Guard {
   }
 
   sleep(asleep, awake) {
-    const from = asleep.minute > awake.minute ? 0 : asleep.minute;
+    const from = asleep.minute;
     const to = awake.minute;
 
     Array.from({ length: to - from }).forEach((_, m) => {

@@ -3,7 +3,7 @@ import { Vector } from '../../utils/vector.js';
 
 export class Question extends QuestionBase {
   constructor() {
-    super(2018, 25);
+    super(2018, 25, 388);
 
     this.exampleInput({ part1: 2 });
     this.exampleInput({ part1: 4 });
