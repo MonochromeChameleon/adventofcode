@@ -47,10 +47,10 @@ export class Question extends QuestionBase {
       .sort((a, b) => a.range - b.range)
       .reduce(
         ({ count, max, bestRange }, { range, delta }) => ({
-            count: count + delta,
-            max: Math.max(max, count + delta),
-            bestRange: count + delta > max ? range : bestRange,
-          }),
+          count: count + delta,
+          max: Math.max(max, count + delta),
+          bestRange: count + delta > max ? range : bestRange,
+        }),
         { count: 0, max: 0, bestRange: 0 }
       ).bestRange;
   }

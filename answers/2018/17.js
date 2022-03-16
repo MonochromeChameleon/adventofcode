@@ -50,7 +50,7 @@ export class Question extends QuestionBase {
     });
 
     nextSources.forEach((ix) => {
-      grid[ix] = '|'
+      grid[ix] = '|';
     });
     return nextSources;
   }

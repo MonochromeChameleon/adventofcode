@@ -1,37 +1,52 @@
 export class Vector {
-  constructor(x, y, z = null) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
+  constructor(...points) {
+    this.points = points.flat(Infinity);
+  }
+
+  get x() {
+    return this.points[0];
+  }
+
+  set x(value) {
+    this.points[0] = value;
+  }
+
+  get y() {
+    return this.points[1];
+  }
+
+  set y(value) {
+    this.points[1] = value;
+  }
+
+  get z() {
+    return this.points[2];
+  }
+
+  set z(value) {
+    this.points[2] = value;
   }
 
   add(other) {
-    if (this.z === null) {
-      return new Vector(this.x + other.x, this.y + other.y, other.z);
-    }
-    return new Vector(this.x + other.x, this.y + other.y, this.z + other.z);
+    const points = this.points.map((p, i) => p + other.points[i]);
+    return new Vector(...points);
   }
 
   subtract(other) {
-    if (this.z === null) {
-      return new Vector(this.x - other.x, this.y - other.y, other.z);
-    }
-    return new Vector(this.x - other.x, this.y - other.y, this.z - other.z);
+    const points = this.points.map((p, i) => p - other.points[i]);
+    return new Vector(...points);
   }
 
   equals(other) {
-    return this.x === other.x && this.y === other.y && this.z === other.z;
+    return this.points.every((p, i) => p === other.points[i]);
   }
 
   get manhattan() {
-    return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z || 0);
+    return this.points.reduce((sum, p) => sum + Math.abs(p), 0);
   }
 
   toString() {
-    if (this.z === null) {
-      return `(${this.x}, ${this.y})`;
-    }
-    return `(${this.x}, ${this.y}, ${this.z})`;
+    return `(${this.points.join(', ')})`;
   }
 }
 
