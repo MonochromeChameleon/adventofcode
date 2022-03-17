@@ -31,10 +31,6 @@ class Orbiter {
 
     return this.satellites.find((it) => predicate(it)).traverseWhile(predicate);
   }
-
-  satellite(name) {
-    return this.satellites.find((it) => it.name === name);
-  }
 }
 
 export class Question extends QuestionBase {

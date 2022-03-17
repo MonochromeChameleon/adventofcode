@@ -13,6 +13,14 @@ export function groupBy(values, mapper) {
   }, {});
 }
 
+export function mapBy(values, mapper) {
+  return values.reduce((acc, value) => {
+    const key = mapper(value);
+    acc[key] = value;
+    return acc;
+  }, {});
+}
+
 export function countBy(values, mapper) {
   return values.reduce((acc, value) => {
     const key = mapper(value);

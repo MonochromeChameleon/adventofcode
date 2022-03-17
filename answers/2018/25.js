@@ -30,6 +30,10 @@ export class Question extends QuestionBase {
     return Vector;
   }
 
+  get spreadParams() {
+    return true;
+  }
+
   findConstellation(from, points) {
     const neighbours = points.filter((p) => p.subtract(from).manhattan <= 3);
     if (neighbours.length === 0) return { constellation: [from], rest: points };

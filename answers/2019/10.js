@@ -45,19 +45,19 @@ class AsteroidPair {
   canSee(pairs) {
     const angle = this.angle;
     const range = this.range;
-    const onAngle = pairs.filter(it => it !== this && it.angle === angle);
-    return onAngle.every(it => it.range > range);
+    const onAngle = pairs.filter((it) => it !== this && it.angle === angle);
+    return onAngle.every((it) => it.range > range);
   }
 }
 
 class Asteroid extends Vector {
   applyField(field) {
-    return field.filter(it => it !== this).map(it => new AsteroidPair(this, it));
+    return field.filter((it) => it !== this).map((it) => new AsteroidPair(this, it));
   }
 
   countVisible(field) {
-    const pairs = field.filter(it => it !== this).map(it => new AsteroidPair(this, it));
-    return pairs.filter(pair => pair.canSee(pairs)).length;
+    const pairs = field.filter((it) => it !== this).map((it) => new AsteroidPair(this, it));
+    return pairs.filter((pair) => pair.canSee(pairs)).length;
   }
 }
 
@@ -73,9 +73,10 @@ export class Question extends QuestionBase {
   }
 
   parseLine(line, y) {
-    return line.split('')
+    return line
+      .split('')
       .map((val, x) => (val === '#' ? new Asteroid(x, y) : undefined))
-      .filter(it => it);
+      .filter((it) => it);
   }
 
   get parser() {
@@ -83,14 +84,14 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    const visibleCounts = input.map(it => it.countVisible(input));
+    const visibleCounts = input.map((it) => it.countVisible(input));
     return visibleCounts.slice(0).sort((a, b) => b - a)[0];
   }
 
   part2(input) {
-    const bestAsteroid = input.find(it => it.countVisible(input) === this.answers.part1);
+    const bestAsteroid = input.find((it) => it.countVisible(input) === this.answers.part1);
     const pairs = bestAsteroid.applyField(input);
-    const visiblePairs = pairs.filter(it => it.canSee(pairs));
+    const visiblePairs = pairs.filter((it) => it.canSee(pairs));
 
     const sortedPairs = visiblePairs.sort((a, b) => a.angle - b.angle);
     const twoHundredth = sortedPairs[199].second;

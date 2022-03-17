@@ -12,7 +12,7 @@ export class Question extends QuestionBase {
 
   part1(input, width = 25, height = 6) {
     const layerSize = width * height;
-    const count = tgt => arr => arr.filter(it => it === tgt).length;
+    const count = (tgt) => (arr) => arr.filter((it) => it === tgt).length;
     const count0 = count(0);
     const count1 = count(1);
     const count2 = count(2);
@@ -37,7 +37,9 @@ export class Question extends QuestionBase {
     const layers = Array.from({ length: input.length / layerSize }).map((no, ix) =>
       input.slice(ix * layerSize, (ix + 1) * layerSize)
     );
-    const output = Array.from({ length: layerSize }).map((no, ix) => pixelValueAtIndex(ix, layers)).map((it) => it ? '#' : '.');
+    const output = Array.from({ length: layerSize })
+      .map((no, ix) => pixelValueAtIndex(ix, layers))
+      .map((it) => (it ? '#' : '.'));
 
     const slices = letterSlice(output, width, 5);
     const letters = slices.map((slice) => getLetter(slice));

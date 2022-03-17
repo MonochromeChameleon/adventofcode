@@ -6,9 +6,9 @@ export function findTrue(ii, func, inc = (m) => m * 2) {
   return mul * ii;
 }
 
-export function binaryChop(ii, func) {
-  let highBound = findTrue(ii, func);
-  let lowBound = 0;
+export function binaryChop(ii, func, high = findTrue(ii, func), low = 0) {
+  let highBound = high;
+  let lowBound = low;
 
   while (lowBound !== highBound && lowBound !== highBound - 1) {
     const mid = ~~((lowBound + highBound) / 2);

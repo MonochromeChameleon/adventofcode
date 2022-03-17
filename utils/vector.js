@@ -1,6 +1,6 @@
 export class Vector {
   constructor(...points) {
-    this.points = points.flat(Infinity);
+    this.points = points;
   }
 
   get x() {
@@ -34,6 +34,11 @@ export class Vector {
 
   subtract(other) {
     const points = this.points.map((p, i) => p - other.points[i]);
+    return new Vector(...points);
+  }
+
+  map(func) {
+    const points = this.points.map(func);
     return new Vector(...points);
   }
 

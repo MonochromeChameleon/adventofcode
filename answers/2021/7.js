@@ -17,7 +17,7 @@ export class Question extends QuestionBase {
   }
 
   parseInput(lines) {
-    const raw = lines.flatMap(this.parseLine).sort((a, b) => a - b);
+    const raw = lines.flatMap(this.m.parseLine).sort((a, b) => a - b);
     const counts = countByValue(raw);
 
     const keys = Object.keys(counts).map(Number);

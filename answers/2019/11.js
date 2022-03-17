@@ -41,7 +41,7 @@ class HullPaintingRobot {
   }
 
   get currentColour() {
-    const panels = this.outputs.filter(it => this.position.equals(it));
+    const panels = this.outputs.filter((it) => this.position.equals(it));
     return panels.length ? panels.pop().colour : 0;
   }
 
@@ -73,7 +73,7 @@ export class Question extends IntcodeQuestion {
   part1(input) {
     const robot = new HullPaintingRobot();
     while (!input.terminated) this.runRobot(robot, input);
-    return robot.outputs.filter((it, ix, arr) => !arr.slice(0, ix).some(tgt => tgt.equals(it))).length;
+    return robot.outputs.filter((it, ix, arr) => !arr.slice(0, ix).some((tgt) => tgt.equals(it))).length;
   }
 
   part2(input) {
@@ -86,7 +86,7 @@ export class Question extends IntcodeQuestion {
     const slices = letterSlice(grid, width, 5);
     printLetters(grid, width);
 
-    const letters = slices.map(it => getLetter(it));
+    const letters = slices.map((it) => getLetter(it));
     return letters.join('');
   }
 }

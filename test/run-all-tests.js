@@ -27,10 +27,11 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
       if (!qs.length) return;
 
       (wip ? [qs[0]] : qs).forEach((q) => {
-        const exes = q.examples.map(({ ix, input, part1, part2, params }) => {
+        const exes = q.examples.map(({ ix, input, filename, part1, part2, params }) => {
           const qq = new q.constructor();
           qq.answers = { part1, part2 };
-          qq._input = input;
+          const parsedInput = input !== undefined ? qq.m.parseInput.call(qq, [input].flat()) : qq.readFile(filename);
+          qq._input = qq.postParse(parsedInput);
           return { ix, qq, params, part1, part2 };
         });
 
