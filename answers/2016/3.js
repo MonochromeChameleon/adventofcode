@@ -12,7 +12,7 @@ export class Question extends QuestionBase {
   }
 
   get parser() {
-    return Parsers.FLAT_MAP_LINE_DELIMITED_NUMBERS;
+    return Parsers.FLAT_MAP_DELIMITED_NUMBERS;
   }
 
   isValidTriangle(sides) {

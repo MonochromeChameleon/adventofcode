@@ -10,6 +10,7 @@ export function reconstructPath(cameFrom, current) {
 }
 
 export function aStarSearch({ start, goal, d = () => 1, h, neighbours, searchSpaceSize = goal }) {
+  const isGoal = typeof goal === 'function' ? goal : (maybeGoal) => goal === maybeGoal;
   const gScore = Array.from({ length: searchSpaceSize }).fill(Infinity);
   gScore[start] = 0;
 
@@ -23,7 +24,7 @@ export function aStarSearch({ start, goal, d = () => 1, h, neighbours, searchSpa
 
   while (!openSet.isEmpty()) {
     const current = openSet.pop();
-    if (current === goal) {
+    if (isGoal(current)) {
       return reconstructPath(cameFrom, current);
     }
 

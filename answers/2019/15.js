@@ -48,7 +48,6 @@ class Droid extends Vector {
 export class Question extends IntcodeQuestion {
   constructor() {
     super(2019, 15, 298, 346);
-    this.wip = true;
   }
 
   explore(droid, rightFirst = false) {
@@ -88,7 +87,7 @@ export class Question extends IntcodeQuestion {
           (it) => it.type === 1 && Math.abs(it.x - x) <= 1 && Math.abs(it.y - y) <= 1 && (it.x === x || it.y === y)
         )
       ).forEach((n) => {
-        n.type = 2
+        n.type = 2;
       });
     }
     return mins;

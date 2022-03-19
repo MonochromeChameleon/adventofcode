@@ -38,7 +38,7 @@ function extend(ParserClass, propertyMap = {}) {
 }
 
 export const DAISY_CHAIN = extend(DaisyChainParser);
-export const FLAT_MAP_LINE_DELIMITED_NUMBERS = extend(FlatMapDelimitedNumbersParser);
+export const FLAT_MAP_DELIMITED_NUMBERS = extend(FlatMapDelimitedNumbersParser);
 export const FLAT_MAP = extend(FlatMapParser);
 export const GAME_OF_LIFE = extend(GameOfLifeParser);
 export const GRID = extend(GridParser);
