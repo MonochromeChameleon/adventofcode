@@ -140,12 +140,12 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    const [, ...route] = dijkstra({
+    return dijkstra({
       start: input.toString(),
       goal: input.targetState.toString(),
       neighbours: (state) => State.fromString(state).neighbours(),
-    });
-    return route.length;
+      output: 'distance',
+    }).getOrThrow();
   }
 
   part2(input) {

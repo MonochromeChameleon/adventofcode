@@ -20,7 +20,7 @@ export class Question extends QuestionBase {
       const from = waypoints[i];
       for (let j = i + 1; j < waypoints.length; j += 1) {
         const to = waypoints[j];
-        graph.addEdge({ from, to, distance: maze.distance(from, to) });
+        graph.addEdge({ from, to, distance: maze.distance(from, to).getOrThrow() });
       }
     }
 

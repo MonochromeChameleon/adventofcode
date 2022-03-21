@@ -40,7 +40,7 @@ export class Question extends QuestionBase {
       width: xMax + 1,
       height: nodes.length / (xMax + 1),
     });
-    const distToTopCorner = maze.distance(maze.find('_'), xMax);
+    const distToTopCorner = maze.distance(maze.find('_'), xMax).getOrThrow();
     return (xMax - 1) * 5 + distToTopCorner;
   }
 }

@@ -124,49 +124,68 @@ export class Question extends QuestionBase {
       (i) => !occupiedSpaces.includes(i)
     );
 
-    const movesIntoRooms = occupiedHall.flatMap((from) => unoccupiedRooms.map((to) => ({ from, to })));
-    const movesIntoHall = occupiedRooms.flatMap((from) => unoccupiedHall.map((to) => ({ from, to })));
-    const movesBetweenRooms = occupiedRooms.flatMap((from) => unoccupiedRooms.map((to) => ({ from, to })));
+    const movesIntoRooms = occupiedHall.flatMap((from) => unoccupiedRooms.map((to) => ({
+      from,
+      to
+    })));
+    const movesIntoHall = occupiedRooms.flatMap((from) => unoccupiedHall.map((to) => ({
+      from,
+      to
+    })));
+    const movesBetweenRooms = occupiedRooms.flatMap((from) => unoccupiedRooms.map((to) => ({
+      from,
+      to
+    })));
 
-    const allMoves = [...movesIntoRooms, ...movesIntoHall, ...movesBetweenRooms].filter(({ from, to }) =>
-      this.isValidMove(from, to, state)
+    const allMoves = [...movesIntoRooms, ...movesIntoHall, ...movesBetweenRooms].filter(({
+        from,
+        to
+      }) =>
+        this.isValidMove(from, to, state)
     );
 
     function swapStr(str, first, last) {
       return str.substr(0, first) + str[last] + str.substring(first + 1, last) + str[first] + str.substr(last + 1);
     }
+
     return allMoves.map(({ from, to }) => swapStr(state, ...[from, to].sort((a, b) => a - b)));
   }
 
   part1(input) {
-    const [start, ...steps] = aStarSearch({
+    return aStarSearch({
       start: input,
       goal: '...........ABCDABCD',
       d: this.d.bind(this),
       h: this.h.bind(this),
       neighbours: this.moves.bind(this),
-      searchSpaceSize: 0,
-    });
-    return steps.reduce(({ state, score }, newState) => ({ state: newState, score: score + this.d(state, newState) }), {
+      searchSpaceSize: 0
+    }).map(([start, ...steps]) => steps.reduce(({ state, score }, newState) => ({
+      state: newState,
+      score: score + this.d(state, newState)
+    }), {
       state: start,
-      score: 0,
-    }).score;
+      score: 0
+    })).map(({ score }) => score)
+      .getOrThrow();
   }
 
   part2(input) {
     const startCondition = `${input.substr(0, 15)}DCBADBAC${input.substr(15)}`;
 
-    const [start, ...steps] = aStarSearch({
+    return aStarSearch({
       start: startCondition,
       goal: '...........ABCDABCDABCDABCD',
       d: this.d.bind(this),
       h: this.h.bind(this),
       neighbours: this.moves.bind(this),
-      searchSpaceSize: 0,
-    });
-    return steps.reduce(({ state, score }, newState) => ({ state: newState, score: score + this.d(state, newState) }), {
+      searchSpaceSize: 0
+    }).map(([start, ...steps]) => steps.reduce(({ state, score }, newState) => ({
+      state: newState,
+      score: score + this.d(state, newState)
+    }), {
       state: start,
-      score: 0,
-    }).score;
+      score: 0
+    })).map(({ score }) => score)
+      .getOrThrow();
   }
 }

@@ -23,14 +23,15 @@ export class Question extends QuestionBase {
   }
 
   part1({ grid, width }) {
-    const [, ...path] = aStarSearch({
+    return aStarSearch({
       start: 0,
       goal: width * width - 1,
       d: (_, ix) => grid[ix],
       h: this.h(width),
       neighbours: (ix) => adjacentIndices({ ix, width, adjacency: 4 }),
-    });
-    return path.reduce((acc, ix) => acc + grid[ix], 0);
+    }).map((route) => route.slice(1))
+      .map((route) => route.reduce((acc, ix) => acc + grid[ix], 0))
+      .getOrThrow();
   }
 
   part2({ grid, width }) {
@@ -49,13 +50,14 @@ export class Question extends QuestionBase {
       return (grid[sourceIndex] + increment) % 9 || 9;
     };
 
-    const [, ...path] = aStarSearch({
+    return aStarSearch({
       start: 0,
       goal: fiveW * fiveW - 1,
       d: getGridRisk,
       h: this.h(fiveW),
       neighbours: (ix) => adjacentIndices({ ix, width: fiveW, adjacency: 4 }),
-    });
-    return path.reduce((acc, ix) => acc + getGridRisk(ix), 0);
+    }).map((route) => route.slice(1))
+      .map((route) => route.reduce((acc, ix) => acc + getGridRisk(ix), 0))
+      .getOrThrow();
   }
 }

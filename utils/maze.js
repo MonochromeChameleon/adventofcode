@@ -7,8 +7,10 @@ export class Maze {
     this.height = height;
     this.width = width;
     this.adjacencyMap = buildAdjacencyMap({ width, height, adjacency: 4 });
+  }
 
-    this.nonStandardSquares = this.squares.filter((square) => square !== '.' && square !== '#' && square !== ' ');
+  get nonStandardSquares() {
+    return this.squares.filter((square) => square !== '.' && square !== '#' && square !== ' ');
   }
 
   find(char) {
@@ -48,7 +50,7 @@ export class Maze {
   }
 
   distance(start, end) {
-    return this.route(start, end).length - 1;
+    return this.route(start, end).map((rte) => rte.length - 1);
   }
 
   toString() {

@@ -1,5 +1,6 @@
 import { QuestionBase, Parsers } from '../../utils/question-base.js';
 import { dijkstra } from '../../utils/dijkstra.js';
+import { Maybe } from '../../utils/maybe.js';
 
 export class Question extends QuestionBase {
   constructor() {
@@ -21,96 +22,32 @@ export class Question extends QuestionBase {
     return Parsers.MAZE;
   }
 
-  part1(maze) {
+  splitQuadrants(maze) {
     const start = maze.squares.findIndex((s) => s === '@');
-    const keys = maze.nonStandardSquares.filter((s) => s.match(/[a-z]/)).sort();
 
-    const findBlockages = (tgt) =>
-      maze
-        .route(start, tgt)
-        .filter((ix) => maze.squares[ix].match(/[a-zA-Z]/))
-        .map((ix) => maze.squares[ix].toLowerCase())
-        .filter((it) => it !== tgt);
-
-    const blockages = keys.reduce((b, k) => ({ ...b, [k]: findBlockages(k) }), {});
-
-    const goal = (current) => current.length === keys.length + 1;
-
-    const neighbours = (current) => {
-      const availableKeys = keys.filter((k) => !current.includes(k) && blockages[k].every((b) => current.includes(b)));
-      const prefix = current.slice(1).split('').sort().join('');
-      return availableKeys.map((k) => `@${prefix}${k}`);
-    };
-
-    const distances = ['@', ...keys].reduce((d, from) => ['@', ...keys].reduce((dd, to) => {
-        const key = `${from}-${to}`;
-        if (from === to) {
-          dd[key] = 0;
-          return dd;
-        }
-
-        dd[key] = dd[`${to}-${from}`] || maze.route(maze.squares.indexOf(from), maze.squares.indexOf(to)).length - 1;
-        return dd;
-      }, d), {});
-
-    const distance = (from, to) => distances[`${from[from.length - 1]}-${to[to.length - 1]}`];
-
-    return dijkstra({ start: '@', goal, neighbours, distance, output: 'distance' });
-  }
-
-  part2(maze) {
-    const start = maze.squares.findIndex((s) => s === '@');
     [-1, 0, 1]
       .flatMap((dx) => [-1, 0, 1].map((dy) => [dx, dy]))
       .forEach(([dx, dy]) => {
         maze.squares[start + dx + dy * maze.width] = dx && dy ? '@' : '#';
       });
+  }
 
-    const starts = [-1, 1]
-      .flatMap((dx) => [-1, 1].map((dy) => [dx, dy]))
-      .map(([dx, dy]) => start + dx + dy * maze.width);
+  completeKeyMaze(start, maze) {
+    const starts = maze.squares.reduce((ss, sq, ix) => sq === '@' ? [...ss, ix] : ss, []);
     const keys = maze.nonStandardSquares.filter((s) => s.match(/[a-z]/)).sort();
+    const quadrants = Object.fromEntries(keys.map((k) => [k, starts.findIndex((ii) => maze.route(ii, k).hasValue())]));
 
-    const findRoute = (tgt) =>
-      starts.reduce((r, s) => {
-        if (r) return r;
-        try {
-          return maze.route(s, tgt);
-        } catch (e) {
-          return null;
-        }
-      }, null);
-
-    const quadrants = Object.fromEntries(
-      keys.map((k) => [
-        k,
-        [0, 1, 2, 3].find((ii) => {
-          try {
-            maze.route(starts[ii], k);
-            return true;
-          } catch (e) {
-            return false;
-          }
-        }),
-      ])
-    );
-
-    const findDistance = (from, to) => {
-      try {
-        return maze.route(from, to).length - 1;
-      } catch (e) {
-        return undefined;
-      }
-    };
-
+    const findRoute = (tgt) => starts.reduce((r, s) => r.maybeBaby(() => maze.route(s, tgt)), Maybe.empty());
     const findBlockages = (tgt) =>
       findRoute(tgt)
-        .filter((ix) => maze.squares[ix].match(/[a-zA-Z]/))
-        .map((ix) => maze.squares[ix].toLowerCase())
-        .filter((it) => it !== tgt);
+        .map((rte) => rte.filter((ix) => maze.squares[ix].match(/[a-zA-Z]/))
+          .map((ix) => maze.squares[ix].toLowerCase())
+          .filter((it) => it !== tgt)
+        ).orElse([]);
+
     const blockages = keys.reduce((b, k) => ({ ...b, [k]: findBlockages(k) }), {});
 
-    const goal = (current) => current.length === keys.length + 7;
+    const goal = (current) => current.length === keys.length + start.length;
 
     const neighbours = (current) => {
       const availableKeys = keys.filter((k) => !current.includes(k) && blockages[k].every((b) => current.includes(b)));
@@ -121,22 +58,13 @@ export class Question extends QuestionBase {
     };
 
     const distances = ['@', ...keys].reduce((d, from) => ['@', ...keys].reduce((dd, to) => {
-        const key = `${from}-${to}`;
-        if (from === to) {
-          dd[key] = 0;
-          return dd;
-        }
+      const key = `${from}-${to}`;
+      if (from === to) return { ...dd, [key]: 0 };
+      if (dd[`${to}-${from}`]) return { ...dd, [key]: dd[`${to}-${from}`] };
 
-        dd[key] = dd[`${to}-${from}`];
-        if (!dd[key]) {
-          if (from === '@') {
-            dd[key] = starts.reduce((ddd, s) => ddd || findDistance(s, to), 0);
-          } else {
-            dd[key] = findDistance(from, to);
-          }
-        }
-        return dd;
-      }, d), {});
+      const froms = from === '@' ? starts : [from];
+      return froms.reduce((m, s) => m.maybeBaby(() => maze.distance(s, to)), Maybe.empty()).map((dist) => ({ ...dd, [key]: dist })).orElse(dd);
+    }, d), {});
 
     const distance = (from, to) => {
       const qf = from.split(':');
@@ -149,6 +77,16 @@ export class Question extends QuestionBase {
       return distances[`${f}-${t}`];
     };
 
-    return dijkstra({ start: '@:@:@:@', goal, neighbours, distance, output: 'distance' });
+    return dijkstra({ start, goal, neighbours, distance, output: 'distance' }).getOrThrow();
+  }
+
+
+  part1(maze) {
+    return this.completeKeyMaze('@', maze);
+  }
+
+  part2(maze) {
+    this.splitQuadrants(maze);
+    return this.completeKeyMaze('@:@:@:@', maze);
   }
 }

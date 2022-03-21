@@ -1,4 +1,5 @@
 import { PriorityQueue } from './priority-queue.js';
+import { Maybe } from './maybe.js';
 
 export function reconstructPath(cameFrom, current) {
   const totalPath = [current];
@@ -24,9 +25,9 @@ export function dijkstra({ start, goal, neighbours, distance = () => 1, output =
     if (isGoal(current)) {
       switch (output) {
         case 'route':
-          return reconstructPath(cameFrom, current);
+          return Maybe.of(reconstructPath(cameFrom, current));
         case 'distance':
-          return dist;
+          return Maybe.of(dist);
       }
     }
     explored.add(current);
@@ -46,5 +47,5 @@ export function dijkstra({ start, goal, neighbours, distance = () => 1, output =
     });
   }
 
-  throw new Error('No path found');
+  return Maybe.empty();
 }

@@ -34,31 +34,27 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    const result = dijkstra({
+    return dijkstra({
       start: '0,0,',
       goal: (maybeGoal) => maybeGoal.startsWith('3,3'),
       neighbours: (pos) => this.calculateNeighbours(input, pos),
-    });
-    return result[result.length - 1].replace('3,3,', '');
+    }).map((result) => result[result.length - 1].replace('3,3,', '')).getOrThrow();
   }
 
   part2(input) {
     const paths = {};
-    try {
-      dijkstra({
-        start: '0,0,',
-        goal: (maybeGoal) => {
-          if (maybeGoal.startsWith('3,3')) {
-            const [, , route] = maybeGoal.split(',');
-            paths[route] = route.length;
-          }
-          return false;
-        },
-        neighbours: (pos) => this.calculateNeighbours(input, pos),
-      });
-    } catch (e) {
-      // ignore
-    }
+    dijkstra({
+      start: '0,0,',
+      goal: (maybeGoal) => {
+        if (maybeGoal.startsWith('3,3')) {
+          const [, , route] = maybeGoal.split(',');
+          paths[route] = route.length;
+        }
+        return false;
+      },
+      neighbours: (pos) => this.calculateNeighbours(input, pos),
+    });
+
     return Object.values(paths).reduce((a, b) => Math.max(a, b));
   }
 }

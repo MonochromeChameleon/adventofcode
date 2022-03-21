@@ -52,7 +52,7 @@ export class Question extends QuestionBase {
 
     const start = '0:0:T';
 
-    const route = aStarSearch({
+    return aStarSearch({
       start,
       goal: `${x}:${y}:T`,
       d: (from, to) => (from.endsWith(to.slice(-1)) ? 1 : 7),
@@ -78,13 +78,9 @@ export class Question extends QuestionBase {
         ];
       },
       searchSpaceSize: width * height * 2,
-    });
-
-    return route
-      .slice(1)
-      .reduce(({ total, prev }, sq) => ({ total: total + (sq.endsWith(prev.slice(-1)) ? 1 : 7), prev: sq }), {
-        total: 0,
-        prev: start,
-      }).total;
+    }).map((route) => route.slice(1).reduce(({ total, prev }, sq) => ({ total: total + (sq.endsWith(prev.slice(-1)) ? 1 : 7), prev: sq }), {
+      total: 0,
+      prev: start,
+    })).map((it) => it.total).getOrThrow();
   }
 }

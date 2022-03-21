@@ -1,4 +1,5 @@
 import { PriorityQueue } from './priority-queue.js';
+import { Maybe } from './maybe.js';
 
 export function reconstructPath(cameFrom, current) {
   const totalPath = [current];
@@ -25,7 +26,7 @@ export function aStarSearch({ start, goal, d = () => 1, h, neighbours, searchSpa
   while (!openSet.isEmpty()) {
     const current = openSet.pop();
     if (isGoal(current)) {
-      return reconstructPath(cameFrom, current);
+      return Maybe.of(reconstructPath(cameFrom, current));
     }
 
     neighbours(current).forEach((neighbour) => {
@@ -41,5 +42,5 @@ export function aStarSearch({ start, goal, d = () => 1, h, neighbours, searchSpa
     });
   }
 
-  throw new Error('No path found');
+  return Maybe.empty();
 }

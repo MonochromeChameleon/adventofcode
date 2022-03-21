@@ -4,7 +4,6 @@ import { dijkstra } from '../../utils/dijkstra.js';
 export class Question extends QuestionBase {
   constructor() {
     super(2019, 20, 668, 7778);
-    this.wip = true;
 
     this.exampleInput({ part1: 23, part2: 26 });
     this.exampleInput({ part1: 58 });
@@ -63,7 +62,7 @@ export class Question extends QuestionBase {
       goal,
       neighbours: (ix) => this.neighbours(input, ix),
       output: 'distance',
-    });
+    }).getOrThrow();
   }
 
   part1(input) {

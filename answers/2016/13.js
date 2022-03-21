@@ -41,14 +41,13 @@ export class Question extends QuestionBase {
   }
 
   part1(input, goalX = 31, goalY = 39) {
-    const [, ...route] = aStarSearch({
+    return aStarSearch({
       start: '1,1',
       goal: `${goalX},${goalY}`,
       h: (pos) => this.distanceToGoal(goalX, goalY, ...pos.split(',').map(Number)),
       neighbours: (pos) => this.findNeighbours(input, ...pos.split(',').map(Number)),
       searchSpaceSize: 0,
-    });
-    return route.length;
+    }).map((it) => it.length - 1).getOrThrow();
   }
 
   part2(input) {

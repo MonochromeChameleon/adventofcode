@@ -10,14 +10,7 @@ class Orc {
 
   move(squaresInRange, occupied, maze) {
     const routeDetails = squaresInRange
-      .map((ix) => {
-        try {
-          const route = maze.route(this.ix, ix, occupied);
-          return { target: ix, route, distance: route.length };
-        } catch (e) {
-          return undefined;
-        }
-      })
+      .map((ix) => maze.route(this.ix, ix, occupied).map((route) => ({ target: ix, route, distance: route.length })).orElse(undefined))
       .filter(Boolean);
 
     const { routes, distance } = routeDetails.reduce(
@@ -39,7 +32,7 @@ class Orc {
 
     const nextRoute = possibleSteps
       .map((ix) => {
-        const route = maze.route(ix, targetSquare, occupied);
+        const route = maze.route(ix, targetSquare, occupied).orElse([]);
         return { target: ix, route, distance: route.length };
       })
       .filter(Boolean)
