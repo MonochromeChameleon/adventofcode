@@ -142,9 +142,8 @@ export class Question extends QuestionBase {
   part1(input) {
     return dijkstra({
       start: input.toString(),
-      goal: input.targetState.toString(),
+      end: input.targetState.toString(),
       neighbours: (state) => State.fromString(state).neighbours(),
-      output: 'distance',
     }).getOrThrow();
   }
 

@@ -10,8 +10,8 @@ export function reconstructPath(cameFrom, current) {
   return totalPath;
 }
 
-export function dijkstra({ start, goal, neighbours, distance = () => 1, output = 'route' }) {
-  const isGoal = typeof goal === 'function' ? goal : (maybeGoal) => goal === maybeGoal;
+export function dijkstra({ start, end, neighbours, distance = () => 1, output = 'distance' }) {
+  const isEnd = typeof end === 'function' ? end : (maybeEnd) => end === maybeEnd;
 
   const openSet = new PriorityQueue((a, b) => a.distance < b.distance);
   openSet.push({ id: start, distance: 0 });
@@ -22,10 +22,12 @@ export function dijkstra({ start, goal, neighbours, distance = () => 1, output =
 
   while (!openSet.isEmpty()) {
     const { id: current, distance: dist } = openSet.pop();
-    if (isGoal(current)) {
+    if (isEnd(current)) {
       switch (output) {
         case 'route':
           return Maybe.of(reconstructPath(cameFrom, current));
+        case 'endpoint':
+          return Maybe.of(current);
         case 'distance':
           return Maybe.of(dist);
       }

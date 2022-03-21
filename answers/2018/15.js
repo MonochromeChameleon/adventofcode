@@ -10,7 +10,12 @@ class Orc {
 
   move(squaresInRange, occupied, maze) {
     const routeDetails = squaresInRange
-      .map((ix) => maze.route(this.ix, ix, occupied).map((route) => ({ target: ix, route, distance: route.length })).orElse(undefined))
+      .map((ix) =>
+        maze
+          .route(this.ix, ix, occupied)
+          .map((route) => ({ target: ix, route, distance: route.length }))
+          .orElse(undefined)
+      )
       .filter(Boolean);
 
     const { routes, distance } = routeDetails.reduce(

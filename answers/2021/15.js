@@ -25,11 +25,12 @@ export class Question extends QuestionBase {
   part1({ grid, width }) {
     return aStarSearch({
       start: 0,
-      goal: width * width - 1,
+      end: width * width - 1,
       d: (_, ix) => grid[ix],
       h: this.h(width),
       neighbours: (ix) => adjacentIndices({ ix, width, adjacency: 4 }),
-    }).map((route) => route.slice(1))
+    })
+      .map((route) => route.slice(1))
       .map((route) => route.reduce((acc, ix) => acc + grid[ix], 0))
       .getOrThrow();
   }
@@ -52,11 +53,12 @@ export class Question extends QuestionBase {
 
     return aStarSearch({
       start: 0,
-      goal: fiveW * fiveW - 1,
+      end: fiveW * fiveW - 1,
       d: getGridRisk,
       h: this.h(fiveW),
       neighbours: (ix) => adjacentIndices({ ix, width: fiveW, adjacency: 4 }),
-    }).map((route) => route.slice(1))
+    })
+      .map((route) => route.slice(1))
       .map((route) => route.reduce((acc, ix) => acc + getGridRisk(ix), 0))
       .getOrThrow();
   }

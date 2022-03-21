@@ -15,7 +15,9 @@ export class Question extends IntcodeQuestion {
   }
 
   hasSquare(comp, size, { x, y }) {
-    return [x, x + size - 1].every((xcorner) => [y, y + size - 1].every((ycorner) => this.getOutput(comp, xcorner, ycorner).z));
+    return [x, x + size - 1].every((xcorner) =>
+      [y, y + size - 1].every((ycorner) => this.getOutput(comp, xcorner, ycorner).z)
+    );
   }
 
   rowHasRange(comp, size, mins) {

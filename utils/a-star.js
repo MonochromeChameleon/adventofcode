@@ -10,8 +10,8 @@ export function reconstructPath(cameFrom, current) {
   return totalPath;
 }
 
-export function aStarSearch({ start, goal, d = () => 1, h, neighbours, searchSpaceSize = goal }) {
-  const isGoal = typeof goal === 'function' ? goal : (maybeGoal) => goal === maybeGoal;
+export function aStarSearch({ start, end, d = () => 1, h, neighbours, searchSpaceSize = end, output = 'route' }) {
+  const isEnd = typeof end === 'function' ? end : (maybeEnd) => end === maybeEnd;
   const gScore = Array.from({ length: searchSpaceSize }).fill(Infinity);
   gScore[start] = 0;
 
@@ -25,8 +25,15 @@ export function aStarSearch({ start, goal, d = () => 1, h, neighbours, searchSpa
 
   while (!openSet.isEmpty()) {
     const current = openSet.pop();
-    if (isGoal(current)) {
-      return Maybe.of(reconstructPath(cameFrom, current));
+    if (isEnd(current)) {
+      switch (output) {
+        case 'route':
+          return Maybe.of(reconstructPath(cameFrom, current));
+        case 'distance':
+          return Maybe.of(gScore[current]);
+        case 'endpoint':
+          return Maybe.of(current);
+      }
     }
 
     neighbours(current).forEach((neighbour) => {

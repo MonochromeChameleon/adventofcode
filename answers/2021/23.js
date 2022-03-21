@@ -124,24 +124,27 @@ export class Question extends QuestionBase {
       (i) => !occupiedSpaces.includes(i)
     );
 
-    const movesIntoRooms = occupiedHall.flatMap((from) => unoccupiedRooms.map((to) => ({
-      from,
-      to
-    })));
-    const movesIntoHall = occupiedRooms.flatMap((from) => unoccupiedHall.map((to) => ({
-      from,
-      to
-    })));
-    const movesBetweenRooms = occupiedRooms.flatMap((from) => unoccupiedRooms.map((to) => ({
-      from,
-      to
-    })));
-
-    const allMoves = [...movesIntoRooms, ...movesIntoHall, ...movesBetweenRooms].filter(({
+    const movesIntoRooms = occupiedHall.flatMap((from) =>
+      unoccupiedRooms.map((to) => ({
         from,
-        to
-      }) =>
-        this.isValidMove(from, to, state)
+        to,
+      }))
+    );
+    const movesIntoHall = occupiedRooms.flatMap((from) =>
+      unoccupiedHall.map((to) => ({
+        from,
+        to,
+      }))
+    );
+    const movesBetweenRooms = occupiedRooms.flatMap((from) =>
+      unoccupiedRooms.map((to) => ({
+        from,
+        to,
+      }))
+    );
+
+    const allMoves = [...movesIntoRooms, ...movesIntoHall, ...movesBetweenRooms].filter(({ from, to }) =>
+      this.isValidMove(from, to, state)
     );
 
     function swapStr(str, first, last) {
@@ -154,18 +157,25 @@ export class Question extends QuestionBase {
   part1(input) {
     return aStarSearch({
       start: input,
-      goal: '...........ABCDABCD',
+      end: '...........ABCDABCD',
       d: this.d.bind(this),
       h: this.h.bind(this),
       neighbours: this.moves.bind(this),
-      searchSpaceSize: 0
-    }).map(([start, ...steps]) => steps.reduce(({ state, score }, newState) => ({
-      state: newState,
-      score: score + this.d(state, newState)
-    }), {
-      state: start,
-      score: 0
-    })).map(({ score }) => score)
+      searchSpaceSize: 0,
+    })
+      .map(([start, ...steps]) =>
+        steps.reduce(
+          ({ state, score }, newState) => ({
+            state: newState,
+            score: score + this.d(state, newState),
+          }),
+          {
+            state: start,
+            score: 0,
+          }
+        )
+      )
+      .map(({ score }) => score)
       .getOrThrow();
   }
 
@@ -174,18 +184,25 @@ export class Question extends QuestionBase {
 
     return aStarSearch({
       start: startCondition,
-      goal: '...........ABCDABCDABCDABCD',
+      end: '...........ABCDABCDABCDABCD',
       d: this.d.bind(this),
       h: this.h.bind(this),
       neighbours: this.moves.bind(this),
-      searchSpaceSize: 0
-    }).map(([start, ...steps]) => steps.reduce(({ state, score }, newState) => ({
-      state: newState,
-      score: score + this.d(state, newState)
-    }), {
-      state: start,
-      score: 0
-    })).map(({ score }) => score)
+      searchSpaceSize: 0,
+    })
+      .map(([start, ...steps]) =>
+        steps.reduce(
+          ({ state, score }, newState) => ({
+            state: newState,
+            score: score + this.d(state, newState),
+          }),
+          {
+            state: start,
+            score: 0,
+          }
+        )
+      )
+      .map(({ score }) => score)
       .getOrThrow();
   }
 }

@@ -36,21 +36,22 @@ export class Maze {
       .filter((ix) => !blockages.includes(ix));
   }
 
-  route(start, end, blockages = []) {
+  route(start, end, blockages = [], output = 'route') {
     const startIndex = Number.isInteger(start) ? start : this.find(start);
     const endIndex = Number.isInteger(end) ? end : this.find(end);
 
     return aStarSearch({
       start: startIndex,
-      goal: endIndex,
+      end: endIndex,
       h: (ix) => this.manhattan(ix, endIndex),
       neighbours: (ix) => this.neighbours(ix, blockages),
       searchSpaceSize: this.squares.length,
+      output,
     });
   }
 
-  distance(start, end) {
-    return this.route(start, end).map((rte) => rte.length - 1);
+  distance(start, end, blockages = []) {
+    return this.route(start, end, blockages, 'distance');
   }
 
   toString() {

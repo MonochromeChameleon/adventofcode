@@ -1,5 +1,6 @@
 import { QuestionBase, Parsers } from '../../utils/question-base.js';
 import { aStarSearch } from '../../utils/a-star.js';
+import { Vector } from '../../utils/vector.js';
 
 export class Question extends QuestionBase {
   constructor() {
@@ -12,8 +13,8 @@ export class Question extends QuestionBase {
     return Parsers.SINGLE_NUMBER;
   }
 
-  distanceToGoal(xg, yg, x, y) {
-    return Math.abs(x - xg) + Math.abs(y - yg);
+  distanceToEnd(tgt, x, y) {
+    return tgt.subtract(new Vector(x, y)).manhattan;
   }
 
   findNeighbours(favouriteNumber, x, y) {
@@ -40,14 +41,16 @@ export class Question extends QuestionBase {
       .map((it) => it.join(','));
   }
 
-  part1(input, goalX = 31, goalY = 39) {
+  part1(input, tgtX = 31, tgtY = 39) {
+    const tgt = new Vector(tgtX, tgtY);
     return aStarSearch({
       start: '1,1',
-      goal: `${goalX},${goalY}`,
-      h: (pos) => this.distanceToGoal(goalX, goalY, ...pos.split(',').map(Number)),
+      end: `${tgtX},${tgtY}`,
+      h: (pos) => this.distanceToEnd(tgt, ...pos.split(',').map(Number)),
       neighbours: (pos) => this.findNeighbours(input, ...pos.split(',').map(Number)),
       searchSpaceSize: 0,
-    }).map((it) => it.length - 1).getOrThrow();
+      output: 'distance',
+    }).getOrThrow();
   }
 
   part2(input) {

@@ -36,18 +36,21 @@ export class Question extends QuestionBase {
   part1(input) {
     return dijkstra({
       start: '0,0,',
-      goal: (maybeGoal) => maybeGoal.startsWith('3,3'),
+      end: (maybeEnd) => maybeEnd.startsWith('3,3'),
       neighbours: (pos) => this.calculateNeighbours(input, pos),
-    }).map((result) => result[result.length - 1].replace('3,3,', '')).getOrThrow();
+      output: 'endpoint',
+    })
+      .map((endpoint) => endpoint.replace('3,3,', ''))
+      .getOrThrow();
   }
 
   part2(input) {
     const paths = {};
     dijkstra({
       start: '0,0,',
-      goal: (maybeGoal) => {
-        if (maybeGoal.startsWith('3,3')) {
-          const [, , route] = maybeGoal.split(',');
+      end: (maybeEnd) => {
+        if (maybeEnd.startsWith('3,3')) {
+          const [, , route] = maybeEnd.split(',');
           paths[route] = route.length;
         }
         return false;

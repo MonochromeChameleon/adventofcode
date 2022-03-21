@@ -54,24 +54,23 @@ export class Question extends QuestionBase {
       .filter(Boolean);
   }
 
-  doMaze(input, goal) {
+  doMaze(input, end) {
     const start = input.neighbours(input.squares.findIndex((sq) => sq === 'AA')).find((n) => input.squares[n] === '.');
 
     return dijkstra({
       start: `${start}:0`,
-      goal,
+      end,
       neighbours: (ix) => this.neighbours(input, ix),
-      output: 'distance',
     }).getOrThrow();
   }
 
   part1(input) {
-    const goal = input.neighbours(input.squares.findIndex((sq) => sq === 'ZZ')).find((n) => input.squares[n] === '.');
-    return this.doMaze(input, (state) => state.split(':').map(Number)[0] === goal);
+    const end = input.neighbours(input.squares.findIndex((sq) => sq === 'ZZ')).find((n) => input.squares[n] === '.');
+    return this.doMaze(input, (state) => state.split(':').map(Number)[0] === end);
   }
 
   part2(input) {
-    const goal = input.neighbours(input.squares.findIndex((sq) => sq === 'ZZ')).find((n) => input.squares[n] === '.');
-    return this.doMaze(input, `${goal}:0`);
+    const end = input.neighbours(input.squares.findIndex((sq) => sq === 'ZZ')).find((n) => input.squares[n] === '.');
+    return this.doMaze(input, `${end}:0`);
   }
 }
