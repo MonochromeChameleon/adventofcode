@@ -8,7 +8,7 @@ export class Maze {
     this.width = width;
     this.adjacencyMap = buildAdjacencyMap({ width, height, adjacency: 4 });
 
-    this.nonStandardSquares = this.squares.filter((square) => square !== '.' && square !== '#');
+    this.nonStandardSquares = this.squares.filter((square) => square !== '.' && square !== '#' && square !== ' ');
   }
 
   find(char) {
@@ -29,7 +29,9 @@ export class Maze {
   }
 
   neighbours(square, blockages = []) {
-    return this.adjacencyMap[square].filter((ix) => this.squares[ix] !== '#').filter((ix) => !blockages.includes(ix));
+    return this.adjacencyMap[square]
+      .filter((ix) => this.squares[ix] !== '#' && this.squares[ix] !== ' ')
+      .filter((ix) => !blockages.includes(ix));
   }
 
   route(start, end, blockages = []) {
