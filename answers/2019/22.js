@@ -4,7 +4,6 @@ import { modularDivide, modularInverse } from '../../utils/modular-maths.js';
 export class Question extends QuestionBase {
   constructor() {
     super(2019, 22, 3324, 74132511136410);
-    this.wip = true;
     const params = [10, 9, 1];
 
     this.exampleInput(

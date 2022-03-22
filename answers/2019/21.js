@@ -3,7 +3,6 @@ import { IntcodeQuestion } from './intcode/intcode-question.js';
 export class Question extends IntcodeQuestion {
   constructor() {
     super(2019, 21, 19347995, 1141826552);
-    this.wip = true;
   }
 
   runProgram(intcode, program) {

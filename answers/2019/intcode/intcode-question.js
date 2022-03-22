@@ -11,7 +11,7 @@ export class IntcodeQuestion extends QuestionBase {
   }
 
   newIntcode() {
-    return new Intcode(this.input.originalProgram);
+    return new Intcode(this._program);
   }
 
   reset(input) {
@@ -24,6 +24,7 @@ export class IntcodeQuestion extends QuestionBase {
   }
 
   postParse(lines) {
-    return new Intcode(lines);
+    this._program = lines;
+    return this.newIntcode();
   }
 }
