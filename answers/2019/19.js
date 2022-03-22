@@ -10,7 +10,7 @@ export class Question extends IntcodeQuestion {
     comp.reset();
     comp.input(x);
     comp.input(y);
-    comp.toOutput();
+    comp.runToNextOutput();
     return new Vector(x, y, comp.output);
   }
 

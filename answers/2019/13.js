@@ -42,9 +42,9 @@ export class Question extends IntcodeQuestion {
   }
 
   runThree(comp, board) {
-    const { output: x } = comp.toOutput(board.joystick);
-    const { output: y } = comp.toOutput(board.joystick);
-    const { output } = comp.toOutput(board.joystick);
+    const { output: x } = comp.runToNextOutput(board.joystick);
+    const { output: y } = comp.runToNextOutput(board.joystick);
+    const { output } = comp.runToNextOutput(board.joystick);
 
     if (comp.terminated) return;
 

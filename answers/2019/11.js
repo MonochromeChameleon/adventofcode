@@ -64,9 +64,9 @@ export class Question extends IntcodeQuestion {
   }
 
   runRobot(robot, comp, override) {
-    comp.toOutput(override || robot.currentColour);
+    comp.runToNextOutput(override || robot.currentColour);
     robot.paint(comp.output);
-    comp.toOutput(override || robot.currentColour);
+    comp.runToNextOutput(override || robot.currentColour);
     robot.turnAndMove(comp.output);
   }
 

@@ -31,7 +31,7 @@ export class Question extends IntcodeQuestion {
 
     const params = [input.output];
     if (amp.index === 0) amp.next(phase);
-    const { output } = amp.toOutput(...params);
+    const { output } = amp.runToNextOutput(...params);
 
     if (amp.terminated && !others.length) {
       return output;

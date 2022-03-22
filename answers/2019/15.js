@@ -31,7 +31,7 @@ class Droid extends Vector {
   }
 
   move(direction) {
-    this.comp.toOutput(direction);
+    this.comp.runToNextOutput(direction);
     if (this.comp.output === 0) return 0;
 
     const tgtX = direction < 3 ? this.x : this.x + (direction % 2 ? 1 : -1);

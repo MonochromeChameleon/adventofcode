@@ -49,7 +49,7 @@ export class Question extends IntcodeQuestion {
   part1(input) {
     const output = [];
     while (!input.terminated) {
-      input.toOutput();
+      input.runToNextOutput();
       output.push(input.output);
     }
 

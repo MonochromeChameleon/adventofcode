@@ -159,7 +159,7 @@ export class Intcode {
     return this;
   }
 
-  toOutput(param) {
+  runToNextOutput(param) {
     this.paused = false;
     while (!this.paused) this.next(param);
     return this;
