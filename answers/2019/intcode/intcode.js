@@ -34,7 +34,7 @@ export class Intcode {
         this.updateArrayLength(targetIndex + 1);
         this.program[targetIndex] = outValue;
         this.index += 4;
-        return this;
+        break;
       }
       case 2: {
         const targetIndex =
@@ -48,7 +48,7 @@ export class Intcode {
         this.updateArrayLength(targetIndex + 1);
         this.program[targetIndex] = outValue;
         this.index += 4;
-        return this;
+        break;
       }
       case 3: {
         const targetIndex =
@@ -57,7 +57,7 @@ export class Intcode {
         this.updateArrayLength(targetIndex + 1);
         this.program[targetIndex] = param;
         this.index += 2;
-        return this;
+        break;
       }
       case 4: {
         const value = this.look(this.modes[0], 1);
@@ -65,21 +65,21 @@ export class Intcode {
         this.outArray.push(value);
         this.index += 2;
         this.paused = true;
-        return this;
+        break;
       }
       case 5: {
         const first = this.look(this.modes[0], 1);
         const second = this.look(this.modes[1], 2);
 
         this.index = first ? second : this.index + 3;
-        return this;
+        break;
       }
       case 6: {
         const first = this.look(this.modes[0], 1);
         const second = this.look(this.modes[1], 2);
 
         this.index = first ? this.index + 3 : second;
-        return this;
+        break;
       }
       case 7: {
         const targetIndex =
@@ -93,7 +93,7 @@ export class Intcode {
         this.updateArrayLength(targetIndex + 1);
         this.program[targetIndex] = outValue;
         this.index += 4;
-        return this;
+        break;
       }
       case 8: {
         const targetIndex =
@@ -107,28 +107,30 @@ export class Intcode {
         this.updateArrayLength(targetIndex + 1);
         this.program[targetIndex] = outValue;
         this.index += 4;
-        return this;
+        break;
       }
       case 9: {
         const relativeShift = this.look(this.modes[0], 1);
         this.relativeBase += relativeShift;
         this.index += 2;
-        return this;
+        break;
       }
       case 99: {
         this.paused = true;
         this.terminated = true;
-        return this;
+        break;
       }
-      default:
-        this.output = this.opcode;
-        this.outArray.push(this.opcode);
-        return this;
     }
+
+    return this;
   }
 
   get modes() {
     return [100, 1000, 10000].map((p) => ~~(this.instruction / p) % 10); // eslint-disable-line no-bitwise
+  }
+
+  get waiting() {
+    return this.opcode === 3;
   }
 
   look(mode, ix) {
@@ -153,8 +155,7 @@ export class Intcode {
   }
 
   input(param) {
-    this.paused = false;
-    while (!this.terminated && this.opcode !== 3) this.next();
+    while (!this.waiting) this.next();
     this.next(param);
     return this;
   }
@@ -165,8 +166,13 @@ export class Intcode {
     return this;
   }
 
-  run(param) {
+  runToIO() {
     this.paused = false;
+    while (!this.paused && !this.waiting) this.next();
+    return this;
+  }
+
+  run(param) {
     while (!this.terminated) this.next(param);
     return this;
   }
