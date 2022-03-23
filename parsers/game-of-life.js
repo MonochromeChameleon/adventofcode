@@ -35,6 +35,20 @@ export class GameOfLifeParser extends GridParser {
     return seen[outIndex].split('');
   }
 
+  untilRepeat(grid) {
+    const { adjacencyMap } = this.input;
+    const seen = [];
+    let next = grid;
+    let grd = grid.join('');
+    while (!seen.includes(grd)) {
+      seen.push(grd);
+      next = this.generation(next, adjacencyMap);
+      grd = next.join('');
+    }
+
+    return next;
+  }
+
   parseInput(lines) {
     const width = lines.reduce((max, line) => Math.max(max, line.length), 0);
     const grid = lines.map((line) => line.padEnd(width, ' ')).flatMap(this.m.parseLine.bind(this));

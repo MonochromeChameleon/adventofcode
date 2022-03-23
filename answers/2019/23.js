@@ -6,38 +6,43 @@ export class Question extends IntcodeQuestion {
   }
 
   provideInputs(computers, messages) {
-    computers.filter(({ waiting }) => waiting).forEach(computer => {
-      const message = messages[computer.id].shift();
-      (message ? [message.x, message.y] : [-1]).forEach(v => computer.input(v));
-      computer.runToIO();
-    });
+    computers
+      .filter(({ waiting }) => waiting)
+      .forEach((computer) => {
+        const message = messages[computer.id].shift();
+        (message ? [message.x, message.y] : [-1]).forEach((v) => computer.input(v));
+        computer.runToIO();
+      });
   }
 
   getOutputs(computers, messages) {
-    computers.filter(({ paused }) => paused).forEach(computer => {
-      const destination = computer.output;
-      const { output: x } = computer.runToNextOutput();
-      const { output: y } = computer.runToNextOutput();
+    computers
+      .filter(({ paused }) => paused)
+      .forEach((computer) => {
+        const destination = computer.output;
+        const { output: x } = computer.runToNextOutput();
+        const { output: y } = computer.runToNextOutput();
 
-      if (destination === 255) {
-        messages[destination] = { x, y };
-      } else {
-        messages[destination].push({ x, y });
-      }
-      computer.runToIO();
-    });
+        if (destination === 255) {
+          messages[destination] = { x, y };
+        } else {
+          messages[destination].push({ x, y });
+        }
+        computer.runToIO();
+      });
   }
 
   runAllComputers(computers, messages) {
     this.provideInputs(computers, messages);
-    while (computers.filter(({ waiting }) => waiting).some(({ id }) => messages[id].length)) this.provideInputs(computers, messages);
+    while (computers.filter(({ waiting }) => waiting).some(({ id }) => messages[id].length))
+      this.provideInputs(computers, messages);
     while (computers.some(({ paused }) => paused)) this.getOutputs(computers, messages);
   }
 
   newIntcode(id) {
     const i = super.newIntcode();
     i.id = id;
-    return i.input(id).runToIO()
+    return i.input(id).runToIO();
   }
 
   isIdle(computers, messages) {
@@ -53,7 +58,7 @@ export class Question extends IntcodeQuestion {
     return messages[255].y;
   }
 
-  part2(input) {
+  part2() {
     const computers = Array.from({ length: 50 }, (_, i) => this.newIntcode(i));
     const messages = Object.fromEntries(Array.from({ length: 50 }, (_, i) => [i, []]));
 
