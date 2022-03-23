@@ -25,7 +25,7 @@ export class Parser {
   }
 
   parseInput(lines) {
-    return lines.map(this.m.parseLine).filter((it) => it !== undefined);
+    return lines.map(this.m.parseLine.bind(this)).filter((it) => it !== undefined);
   }
 
   mixin(tgt) {

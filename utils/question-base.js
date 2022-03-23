@@ -74,7 +74,8 @@ export class QuestionBase {
   readFile(filename) {
     const inputFile = resolve(`./inputs/${this.year}/${filename}.txt`);
     const rawData = existsSync(inputFile) ? readFileSync(inputFile, 'utf8') : '';
-    this._rawData = rawData.split('\n').filter((it) => it);
+    const retainEmpty = this.retainEmptyLines;
+    this._rawData = rawData.split('\n').filter((it) => retainEmpty || it);
     return this.m.parseInput.call(this, this._rawData);
   }
 
@@ -90,6 +91,10 @@ export class QuestionBase {
 
   get parsers() {
     return [this.parser];
+  }
+
+  get retainEmptyLines() {
+    return false;
   }
 
   async part1() {
