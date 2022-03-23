@@ -3,6 +3,8 @@ import { QuestionBase, Parsers } from '../../utils/question-base.js';
 export class Question extends QuestionBase {
   constructor() {
     super(2020, 7);
+
+    this.exampleInput({ part1: 4 });
   }
 
   get parser() {

@@ -1,6 +1,10 @@
 import { Parser } from './parser.js';
 
 export class GroupParser extends Parser {
+  parseGroup(lines) {
+    return lines;
+  }
+
   parseInput(lines) {
     const groupSize = this.m.groupSize;
     const groupDelimiter = this.m.groupDelimiter;
