@@ -1,4 +1,3 @@
-import prompt from 'prompt';
 import { IntcodeQuestion } from './intcode/intcode-question.js';
 
 const COMMANDS = [
@@ -29,14 +28,6 @@ const COMMANDS = [
   'north',
 ];
 
-const FORBIDDEN_COMMANDS = [
-  'take photons',
-  'take molten lava',
-  'take giant electromagnet',
-  'take escape pod',
-  'take infinite loop',
-];
-
 export class Question extends IntcodeQuestion {
   constructor() {
     super(2019, 25, 18874497);
@@ -55,29 +46,37 @@ export class Question extends IntcodeQuestion {
   async execute(intcode, cmdix) {
     while (!intcode.waiting && !intcode.terminated) intcode.next();
     if (intcode.terminated) return;
-    if (COMMANDS[cmdix]) {
-      return this.sendInput(intcode, COMMANDS[cmdix]);
-    }
-    return new Promise((resolve, reject) => {
-      prompt.get(
-        {
-          name: 'command',
-          description: intcode.outArray.map((c) => String.fromCharCode(c)).join(''),
-        },
-        (err, result) => {
-          if (err) reject(err);
-          if (FORBIDDEN_COMMANDS.includes(result.command)) {
-            console.log('You know that is not a good idea'); // eslint-disable-line no-console
-            return resolve(intcode);
+    return this.sendInput(intcode, COMMANDS[cmdix]);
+    // Interactive version
+    /**
+      const FORBIDDEN_COMMANDS = [
+        'take photons',
+        'take molten lava',
+        'take giant electromagnet',
+        'take escape pod',
+        'take infinite loop',
+      ];
+
+      return new Promise((resolve, reject) => {
+        prompt.get(
+          {
+            name: 'command',
+            description: intcode.outArray.map((c) => String.fromCharCode(c)).join(''),
+          },
+          (err, result) => {
+            if (err) reject(err);
+            if (FORBIDDEN_COMMANDS.includes(result.command)) {
+              console.log('You know that is not a good idea'); // eslint-disable-line no-console
+              return resolve(intcode);
+            }
+            resolve(this.sendInput(intcode, result.command));
           }
-          resolve(this.sendInput(intcode, result.command));
-        }
-      );
-    });
+        );
+      });
+    */
   }
 
   async part1(intcode) {
-    prompt.start();
     let i = 0;
     while (!intcode.terminated) {
       await this.execute(intcode, i); // eslint-disable-line no-await-in-loop

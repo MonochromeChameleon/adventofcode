@@ -141,8 +141,6 @@ export class Intcode {
         return this.lookupOffset(ix);
       case 2:
         return this.lookup(this.relativeBase + this.lookupOffset(ix));
-      default:
-        throw new Error('NONONONONO');
     }
   }
 

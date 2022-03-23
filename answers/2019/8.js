@@ -29,7 +29,6 @@ export class Question extends QuestionBase {
     const TRANSPARENT = 2;
 
     const pixelValueAtIndex = (ix, [topLayer, ...layers]) => {
-      if (!topLayer) return TRANSPARENT;
       if (topLayer[ix] === TRANSPARENT) return pixelValueAtIndex(ix, layers);
       return topLayer[ix];
     };
