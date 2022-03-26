@@ -7,7 +7,14 @@ export class GameOfLifeParser extends GridParser {
   }
 
   generation(grid, adjacencyMap, nextFn = this.next.bind(this)) {
-    return grid.map((value, ix) => nextFn(value, adjacencyMap[ix].map((n) => grid[n]), ix, grid));
+    return grid.map((value, ix) =>
+      nextFn(
+        value,
+        adjacencyMap[ix].map((n) => grid[n]),
+        ix,
+        grid
+      )
+    );
   }
 
   generations(grid, count, adjacencyMap = this.input.adjacencyMap, nextFn = this.next.bind(this)) {

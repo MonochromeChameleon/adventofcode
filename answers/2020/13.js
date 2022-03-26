@@ -20,7 +20,7 @@ export class Question extends QuestionBase {
     return {
       timestamp: Parsers.SINGLE_NUMBER,
       buses: Parsers.SINGLE_LINE_SPLIT_MAP,
-    }
+    };
   }
 
   parserGroup(line) {
@@ -36,20 +36,26 @@ export class Question extends QuestionBase {
   }
 
   part1({ timestamp, buses }) {
-    const [first] = buses.filter((it) => it !== 'x').map((bus) => {
-      const wait = bus - (timestamp % bus);
-      return { bus, wait };
-    }).sort((a, b) => a.wait - b.wait);
+    const [first] = buses
+      .filter((it) => it !== 'x')
+      .map((bus) => {
+        const wait = bus - (timestamp % bus);
+        return { bus, wait };
+      })
+      .sort((a, b) => a.wait - b.wait);
 
     return first.bus * first.wait;
   }
 
   part2({ buses }) {
-    return buses.reduce(({ multiplier, timestamp }, bus, ix) => {
-      if (bus === 'x') return { multiplier, timestamp };
-      let t = timestamp;
-      while (t % bus !== ((bus * ix) - ix) % bus) t += multiplier;
-      return { multiplier: multiplier * bus, timestamp: t };
-    }, { multiplier: 1, timestamp: 0 }).timestamp;
+    return buses.reduce(
+      ({ multiplier, timestamp }, bus, ix) => {
+        if (bus === 'x') return { multiplier, timestamp };
+        let t = timestamp;
+        while (t % bus !== (bus * ix - ix) % bus) t += multiplier;
+        return { multiplier: multiplier * bus, timestamp: t };
+      },
+      { multiplier: 1, timestamp: 0 }
+    ).timestamp;
   }
 }

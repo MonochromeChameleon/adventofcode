@@ -54,23 +54,29 @@ export class Question extends QuestionBase {
 
     const rotation = this.getRotation(direction, distance);
     const displacement = this.getDisplacement(direction, distance);
-    return { rotation, displacement }
+    return { rotation, displacement };
   }
 
   part1(input) {
-    return input.reduce(({ orientation, position }, { rotation, displacement }) => {
-      const o = orientation.multiply(...rotation);
-      const delta = displacement instanceof Vector ? displacement : o.multiply(...displacement);
-      return { orientation: o, position: position.add(delta) };
-    }, { orientation: new Vector(1, 0), position: new Vector(0, 0) }).position.manhattan;
+    return input.reduce(
+      ({ orientation, position }, { rotation, displacement }) => {
+        const o = orientation.multiply(...rotation);
+        const delta = displacement instanceof Vector ? displacement : o.multiply(...displacement);
+        return { orientation: o, position: position.add(delta) };
+      },
+      { orientation: new Vector(1, 0), position: new Vector(0, 0) }
+    ).position.manhattan;
   }
 
   part2(input) {
-    return input.reduce(({ waypoint, position }, { rotation, displacement }) => {
-      if (displacement instanceof Vector) {
-        return { waypoint: waypoint.multiply(...rotation).add(displacement), position };
-      }
-      return { waypoint, position: position.add(waypoint.multiply(...displacement)) };
-    }, { waypoint: new Vector(10, -1), position: new Vector(0, 0) }).position.manhattan;
+    return input.reduce(
+      ({ waypoint, position }, { rotation, displacement }) => {
+        if (displacement instanceof Vector) {
+          return { waypoint: waypoint.multiply(...rotation).add(displacement), position };
+        }
+        return { waypoint, position: position.add(waypoint.multiply(...displacement)) };
+      },
+      { waypoint: new Vector(10, -1), position: new Vector(0, 0) }
+    ).position.manhattan;
   }
 }

@@ -14,10 +14,17 @@ export class Question extends QuestionBase {
     const [desc, inside] = line.split('contain');
     const colour = desc.replace(/bags\s*$/, '').trim();
     if (inside.trim() === 'no other bags.') return { colour, contents: {}, total: 1 };
-    const contents = inside.replace(/\.$/, '').split(',').map((it) => /^\s*(\d+) (.+) bag(s?)/.exec(it)).reduce((acc, [, num, col]) => ({
-      ...acc,
-      [col]: Number(num)
-    }), {});
+    const contents = inside
+      .replace(/\.$/, '')
+      .split(',')
+      .map((it) => /^\s*(\d+) (.+) bag(s?)/.exec(it))
+      .reduce(
+        (acc, [, num, col]) => ({
+          ...acc,
+          [col]: Number(num),
+        }),
+        {}
+      );
     return { colour, contents };
   }
 
@@ -41,11 +48,11 @@ export class Question extends QuestionBase {
             if (total) {
               obj[cacheKey] = total;
             } else {
-              obj[cacheKey] = Object.entries(contents).reduce((tot, [c, n]) => tot + (n * obj[c]), 1);
+              obj[cacheKey] = Object.entries(contents).reduce((tot, [c, n]) => tot + n * obj[c], 1);
             }
           }
           return obj[cacheKey];
-        }
+        },
       });
     });
 

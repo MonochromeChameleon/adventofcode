@@ -29,25 +29,30 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    const result = input.reduce((memory, { mask, assignments }) => {
-      return assignments.reduce((mem, { address, value }) => {
-        const binaryValue = value.toString(2).padStart(mask.length, '0');
-        const maskedValue = mask.map((bit, ix) => (bit === 'X' ? binaryValue[ix] : bit)).join('');
-        return { ...mem, [address]: parseInt(maskedValue, 2) };
-      }, memory);
-    }, {});
+    const result = input.reduce(
+      (memory, { mask, assignments }) =>
+        assignments.reduce((mem, { address, value }) => {
+          const binaryValue = value.toString(2).padStart(mask.length, '0');
+          const maskedValue = mask.map((bit, ix) => (bit === 'X' ? binaryValue[ix] : bit)).join('');
+          return { ...mem, [address]: parseInt(maskedValue, 2) };
+        }, memory),
+      {}
+    );
 
     return Object.values(result).reduce((sum, value) => sum + value, 0);
   }
 
   part2(input) {
-    const result = input.reduce(({ mask, memory }, line) => {
-      if (line.startsWith('mask')) return { mask: line.substring(6).split(''), memory };
-      const [, address, value] = line.match(/^mem\[(\d+)] = (\d+)$/).map(Number);
-      const binaryValue = value.toString(2).padStart(mask.length, '0');
-      const maskedValue = mask.map((bit, ix) => (bit === 'X' ? binaryValue[ix] : bit)).join('');
-      return { mask, memory: { ...memory, [address]: parseInt(maskedValue, 2) } };
-    }, { mask: [], memory: {} });
+    const result = input.reduce(
+      ({ mask, memory }, line) => {
+        if (line.startsWith('mask')) return { mask: line.substring(6).split(''), memory };
+        const [, address, value] = line.match(/^mem\[(\d+)] = (\d+)$/).map(Number);
+        const binaryValue = value.toString(2).padStart(mask.length, '0');
+        const maskedValue = mask.map((bit, ix) => (bit === 'X' ? binaryValue[ix] : bit)).join('');
+        return { mask, memory: { ...memory, [address]: parseInt(maskedValue, 2) } };
+      },
+      { mask: [], memory: {} }
+    );
 
     return Object.values(result.memory).reduce((sum, value) => sum + value, 0);
   }

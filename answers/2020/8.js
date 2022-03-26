@@ -11,9 +11,7 @@ export class Question extends QuestionBase {
     return Parsers.INSTRUCTIONS;
   }
 
-  nop() {
-
-  }
+  nop() {}
 
   acc(delta) {
     this.accumulator += delta;

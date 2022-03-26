@@ -27,14 +27,7 @@ export class InstructionsParser extends Parser {
   execute(
     instructions,
     startCondition = {},
-    {
-      optimize = false,
-      limit = Infinity,
-      breakFn = () => false,
-      defaultValue = 0,
-      debug = false,
-      ...extraCommands
-    } = {},
+    { optimize = false, limit = Infinity, breakFn = () => false, defaultValue = 0, ...extraCommands } = {},
     ...args
   ) {
     const baseState = this.m.defaultParams.call(this, startCondition, ...args);

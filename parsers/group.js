@@ -21,7 +21,7 @@ export class GroupParser extends Parser {
         .reduce(
           (out, line) => {
             if (testDelimiter(line)) {
-              if (this.m.retainDelimiter) out.unshift([line])
+              if (this.m.retainDelimiter) out.unshift([line]);
               else out.unshift([]);
             } else {
               out[0].push(line);
