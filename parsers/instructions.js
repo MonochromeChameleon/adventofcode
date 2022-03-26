@@ -67,10 +67,6 @@ export class InstructionsParser extends Parser {
         if (this.m.autoIncrementPointer.call(state, instruction)) {
           state.pointer += 1;
         }
-        if (debug) {
-          const { instructions: _, instruction: __, output, getValue, ...rest } = state;
-          console.log(rest); // eslint-disable-line no-console
-        }
       }
       state.count += 1;
     }

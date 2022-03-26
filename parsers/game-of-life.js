@@ -6,23 +6,17 @@ export class GameOfLifeParser extends GridParser {
     return 8;
   }
 
-  generation(grid, adjacencyMap) {
-    return grid.map((value, ix) =>
-      this.next(
-        value,
-        adjacencyMap[ix].map((n) => grid[n])
-      )
-    );
+  generation(grid, adjacencyMap, nextFn = this.next.bind(this)) {
+    return grid.map((value, ix) => nextFn(value, adjacencyMap[ix].map((n) => grid[n]), ix, grid));
   }
 
-  generations(grid, count) {
-    const { adjacencyMap } = this.input;
+  generations(grid, count, adjacencyMap = this.input.adjacencyMap, nextFn = this.next.bind(this)) {
     const seen = [];
     let next = grid;
     let grd = grid.join('');
     for (let i = 0; i < count && !seen.includes(grd); i += 1) {
       seen.push(grd);
-      next = this.generation(next, adjacencyMap);
+      next = this.generation(next, adjacencyMap, nextFn);
       grd = next.join('');
     }
 
@@ -35,14 +29,13 @@ export class GameOfLifeParser extends GridParser {
     return seen[outIndex].split('');
   }
 
-  untilRepeat(grid) {
-    const { adjacencyMap } = this.input;
+  untilRepeat(grid, adjacencyMap = this.input.adjacencyMap, nextFn = this.next.bind(this)) {
     const seen = [];
     let next = grid;
     let grd = grid.join('');
     while (!seen.includes(grd)) {
       seen.push(grd);
-      next = this.generation(next, adjacencyMap);
+      next = this.generation(next, adjacencyMap, nextFn);
       grd = next.join('');
     }
 

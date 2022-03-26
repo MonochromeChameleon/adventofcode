@@ -36,6 +36,9 @@ export class QuestionBase {
   get input() {
     if (this._input === undefined) {
       this._input = this.postParse(this.readFile(this.day));
+      if (this.sort) {
+        this._input = this._input.sort(this.sort);
+      }
     }
     if (this.mutates) {
       return JSON.parse(JSON.stringify(this._input));
@@ -113,6 +116,10 @@ export class QuestionBase {
 
   set wip(value) {
     this._wip = value;
+  }
+
+  get sort() {
+    return false;
   }
 
   reset() {

@@ -32,6 +32,7 @@ export default async function runAllTests({ years = allYears, wip = false } = {}
           qq.answers = { part1, part2 };
           const parsedInput = input !== undefined ? qq.m.parseInput.call(qq, [input].flat()) : qq.readFile(filename);
           qq._input = qq.postParse(parsedInput);
+          if (qq.sort) qq._input = qq._input.sort(qq.sort);
           return { ix, qq, params, part1, part2 };
         });
 
