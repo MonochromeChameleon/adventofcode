@@ -30,7 +30,8 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    const result = input.reduce((memory, { mask, assignments }) =>
+    const result = input.reduce(
+      (memory, { mask, assignments }) =>
         assignments.reduce((mem, { address, value }) => {
           const binaryValue = value.toString(2).padStart(mask.length, '0');
           const maskedValue = mask.map((bit, ix) => (bit === 'X' ? binaryValue[ix] : bit)).join('');
@@ -44,25 +45,29 @@ export class Question extends QuestionBase {
 
   part2(input) {
     const result = input.reduce((memory, { mask, assignments }) => {
-      const floaters = mask.map((bit, ix) => (bit === 'X' ? (mask.length - ix - 1) : -1)).filter((ix) => ix !== -1);
+      const floaters = mask.map((bit, ix) => (bit === 'X' ? mask.length - ix - 1 : -1)).filter((ix) => ix !== -1);
       const allFloaters = allCombinations(floaters).map((f) => f.map((p) => 2 ** p).reduce((a, b) => a + b, 0));
 
       return assignments.reduce((mem, { address, value }) => {
         const binaryAddress = address.toString(2).padStart(mask.length, '0');
-        const maskedAddress = mask.map((bit, ix) => {
-          switch (bit) {
-            case '0':
-              return binaryAddress[ix];
-            case '1':
-              return '1';
-            case 'X':
-              return '0';
-          }
-        }).join('');
+        const maskedAddress = mask
+          .map((bit, ix) => {
+            switch (bit) {
+              case '0':
+                return binaryAddress[ix];
+              case '1':
+                return '1';
+              default:
+                return '0';
+            }
+          })
+          .join('');
         const baseAddress = parseInt(maskedAddress, 2);
-        allFloaters.map((f) => f + baseAddress).forEach((address) => {
-          mem[address] = value;
-        });
+        allFloaters
+          .map((f) => f + baseAddress)
+          .forEach((add) => {
+            mem[add] = value;
+          });
         return mem;
       }, memory);
     }, {});

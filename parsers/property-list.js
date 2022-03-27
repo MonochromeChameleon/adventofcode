@@ -6,7 +6,14 @@ export class PropertyListParser extends Parser {
   }
 
   parseKey(key) {
-    return key[0].toLowerCase() + key.slice(1).replace(/\s+/g, '');
+    return (
+      key[0].toLowerCase() +
+      key
+        .slice(1)
+        .split(' ')
+        .map((k, ix) => (ix ? k[0].toUpperCase() + k.slice(1) : k))
+        .join('')
+    );
   }
 
   parseValue(value) {

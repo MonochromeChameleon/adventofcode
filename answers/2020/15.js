@@ -32,7 +32,7 @@ export class Question extends QuestionBase {
       history[prev] = i + input.length - 1;
       prev = next;
     }
-    return prev
+    return prev;
   }
 
   part1(input) {
