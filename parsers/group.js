@@ -15,12 +15,10 @@ export class GroupParser extends Parser {
     }
 
     if (groupDelimiter) {
-      const testDelimiter =
-        groupDelimiter instanceof RegExp ? (line) => groupDelimiter.test(line) : (line) => line === groupDelimiter;
       return lines
         .reduce(
           (out, line) => {
-            if (testDelimiter(line)) {
+            if (groupDelimiter.test(line)) {
               if (this.m.retainDelimiter) out.unshift([line]);
               else out.unshift([]);
             } else {

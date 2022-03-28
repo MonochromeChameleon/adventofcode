@@ -25,6 +25,7 @@ import { SingleLineSplitMapParser } from './single-line-split-map.js';
 import { SingleLineStringParser } from './single-line-string.js';
 import { SingleNumberParser } from './single-number.js';
 import { SingleStringParser } from './single-string.js';
+import { VectorGameOfLifeParser } from './vector-game-of-life.js';
 
 function extend(ParserClass, propertyMap = {}) {
   return {
@@ -64,3 +65,4 @@ export const SINGLE_LINE_SPLIT_MAP = extend(SingleLineSplitMapParser);
 export const SINGLE_LINE_STRING = extend(SingleLineStringParser);
 export const SINGLE_NUMBER = extend(SingleNumberParser);
 export const SINGLE_STRING = extend(SingleStringParser);
+export const VECTOR_GAME_OF_LIFE = extend(VectorGameOfLifeParser);

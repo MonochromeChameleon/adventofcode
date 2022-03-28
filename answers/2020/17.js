@@ -1,19 +1,33 @@
-import { QuestionBase, Parsers } from '../../utils/question-base.js';
+import { Parsers, QuestionBase } from '../../utils/question-base.js';
+import { Vector } from '../../utils/vector.js';
 
 export class Question extends QuestionBase {
   constructor() {
-    super(2020, 17);
+    super(2020, 17, 382, 2552);
+
+    this.exampleInput({ input: ['.#.', '..#', '###'], part1: 112, part2: 848 });
   }
 
   get parser() {
-    return Parsers.ONE_NUMBER_PER_LINE;
+    return Parsers.VECTOR_GAME_OF_LIFE;
   }
 
-  part1(input) {
-    return input.length;
+  next(point, neighbours) {
+    if (neighbours.length === 3) return true;
+    if (neighbours.length === 4) return neighbours.find((n) => n.equals(point));
+    return false;
   }
 
-  part2(input) {
-    return input.reduce((a, b) => a + b, 0);
+  get dimensions() {
+    return 3;
+  }
+
+  part1(active) {
+    return this.generations(6, active).length;
+  }
+
+  part2(active) {
+    const fourDimensions = active.map((p) => new Vector(...p.points, 0));
+    return this.generations(6, fourDimensions, 4).length;
   }
 }
