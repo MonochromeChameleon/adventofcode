@@ -43,27 +43,39 @@ export function padGrid({ grid, width, pad, padSize = 1 }) {
   ];
 }
 
-export function shrinkGrid({ grid, pad, width }) {
+export function shrinkGrid({ grid, width }) {
   const height = grid.length / width;
+  const newWidth = width - 2;
+  const newHeight = height - 2;
 
-  const minPad = grid.reduce((min, g, ix) => {
-    if (g === pad) return min;
+  return Array.from({ length: newWidth * newHeight }).map((_, ix) => {
+    const row = 1 + ~~(ix / newWidth);
+    const col = 1 + (ix % newWidth);
 
-    const row = ~~(ix / width);
-    const unRow = height - 1 - row;
-    const col = ix % width;
-    const unCol = width - 1 - col;
+    return grid[row * width + col];
+  });
+}
 
-    return Math.min(min, row, unRow, col, unCol);
-  }, Infinity);
+export function joinGrids({ grids, tileWidth, gridsPerRow }) {
+  return Array.from({ length: grids.length / gridsPerRow }).flatMap((_, ix) => {
+    const blockRow = grids.slice(ix * gridsPerRow, (ix + 1) * gridsPerRow);
+    return Array.from({ length: grids[0].length / tileWidth }).flatMap((_, i) =>
+      blockRow.flatMap((block) => block.slice(i * tileWidth, (i + 1) * tileWidth))
+    );
+  });
+}
 
-  return grid.reduce((out, g, ix) => {
-    const row = ~~(ix / width);
-    const col = ix % width;
+export function rotateGrid({ grid, width }) {
+  const height = grid.length / width;
+  const rotatedIndex = (ix) => {
+    return width - 1 + width * (ix % width) - ~~(ix / height);
+  };
+  return Array.from(grid, (_, ix) => rotatedIndex(ix)).map((ix) => grid[ix]);
+}
 
-    if (row < minPad || col < minPad || row >= height - minPad || col >= width - minPad) return out;
-    return [...out, g];
-  }, []);
+export function flipGrid({ grid, width }) {
+  const flippedIndex = (ix) => width * ~~(ix / width) + (width - 1 - (ix % width));
+  return Array.from(grid, (_, ix) => flippedIndex(ix)).map((ix) => grid[ix]);
 }
 
 export function parseGrid({ lines, parseLine = (line) => line.split('').map(Number), adjacency, pad, padSize = 1 }) {

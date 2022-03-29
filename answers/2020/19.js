@@ -22,17 +22,22 @@ class Rule {
   applyRules(inputs, ruleLookup) {
     const options = this.rules.map((ruleIds) => ruleIds.map((id) => ruleLookup[id]));
 
-    const results = options.flatMap((rules) => {
-      return inputs.map((input) => {
-        return rules.reduce(({ pass, rest }, rule) => {
-          if (!pass || !rest.length) return { pass: false, rest: [] };
-          return rule.apply(rest, ruleLookup);
-        }, {
-          pass: true,
-          rest: [input]
-        });
-      }).filter(({ pass }) => pass);
-    })
+    const results = options.flatMap((rules) =>
+      inputs
+        .map((input) =>
+          rules.reduce(
+            ({ pass, rest }, rule) => {
+              if (!pass || !rest.length) return { pass: false, rest: [] };
+              return rule.apply(rest, ruleLookup);
+            },
+            {
+              pass: true,
+              rest: [input],
+            }
+          )
+        )
+        .filter(({ pass }) => pass)
+    );
 
     if (results.some((r) => !r.rest.length)) return { pass: true, rest: [] };
     return { pass: !!results.length, rest: [...new Set(results.flatMap((r) => r.rest))] };
@@ -53,8 +58,8 @@ export class Question extends QuestionBase {
 
   get parsers() {
     return {
-      'rules': Parsers.PROPERTY_LIST,
-      'input': Parsers.PARSER
+      rules: Parsers.PROPERTY_LIST,
+      input: Parsers.PARSER,
     };
   }
 

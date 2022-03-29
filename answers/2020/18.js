@@ -49,17 +49,22 @@ export class Question extends QuestionBase {
   }
 
   fixPrecedence(line) {
-    return ['(', ...line.flatMap((t) => {
-      if (t === '*') return [')', '*', '('];
-      if (t === '(') return ['(', '('];
-      if (t === ')') return [')', ')'];
-      return t;
-    }), ')'];
+    return [
+      '(',
+      ...line.flatMap((t) => {
+        if (t === '*') return [')', '*', '('];
+        if (t === '(') return ['(', '('];
+        if (t === ')') return [')', ')'];
+        return t;
+      }),
+      ')',
+    ];
   }
 
   part1(input) {
     return input.reduce((sum, line) => sum + this.evaluate(line), 0);
   }
+
   part2(input) {
     return input.map((line) => this.fixPrecedence(line)).reduce((sum, line) => sum + this.evaluate(line), 0);
   }
