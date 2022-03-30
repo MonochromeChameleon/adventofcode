@@ -29,7 +29,13 @@ class ListNode {
 
   insertAfter(value) {
     const oldNext = this.next;
-    this.next = new ListNode(value, this, oldNext);
+    if (value instanceof ListNode) {
+      value.prev = this;
+      value.next = oldNext;
+      this.next = value;
+    } else {
+      this.next = new ListNode(value, this, oldNext);
+    }
     if (oldNext) oldNext.prev = this.next;
   }
 
@@ -94,7 +100,9 @@ export class LinkedList {
   }
 
   find(value) {
-    return this.head.find(value);
+    let found = this.head;
+    while (found.value !== value && found.next) found = found.next;
+    return found.value === value ? found : null;
   }
 
   pop() {
@@ -132,6 +140,24 @@ export class LinkedList {
     if (this.circular) this.tail.next = this.head;
     return values;
   }
+
+  forEach(fn) {
+    this.tail.next = null;
+    let next = this.head;
+    let i = 0;
+    while (next) {
+      fn(next, i);
+      next = next.next;
+      i += 1;
+    }
+    if (this.circular) this.tail.next = this.head;
+  }
+
+  map(fn) {
+    const out = [];
+    this.forEach((node, i) => out.push(fn(node, i)));
+    return out;
+  }
 }
 
 export class CircularLinkedList extends LinkedList {
@@ -146,5 +172,14 @@ export class CircularLinkedList extends LinkedList {
       this._tail = node.prev;
     }
     return this;
+  }
+}
+
+export class BigCircularLinkedList extends CircularLinkedList {
+  constructor(array) {
+    super(array[0]);
+    for (let i = 1; i < array.length; i += 1) {
+      this.add(array[i]);
+    }
   }
 }
