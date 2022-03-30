@@ -50,7 +50,6 @@ class Tile {
 export class Question extends QuestionBase {
   constructor() {
     super(2020, 20, 11788777383197, 2242);
-    this.wip = true;
 
     this.exampleInput({ part1: 20899048083289, part2: 273 });
 

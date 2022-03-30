@@ -138,4 +138,13 @@ export class CircularLinkedList extends LinkedList {
   get circular() {
     return true;
   }
+
+  moveTo(value) {
+    const node = this.find(value);
+    if (node && node !== this.head) {
+      this.head = node;
+      this._tail = node.prev;
+    }
+    return this;
+  }
 }
