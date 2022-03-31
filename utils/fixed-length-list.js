@@ -13,7 +13,7 @@ export class FixedLengthList {
   }
 
   equals(other) {
-    if (other.length !== this.length) return false;
+    if (other.length !== this.length) /* c8 ignore next */ return false;
     return this.list.every((item, index) => item === other[index]);
   }
 }

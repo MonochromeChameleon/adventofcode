@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { loadQuestion } from '../utils/load-question.js';
+import { loadQuestion } from '../framework/load-question.js';
 
 const month = new Date().getMonth();
 const year = new Date().getFullYear() + ~~(month / 11) - 1;

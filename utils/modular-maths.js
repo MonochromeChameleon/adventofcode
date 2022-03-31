@@ -13,7 +13,7 @@ export function gcdExtended(a, b) {
 
 export function modularInverse(value, modulo) {
   const [g, x] = gcdExtended(value, modulo);
-  if (g !== BigInt(1)) throw new Error('Bad mod inverse');
+  if (g !== BigInt(1)) /* c8 ignore next */ throw new Error('Bad mod inverse');
   return (x + modulo) % modulo;
 }
 

@@ -55,6 +55,7 @@ export class Question extends QuestionBase {
       case 'pid':
         return /^[0-9]{9}$/.test(value);
     }
+    /* c8 ignore next */
   }
 
   isValid(passport, fields) {

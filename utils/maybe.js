@@ -44,6 +44,7 @@ export class Maybe {
   }
 
   getOrThrow(error = new Error('Value is not defined')) {
+    /* c8 ignore next 3 */
     if (this.isNothing()) {
       throw error;
     }

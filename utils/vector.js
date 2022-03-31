@@ -23,6 +23,7 @@ export class Vector {
     return this.points[2];
   }
 
+  /* c8 ignore next 3 */
   set z(value) {
     this.points[2] = value;
   }

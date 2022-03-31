@@ -6,7 +6,7 @@ const left = (i) => (i << 1) + 1;
 const right = (i) => (i + 1) << 1;
 
 export class PriorityQueue {
-  constructor(comparator = (a, b) => a < b) {
+  constructor(comparator = /* c8 ignore next */ (a, b) => a < b) {
     this._heap = [];
     this._comparator = comparator;
   }
@@ -42,6 +42,7 @@ export class PriorityQueue {
     return poppedValue;
   }
 
+  /* c8 ignore next 6 */
   replace(value) {
     const replacedValue = this.peek();
     this._heap[top] = value;

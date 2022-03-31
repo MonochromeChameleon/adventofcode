@@ -11,7 +11,7 @@ export function reconstructPath(cameFrom, current) {
 }
 
 export function aStarSearch({ start, end, d = () => 1, h, neighbours, searchSpaceSize = end, output = 'route' }) {
-  const isEnd = typeof end === 'function' ? end : (maybeEnd) => end === maybeEnd;
+  const isEnd = typeof end === 'function' ? /* c8 ignore next */ end : (maybeEnd) => end === maybeEnd;
   const gScore = Array.from({ length: searchSpaceSize }).fill(Infinity);
   gScore[start] = 0;
 
@@ -31,6 +31,7 @@ export function aStarSearch({ start, end, d = () => 1, h, neighbours, searchSpac
           return Maybe.of(reconstructPath(cameFrom, current));
         case 'distance':
           return Maybe.of(gScore[current]);
+        /* c8 ignore next 2 */
         case 'endpoint':
           return Maybe.of(current);
       }

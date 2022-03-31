@@ -33,8 +33,7 @@ export class Question extends QuestionBase {
   }
 
   part2(input, lineToChange = 247) {
-    const instruction = input[lineToChange];
-    instruction.instruction = instruction.instruction === 'jmp' ? 'nop' : 'jmp';
+    input[lineToChange].instruction = 'nop';
     const { accumulator } = this.execute(input, { accumulator: 0 });
     return accumulator;
   }

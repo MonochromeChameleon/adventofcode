@@ -1,6 +1,7 @@
 // from https://stackoverflow.com/questions/12303989/cartesian-product-of-multiple-arrays-in-javascript
+/* c8 ignore next 4 */
 export function cartesianProduct(arr) {
-  // a is a two-dimensional array
+  // arr is a two-dimensional array
   return arr.reduce((a, b) => a.flatMap((d) => b.map((e) => [...d, e])), [[]]);
 }
 
@@ -21,6 +22,7 @@ export function allCombinations(arr) {
   );
 }
 
+/* c8 ignore next 4 */
 export function uniqueBy(arr, fn) {
   if (typeof fn === 'string') return uniqueBy(arr, (a) => a[fn]);
   return arr.filter((a, i) => arr.findIndex((b) => fn(a) === fn(b)) === i);

@@ -1,15 +1,6 @@
 import { PriorityQueue } from './priority-queue.js';
 import { Maybe } from './maybe.js';
 
-export function reconstructPath(cameFrom, current) {
-  const totalPath = [current];
-  while (current in cameFrom) {
-    current = cameFrom[current];
-    totalPath.unshift(current);
-  }
-  return totalPath;
-}
-
 export function dijkstra({ start, end, neighbours, distance = () => 1, output = 'distance' }) {
   const isEnd = typeof end === 'function' ? end : (maybeEnd) => end === maybeEnd;
 
@@ -24,8 +15,6 @@ export function dijkstra({ start, end, neighbours, distance = () => 1, output = 
     const { id: current, distance: dist } = openSet.pop();
     if (isEnd(current)) {
       switch (output) {
-        case 'route':
-          return Maybe.of(reconstructPath(cameFrom, current));
         case 'endpoint':
           return Maybe.of(current);
         case 'distance':

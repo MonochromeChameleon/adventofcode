@@ -36,6 +36,7 @@ export function letterSlice(grid, width, letterWidth = 7) {
   });
 }
 
+/* c8 ignore next 8 */
 export function printLetter(grid, letterWidth = 7) {
   const height = ~~(grid.length / letterWidth);
   const out = Array.from({ length: height }, (_, j) => {

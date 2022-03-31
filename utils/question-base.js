@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { existsSync, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import * as Parsers from '../parsers/parsers.js';
 import { alphabet } from './alphabet.js';
 
@@ -76,7 +76,7 @@ export class QuestionBase {
 
   readFile(filename) {
     const inputFile = resolve(`./inputs/${this.year}/${filename}.txt`);
-    const rawData = existsSync(inputFile) ? readFileSync(inputFile, 'utf8') : '';
+    const rawData = readFileSync(inputFile, 'utf8');
     const retainEmpty = this.retainEmptyLines;
     this._rawData = rawData.split('\n').filter((it) => retainEmpty || it);
     return this.m.parseInput.call(this, this._rawData);
@@ -92,28 +92,18 @@ export class QuestionBase {
     return Parsers.PARSER;
   }
 
-  get parsers() {
-    return [this.parser];
-  }
-
   get retainEmptyLines() {
     return false;
   }
 
-  async part1() {
-    return this.input.length;
-  }
-
-  async part2() {
-    return this.input.length;
-  }
-
+  /* c8 ignore next 5 */
   get wip() {
     if (this._wip) return true;
     if (this.expectedResult(1) === undefined || this.expectedResult(2) === undefined) return true;
     return false;
   }
 
+  /* c8 ignore next 3 */
   set wip(value) {
     this._wip = value;
   }

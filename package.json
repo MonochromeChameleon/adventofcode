@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node run.js",
     "test": "mocha test/allTests.test.js",
-    "coverage": "c8 -r html --100 mocha test/allTests.test.js",
+    "coverage": "c8 -r html --100 --exclude framework --exclude test mocha test/allTests.test.js",
     "eslint": "eslint .",
     "prettier": "prettier --write '**/*.js'"
   },

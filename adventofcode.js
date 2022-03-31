@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { loadQuestion } from './utils/load-question.js';
+import { loadQuestion } from './framework/load-question.js';
 
 async function runPart(q, part) {
   console.log(`Executing day ${q.day}, part ${part}`);

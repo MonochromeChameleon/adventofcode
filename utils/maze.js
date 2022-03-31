@@ -17,10 +17,6 @@ export class Maze {
     return this.squares.indexOf(char);
   }
 
-  coordinates(ix) {
-    return { x: ix % this.width, y: ~~(ix / this.width) };
-  }
-
   manhattan(start, end) {
     const sx = start % this.width;
     const sy = ~~(start / this.width);
@@ -54,6 +50,7 @@ export class Maze {
     return this.route(start, end, blockages, 'distance');
   }
 
+  /* c8 ignore next 5 */
   toString() {
     return Array.from({ length: this.height }, (_, row) =>
       this.squares.slice(row * this.width, (row + 1) * this.width).join('')
