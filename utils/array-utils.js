@@ -20,3 +20,8 @@ export function allCombinations(arr) {
       .map((k) => arr[k])
   );
 }
+
+export function uniqueBy(arr, fn) {
+  if (typeof fn === 'string') return uniqueBy(arr, (a) => a[fn]);
+  return arr.filter((a, i) => arr.findIndex((b) => fn(a) === fn(b)) === i);
+}

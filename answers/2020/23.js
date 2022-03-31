@@ -34,17 +34,21 @@ export class Question extends QuestionBase {
     const inp = Array.from({ length: max }, (_, i) => input[i] || i + 1);
     const list = new BigCircularLinkedList(inp);
     const lookup = new Array(max + 1);
-    list.forEach((n) => lookup[n.value] = n);
+    list.forEach((n) => {
+      lookup[n.value] = n;
+    });
 
     let current = list.head;
 
-    for (let i = 0; i < moves; i++) {
+    for (let i = 0; i < moves; i += 1) {
       const nextThree = [current.next.pop(), current.next.pop(), current.next.pop()];
       const destination = this.findDestination(current.value - 1, nextThree, max);
-      nextThree.map((n) => lookup[n]).reduce((p, n) => {
-        p.insertAfter(n);
-        return n;
-      }, lookup[destination]);
+      nextThree
+        .map((n) => lookup[n])
+        .reduce((p, n) => {
+          p.insertAfter(n);
+          return n;
+        }, lookup[destination]);
       current = current.next;
     }
 

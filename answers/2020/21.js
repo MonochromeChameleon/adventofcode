@@ -18,7 +18,7 @@ export class Question extends QuestionBase {
   }
 
   findAllergenIds(input) {
-    const allergens = [...new Set(input.flatMap(({ allergens }) => allergens))];
+    const allergens = [...new Set(input.flatMap(({ allergens: a }) => a))];
     return Object.fromEntries(
       allergens.map((a) => {
         const recipes = input.filter((r) => r.allergens.includes(a));

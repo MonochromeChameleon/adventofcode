@@ -59,7 +59,7 @@ export function shrinkGrid({ grid, width }) {
 export function joinGrids({ grids, tileWidth, gridsPerRow }) {
   return Array.from({ length: grids.length / gridsPerRow }).flatMap((_, ix) => {
     const blockRow = grids.slice(ix * gridsPerRow, (ix + 1) * gridsPerRow);
-    return Array.from({ length: grids[0].length / tileWidth }).flatMap((_, i) =>
+    return Array.from({ length: grids[0].length / tileWidth }).flatMap((__, i) =>
       blockRow.flatMap((block) => block.slice(i * tileWidth, (i + 1) * tileWidth))
     );
   });
@@ -67,9 +67,7 @@ export function joinGrids({ grids, tileWidth, gridsPerRow }) {
 
 export function rotateGrid({ grid, width }) {
   const height = grid.length / width;
-  const rotatedIndex = (ix) => {
-    return width - 1 + width * (ix % width) - ~~(ix / height);
-  };
+  const rotatedIndex = (ix) => width - 1 + width * (ix % width) - ~~(ix / height);
   return Array.from(grid, (_, ix) => rotatedIndex(ix)).map((ix) => grid[ix]);
 }
 

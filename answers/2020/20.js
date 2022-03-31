@@ -76,12 +76,12 @@ export class Question extends QuestionBase {
   }
 
   rotateTo(tile, { top, left }) {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i += 1) {
       if ((!top || tile.top === top) && (!left || tile.left === left)) return tile;
       tile.rotate();
     }
     tile.flip();
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i += 1) {
       if ((!top || tile.top === top) && (!left || tile.left === left)) return tile;
       tile.rotate();
     }
@@ -148,7 +148,7 @@ export class Question extends QuestionBase {
     );
 
     const shrunkenTiles = tilesInOrder.map((t) => new Tile(t.ix, shrinkGrid(t), t.width - 2, t.height - 2));
-    let megaGrid = joinGrids({
+    const megaGrid = joinGrids({
       grids: shrunkenTiles.map((t) => t.grid),
       tileWidth: shrunkenTiles[0].width,
       gridsPerRow: width,
