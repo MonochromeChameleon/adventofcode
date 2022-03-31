@@ -15,11 +15,6 @@ export class Question extends QuestionBase {
     return /^(\d+)-(\d+) (\w): (\w+)$/;
   }
 
-  isValidPassword(min, max, char, password) {
-    const count = password.split('').filter((c) => c === char).length;
-    return count >= min && count <= max;
-  }
-
   part1(input) {
     return input.filter(([min, max, char, password]) => {
       const count = password.split('').filter((c) => c === char).length;

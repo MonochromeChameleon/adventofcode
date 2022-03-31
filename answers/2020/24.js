@@ -40,8 +40,6 @@ export class Question extends QuestionBase {
                 return { ns: null, pos: pos.add(NORTH_EAST) };
               case 'w':
                 return { ns: null, pos: pos.add(NORTH_WEST) };
-              default:
-                throw new Error(`Unexpected character: ${char}`);
             }
           case 's':
             switch (char) {
@@ -49,8 +47,6 @@ export class Question extends QuestionBase {
                 return { ns: null, pos: pos.add(SOUTH_EAST) };
               case 'w':
                 return { ns: null, pos: pos.add(SOUTH_WEST) };
-              default:
-                throw new Error(`Unexpected character: ${char}`);
             }
           default:
             switch (char) {

@@ -47,10 +47,6 @@ export class VectorGameOfLifeParser extends Parser {
     );
   }
 
-  get dimensions() {
-    return 2;
-  }
-
   parseInput(lines) {
     return lines
       .flatMap((line, y) => line.split('').map((value, x) => (value === '#' ? [x, y] : null)))

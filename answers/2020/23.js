@@ -19,17 +19,6 @@ export class Question extends QuestionBase {
     return dest;
   }
 
-  move(list, max) {
-    const current = list.head.value;
-    const nextThree = [list.head.next.pop(), list.head.next.pop(), list.head.next.pop()];
-    const destination = this.findDestination(current - 1, nextThree, max);
-    nextThree.reduce((n, v) => {
-      n.insertAfter(v);
-      return n.next;
-    }, list.find(destination));
-    list.moveTo(list.head.next.value);
-  }
-
   execute(input, max, moves) {
     const inp = Array.from({ length: max }, (_, i) => input[i] || i + 1);
     const list = new BigCircularLinkedList(inp);
