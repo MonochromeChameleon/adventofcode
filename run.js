@@ -2,11 +2,20 @@ import { run } from './adventofcode.js';
 
 let [year, day, part] = process.argv.filter((it) => Number(it)).map(Number);
 
-if (year < 2015) {
+if (!year || year < 2015) {
   const month = new Date().getMonth();
   part = day;
   day = year;
   year = new Date().getFullYear() + ~~(month / 11) - 1;
+}
+
+if(!day) {
+  day = new Date().getDate();
+}
+
+if (!part && (day === 1 || day === 2)) {
+  part = day;
+  day = new Date().getDate();
 }
 
 // eslint-disable-next-line no-unused-vars

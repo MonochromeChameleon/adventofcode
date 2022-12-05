@@ -12,8 +12,8 @@ const getDays = (y) => {
   return Array.from({ length: d }).map((r, ix) => ix + 1);
 };
 
-export default async function runAllTests({ years = allYears, wip = false } = {}) {
-  const allQuestions = await Promise.all(years.map((y) => Promise.all(getDays(y).map((d) => loadQuestion(y, d)))));
+export default async function runAllTests({ years = allYears, wip = false, getQuestionNumbers = getDays } = {}) {
+  const allQuestions = await Promise.all(years.map((y) => Promise.all(getQuestionNumbers(y).map((d) => loadQuestion(y, d)))));
 
   allQuestions.forEach((questions, yix) =>
     describe(`${years[yix]}`, () => {
