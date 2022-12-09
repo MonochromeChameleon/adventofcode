@@ -8,12 +8,14 @@ export class Question extends QuestionBase {
     super(2022, 3, 7889, 2825);
 
     this.exampleInput({
-      input: ['vJrwpWtwJgWrhcsFMMfFFhFp',
+      input: [
+        'vJrwpWtwJgWrhcsFMMfFFhFp',
         'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
         'PmmdzqPrVvPwwTWBwg',
         'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
         'ttgJtRGJQctTZtZT',
-        'CrZsJsPPZsGzwwsLwLmpwMDw'],
+        'CrZsJsPPZsGzwwsLwLmpwMDw'
+      ],
       part1: 157,
       part2: 70
     });

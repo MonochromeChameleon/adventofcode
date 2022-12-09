@@ -6,8 +6,8 @@ export class GridParser extends Parser {
     return 4;
   }
 
-  parseLine(line) {
-    return line.split(this.m.split).map(this.m.parseValue.bind(this));
+  parseLine(line, y) {
+    return line.split(this.m.split).map((char, x) => this.m.parseValue(char, x, y));
   }
 
   parseInput(lines) {

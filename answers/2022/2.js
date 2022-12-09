@@ -7,10 +7,6 @@ export class Question extends QuestionBase {
     this.exampleInput({ input: ['A Y', 'B X', 'C Z'], part1: 15, part2: 12 });
   }
 
-  get parser() {
-    return Parsers.ONE_STRING_PER_LINE;
-  }
-
   parseLine(value) {
     const [them, me] = value.split(' ');
     const rpst = ['A', 'B', 'C'].indexOf(them);
