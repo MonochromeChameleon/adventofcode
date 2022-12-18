@@ -63,7 +63,7 @@ export default async function runAllTests({ years = allYears, wip = false, getQu
                   it(`Result should be ${expected}`, async () => {
                     const result = await q.run(part);
                     expect(result).to.equal(q.expectedResult(part));
-                  }).timeout(40000);
+                  }).timeout(140000);
                 }
               })
             );
