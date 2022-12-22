@@ -39,12 +39,14 @@ export class Question extends QuestionBase {
   }
 
   makeRobot(output, blueprint, state) {
-    const { [output]: recipe } = blueprint;
+    const { [output]: { ore = 0, clay = 0, obsidian = 0 } } = blueprint;
     const newState = this.baseStep(state);
+
     newState[output].robots += 1;
-    Object.entries(recipe).forEach(([ingredient, amount]) => {
-      newState[ingredient].amount -= amount;
-    });
+    newState.ore.amount -= ore;
+    newState.clay.amount -= clay;
+    newState.obsidian.amount -= obsidian;
+
     return newState;
   }
 
@@ -63,8 +65,6 @@ export class Question extends QuestionBase {
     const shouldBuildObsidian = state.obsidian.robots < blueprint.geode.obsidian;
     const shouldBuildClay = shouldBuildObsidian && state.clay.robots < blueprint.obsidian.clay;
     const shouldBuildOre = (shouldBuildObsidian && state.ore.robots < blueprint.obsidian.ore) || (shouldBuildClay && state.ore.robots < blueprint.clay.ore) || (state.ore.robots < blueprint.geode.ore);
-
-    if (!shouldBuildObsidian && !shouldBuildClay && !shouldBuildOre) return [this.baseStep(state)];
 
     const buildObsidian = shouldBuildObsidian && state.clay.amount >= blueprint.obsidian.clay && state.ore.amount >= blueprint.obsidian.ore;
     if (buildObsidian) out.push(this.makeRobot('obsidian', blueprint, state));
@@ -121,10 +121,16 @@ export class Question extends QuestionBase {
   }
 
   part1(input, time = 24) {
-    return input.map(({ id, ...blueprint }) => this.maxGeodes(blueprint, time) * id).reduce((a, b) => a + b);
+    return input.map(({
+      id,
+      ...blueprint
+    }) => this.maxGeodes(blueprint, time) * id).reduce((a, b) => a + b);
   }
 
   part2(input, time = 32) {
-    return input.slice(0, 3).map(({ id, ...blueprint }) => this.maxGeodes(blueprint, time)).reduce((a, b) => a * b);
+    return input.slice(0, 3).map(({
+      id,
+      ...blueprint
+    }) => this.maxGeodes(blueprint, time)).reduce((a, b) => a * b);
   }
 }
