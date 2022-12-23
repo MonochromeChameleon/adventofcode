@@ -2,6 +2,14 @@ import { Parser } from './parser.js';
 import { Vector } from '../utils/vector.js';
 
 export class VectorGameOfLifeParser extends Parser {
+  get dimensions() {
+    return 2;
+  }
+
+  next() {
+    return true;
+  }
+
   getNeighbours(p, points) {
     return points.filter((n) => n.points.every((np, ix) => Math.abs(np - p.points[ix]) <= 1));
   }
@@ -24,12 +32,12 @@ export class VectorGameOfLifeParser extends Parser {
       .map((values) => new Vector(...values));
   }
 
-  generation(
+  generation({
     points,
     dimensions = this.dimensions,
     getNeighbours = this.getNeighbours.bind(this),
     nextFn = this.next.bind(this)
-  ) {
+  }) {
     const conwaySpace = this.generateConwaySpace(points, dimensions);
     return conwaySpace.filter((v) => nextFn(v, getNeighbours(v, points)));
   }
@@ -42,7 +50,7 @@ export class VectorGameOfLifeParser extends Parser {
     nextFn = this.next.bind(this)
   ) {
     return Array.from({ length: count }).reduce(
-      (points) => this.generation(points, dimensions, getNeighbours, nextFn),
+      (points, _, ix) => this.generation({ points, dimensions, getNeighbours, nextFn, generation: ix }),
       start
     );
   }
