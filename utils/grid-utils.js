@@ -49,7 +49,7 @@ export function shrinkGrid({ grid, width }) {
   const newHeight = height - 2;
 
   return Array.from({ length: newWidth * newHeight }).map((_, ix) => {
-    const row = 1 + ~~(ix / newWidth);
+    const row = 1 + Math.floor(ix / newWidth);
     const col = 1 + (ix % newWidth);
 
     return grid[row * width + col];

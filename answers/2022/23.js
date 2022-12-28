@@ -11,6 +11,8 @@ const DOWN = [SOUTH, SOUTH.add(EAST), SOUTH.add(WEST)];
 const RIGHT = [WEST, WEST.add(NORTH), WEST.add(SOUTH)];
 const LEFT = [EAST, EAST.add(NORTH), EAST.add(SOUTH)];
 
+const NEIGHBOURS = [NORTH, NORTH.add(WEST), WEST, WEST.add(SOUTH), SOUTH, SOUTH.add(EAST), EAST, EAST.add(NORTH)];
+
 export class Question extends QuestionBase {
   constructor() {
     super(2022, 23, 4218, 976);
@@ -31,9 +33,15 @@ export class Question extends QuestionBase {
     return elf.add(dir[0]);
   }
 
+  getNeighbours(p, positionMap) {
+    return NEIGHBOURS.map((n) => n.add(p)).filter((n) => n.toString() in positionMap).length;
+  }
+
   generation({ points, generation }) {
+    const positionMap = Object.fromEntries(points.map((p) => [p.toString(), p]));
+
     const targets = points.map((p) => {
-      if (this.getNeighbours(p, points).length === 1) return p;
+      if (!this.getNeighbours(p, positionMap)) return p;
       return this.calculateNextMove(p, points.map((pp) => pp.toString()), generation);
     });
 
