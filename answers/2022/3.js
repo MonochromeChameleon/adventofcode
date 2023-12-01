@@ -1,7 +1,4 @@
 import { Parsers, QuestionBase } from '../../utils/question-base.js';
-import { alphabet } from '../../utils/alphabet.js';
-
-const alph = alphabet();
 
 export class Question extends QuestionBase {
   constructor() {
@@ -14,10 +11,10 @@ export class Question extends QuestionBase {
         'PmmdzqPrVvPwwTWBwg',
         'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
         'ttgJtRGJQctTZtZT',
-        'CrZsJsPPZsGzwwsLwLmpwMDw'
+        'CrZsJsPPZsGzwwsLwLmpwMDw',
       ],
       part1: 157,
-      part2: 70
+      part2: 70,
     });
   }
 

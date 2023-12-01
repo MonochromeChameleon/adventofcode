@@ -25,7 +25,8 @@ export class Question extends QuestionBase {
   }
 
   calculateNextMove(elf, elves, generation) {
-    const dir = [0, 1, 2, 3].map((ix) => (ix + generation) % 4)
+    const dir = [0, 1, 2, 3]
+      .map((ix) => (ix + generation) % 4)
       .map((ix) => [UP, DOWN, RIGHT, LEFT][ix])
       .find((side) => side.map((s) => elf.add(s).toString()).every((s) => !elves.includes(s)));
 
@@ -42,23 +43,31 @@ export class Question extends QuestionBase {
 
     const targets = points.map((p) => {
       if (!this.getNeighbours(p, positionMap)) return p;
-      return this.calculateNextMove(p, points.map((pp) => pp.toString()), generation);
+      return this.calculateNextMove(
+        p,
+        points.map((pp) => pp.toString()),
+        generation,
+      );
     });
 
-    return points.map((p, ix) => {
-      const target = targets[ix];
-      const overlaps = targets.filter((t) => t.equals(target));
-      return overlaps.length > 1 ? p : target;
-    }).sort((a, b) => a.y - b.y || a.x - b.x);
+    return points
+      .map((p, ix) => {
+        const target = targets[ix];
+        const overlaps = targets.filter((t) => t.equals(target));
+        return overlaps.length > 1 ? p : target;
+      })
+      .sort((a, b) => a.y - b.y || a.x - b.x);
   }
 
   part1(input) {
     const output = this.generations(10, input);
-    const rectangle = Array.from({ length: 2 }, (_, i) => i).reduce((ranges, axis) => {
-      const min = Math.min(...output.map((p) => p.points[axis]));
-      const max = Math.max(...output.map((p) => p.points[axis]));
-      return [...ranges, { min, max }];
-    }, []).reduce((space, { min, max }) => (max + 1 - min) * space, 1);
+    const rectangle = Array.from({ length: 2 }, (_, i) => i)
+      .reduce((ranges, axis) => {
+        const min = Math.min(...output.map((p) => p.points[axis]));
+        const max = Math.max(...output.map((p) => p.points[axis]));
+        return [...ranges, { min, max }];
+      }, [])
+      .reduce((space, { min, max }) => (max + 1 - min) * space, 1);
 
     return rectangle - input.length;
   }
@@ -70,9 +79,10 @@ export class Question extends QuestionBase {
     let state = input;
     while (true) {
       const newState = this.generation({ points: state, generation: g });
-      if (newState.map((elf) => elf.toString()).join(',') === state.map((elf) => elf.toString()).join(',')) return g + 1;
+      if (newState.map((elf) => elf.toString()).join(',') === state.map((elf) => elf.toString()).join(','))
+        return g + 1;
       g += 1;
-      state = newState
+      state = newState;
     }
   }
 }

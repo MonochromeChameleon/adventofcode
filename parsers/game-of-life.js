@@ -12,8 +12,8 @@ export class GameOfLifeParser extends GridParser {
         value,
         adjacencyMap[ix].map((n) => grid[n]),
         ix,
-        grid
-      )
+        grid,
+      ),
     );
   }
 

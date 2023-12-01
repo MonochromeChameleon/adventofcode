@@ -14,7 +14,8 @@ module.exports = {
     'no-param-reassign': 0,
     'default-case': 0,
     'consistent-return': 0,
-
+    'no-nested-ternary': 0,
+    'no-constant-condition': 0,
 
     'filenames/no-index': 2,
     'import/extensions': 0,

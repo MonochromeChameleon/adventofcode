@@ -23,7 +23,7 @@ export class Question extends QuestionBase {
           ...acc,
           [col]: Number(num),
         }),
-        {}
+        {},
       );
     return { colour, contents };
   }

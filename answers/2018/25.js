@@ -43,7 +43,7 @@ export class Question extends QuestionBase {
         const { constellation, rest } = this.findConstellation(n, c.rest);
         return { constellation: [...c.constellation, ...constellation], rest };
       },
-      { constellation: [from], rest: points.filter((p) => !neighbours.includes(p)) }
+      { constellation: [from], rest: points.filter((p) => !neighbours.includes(p)) },
     );
   }
 

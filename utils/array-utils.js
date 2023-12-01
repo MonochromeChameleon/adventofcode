@@ -18,7 +18,7 @@ export function allCombinations(arr) {
   return Array.from({ length: 2 ** arr.length }, (_, i) =>
     Array.from({ length: arr.length }, (__, k) => k)
       .filter((k) => i & (1 << k))
-      .map((k) => arr[k])
+      .map((k) => arr[k]),
   );
 }
 

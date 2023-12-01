@@ -15,7 +15,7 @@ class Square extends Vector {
           it.type === this.type &&
           Math.abs(it.x - this.x) <= 1 &&
           Math.abs(it.y - this.y) <= 1 &&
-          (it.x === this.x || it.y === this.y)
+          (it.x === this.x || it.y === this.y),
       ).length === 4
     );
   }

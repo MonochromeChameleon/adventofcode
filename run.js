@@ -9,7 +9,7 @@ if (!year || year < 2015) {
   year = new Date().getFullYear() + ~~(month / 11) - 1;
 }
 
-if(!day) {
+if (!day) {
   day = new Date().getDate();
 }
 

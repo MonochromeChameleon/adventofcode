@@ -42,7 +42,7 @@ export class Question extends QuestionBase {
 
         return state;
       },
-      { value: 0, operation: '+' }
+      { value: 0, operation: '+' },
     );
 
     return result.value;

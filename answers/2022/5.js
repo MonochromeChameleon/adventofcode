@@ -14,7 +14,7 @@ export class Question extends QuestionBase {
   get parsers() {
     return {
       crates: Parsers.PARSER.withMappedProps({ parseLine: 'parseCrate' }),
-      moves: Parsers.PARSER.withMappedProps({ parseLine: 'parseMove' })
+      moves: Parsers.PARSER.withMappedProps({ parseLine: 'parseMove' }),
     };
   }
 
@@ -36,10 +36,14 @@ export class Question extends QuestionBase {
 
   postParse({ crates, moves }) {
     const [labels, ...rows] = crates.reverse();
-    const stacks = rows.reduce((sx, r) => r.reduce((o, c, ix) => {
-      if (c.trim()) o[ix].push(c);
-      return o;
-    }, sx), Array.from({ length: labels.length }, () => []));
+    const stacks = rows.reduce(
+      (sx, r) =>
+        r.reduce((o, c, ix) => {
+          if (c.trim()) o[ix].push(c);
+          return o;
+        }, sx),
+      Array.from({ length: labels.length }, () => []),
+    );
 
     return { stacks, moves };
   }

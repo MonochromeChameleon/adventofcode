@@ -24,7 +24,7 @@ export class Question extends QuestionBase {
     return Array.from({ length: to + 1 - from }, (_, ix) =>
       String(ix + from)
         .split('')
-        .map(Number)
+        .map(Number),
     ).filter(test).length;
   }
 
@@ -33,7 +33,7 @@ export class Question extends QuestionBase {
     return Array.from({ length: to + 1 - from }, (_, ix) =>
       String(ix + from)
         .split('')
-        .map(Number)
+        .map(Number),
     ).filter(test).length;
   }
 }

@@ -78,7 +78,7 @@ class Robots {
       this.setValue(bot, value);
     } else {
       const [, bot, lout, loutId, hout, houtId] = line.match(
-        /^bot (\d+) gives low to (\w+) (\d+) and high to (\w+) (\d+)$/
+        /^bot (\d+) gives low to (\w+) (\d+) and high to (\w+) (\d+)$/,
       );
       if (lout === 'output') {
         this.setOutput(bot, 'low', Number(loutId));

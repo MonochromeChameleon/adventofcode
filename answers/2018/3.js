@@ -11,7 +11,7 @@ export class Question extends QuestionBase {
   parseLine(line) {
     const [, id, l, t, w, h] = line.match(/^#(\d+) @ (\d+),(\d+): (\d+)x(\d+)$/).map(Number);
     const cells = Array.from({ length: h }, (_, y) => Array.from({ length: w }, (__, x) => `${x + l}:${y + t}`)).flat(
-      Infinity
+      Infinity,
     );
     return { id, l, t, w, h, cells };
   }

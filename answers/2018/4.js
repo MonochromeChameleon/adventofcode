@@ -61,7 +61,7 @@ export class Question extends QuestionBase {
 
   postParse(input) {
     const sorted = input.sort(
-      (a, b) => a.year - b.year || a.month - b.month || a.day - b.day || a.hour - b.hour || a.minute - b.minute
+      (a, b) => a.year - b.year || a.month - b.month || a.day - b.day || a.hour - b.hour || a.minute - b.minute,
     );
     const guards = {};
 

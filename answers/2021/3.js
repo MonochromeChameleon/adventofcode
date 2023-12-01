@@ -14,7 +14,7 @@ export class Question extends QuestionBase {
   part1(input) {
     const totals = input.reduce(
       (acc, row) => row.map((bit, ix) => bit + acc[ix]),
-      Array.from({ length: 12 }).map(() => 0)
+      Array.from({ length: 12 }).map(() => 0),
     );
 
     const gamma = parseInt(totals.map((it) => (it >= input.length / 2 ? 1 : 0)).join(''), 2);
@@ -36,14 +36,14 @@ export class Question extends QuestionBase {
         .reduce((acc, _, ix) => mostByBit(splitByBit(acc, ix)), input)
         .flat(Infinity)
         .join(''),
-      2
+      2,
     );
     const co2Rating = parseInt(
       input[0]
         .reduce((acc, _, ix) => leastByBit(splitByBit(acc, ix)), input)
         .flat(Infinity)
         .join(''),
-      2
+      2,
     );
 
     return oxygenRating * co2Rating;

@@ -35,12 +35,12 @@ export class Question extends QuestionBase {
             const dy = this.getDir('^', 'v', dir);
             return [`${x + dx}:${y + dy}`, lastStop, ...stops];
           },
-          ['0:0']
+          ['0:0'],
         )
         .reduce((acc, curr) => {
           acc[curr] = (acc[curr] || 0) + 1;
           return acc;
-        }, {})
+        }, {}),
     ).length;
   }
 
@@ -60,14 +60,14 @@ export class Question extends QuestionBase {
             const r = next(rx, ry, input[ix * 2 + 1]);
             return [`${s}%${r}`, lastState, ...states];
           },
-          ['0:0%0:0']
+          ['0:0%0:0'],
         )
         .reduce((acc, curr) => {
           curr.split('%').forEach((c) => {
             acc[c] = (acc[c] || 0) + 1;
           });
           return acc;
-        }, {})
+        }, {}),
     ).length;
   }
 }

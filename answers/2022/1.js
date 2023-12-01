@@ -16,10 +16,13 @@ export class Question extends QuestionBase {
   }
 
   postParse(lines) {
-    const groups = lines.reduce(([g, ...gs], l) => {
-      if (l === 0) return [[], g, ...gs];
-      return [[l, ...g], ...gs];
-    }, [[]]);
+    const groups = lines.reduce(
+      ([g, ...gs], l) => {
+        if (l === 0) return [[], g, ...gs];
+        return [[l, ...g], ...gs];
+      },
+      [[]],
+    );
 
     return groups.map((g) => g.reduce((a, b) => a + b, 0)).sort((a, b) => b - a);
   }

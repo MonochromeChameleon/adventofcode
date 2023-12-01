@@ -24,7 +24,7 @@ export class Question extends QuestionBase {
       const maxY = coordinates.map(([, y]) => y).reduce((a, b) => Math.max(a, b));
 
       const xys = Array.from({ length: maxX - minX }, (_, x) => minX + x).flatMap((x) =>
-        Array.from({ length: maxY - minY }, (_, y) => ({ x, y: minY + y }))
+        Array.from({ length: maxY - minY }, (_, y) => ({ x, y: minY + y })),
       );
 
       this._coordinates = { minX, maxX, minY, maxY, xys };
@@ -48,8 +48,8 @@ export class Question extends QuestionBase {
             if (distance === d) return { d };
             return { d, i };
           },
-          { d: Infinity }
-        ).i
+          { d: Infinity },
+        ).i,
     );
 
     const outs = countByValue(out);

@@ -44,7 +44,7 @@ export class Question extends QuestionBase {
     // Brute force the last two possibilities
     const meanPositions = [~~mean, Math.ceil(mean)];
     const fuels = meanPositions.map((position) =>
-      this.calculateFuel({ position, keys, counts }, (steps) => (steps * (steps + 1)) / 2)
+      this.calculateFuel({ position, keys, counts }, (steps) => (steps * (steps + 1)) / 2),
     );
     return Math.min(...fuels);
   }

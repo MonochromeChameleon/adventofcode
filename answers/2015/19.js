@@ -43,7 +43,7 @@ export class Question extends QuestionBase {
         const split = result.split(to);
         return { result: split.join(from), changes: changes + split.length - 1 };
       },
-      { changes: 0, result: input }
+      { changes: 0, result: input },
     );
   }
 

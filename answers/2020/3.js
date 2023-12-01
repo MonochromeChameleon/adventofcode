@@ -10,7 +10,7 @@ export class Question extends QuestionBase {
   calculateSlope(lines, right, down) {
     return Array.from(
       { length: ~~(lines.length / down) },
-      (_, yix) => lines[yix * down][(yix * right) % lines[0].length] === '#'
+      (_, yix) => lines[yix * down][(yix * right) % lines[0].length] === '#',
     ).reduce((a, b) => a + b);
   }
 

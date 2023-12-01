@@ -17,7 +17,7 @@ export class Question extends QuestionBase {
         if (next === up) return { u, l: mid };
         return { u: mid, l };
       },
-      { u: upper, l: 0 }
+      { u: upper, l: 0 },
     ).l;
   }
 

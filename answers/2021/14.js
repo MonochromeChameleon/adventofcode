@@ -32,7 +32,7 @@ export class Question extends QuestionBase {
         acc[second] += polymer[key];
         return acc;
       },
-      { N: 1 }
+      { N: 1 },
     );
   }
 

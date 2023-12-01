@@ -47,7 +47,7 @@ export class Question extends QuestionBase {
           max: Math.max(max, count + delta),
           bestRange: count + delta > max ? range : bestRange,
         }),
-        { count: 0, max: 0, bestRange: 0 }
+        { count: 0, max: 0, bestRange: 0 },
       ).bestRange;
   }
 }

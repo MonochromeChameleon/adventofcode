@@ -8,7 +8,7 @@ class TablePlan extends Graph {
 
   addLine(line) {
     const [, from, negate, happiness, to] = /^(\w+) would (\w+) (\d+) happiness units by sitting next to (\w+)\.$/.exec(
-      line
+      line,
     );
     const distance = negate === 'gain' ? Number(happiness) : -Number(happiness);
     this.addEdge({ from, to, distance });

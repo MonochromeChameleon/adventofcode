@@ -37,7 +37,7 @@ export class Question extends QuestionBase {
           return { intersections, out };
         }, state);
       },
-      { intersections: {}, out: 0 }
+      { intersections: {}, out: 0 },
     ).out;
   }
 

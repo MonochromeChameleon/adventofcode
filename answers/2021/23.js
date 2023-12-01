@@ -118,33 +118,33 @@ export class Question extends QuestionBase {
     const unoccupiedHall = [0, 1, 3, 5, 7, 9, 10].filter((i) => !occupiedSpaces.includes(i));
 
     const occupiedRooms = Array.from({ length: state.length - 11 }, (_, i) => i + 11).filter((i) =>
-      occupiedSpaces.includes(i)
+      occupiedSpaces.includes(i),
     );
     const unoccupiedRooms = Array.from({ length: state.length - 11 }, (_, i) => i + 11).filter(
-      (i) => !occupiedSpaces.includes(i)
+      (i) => !occupiedSpaces.includes(i),
     );
 
     const movesIntoRooms = occupiedHall.flatMap((from) =>
       unoccupiedRooms.map((to) => ({
         from,
         to,
-      }))
+      })),
     );
     const movesIntoHall = occupiedRooms.flatMap((from) =>
       unoccupiedHall.map((to) => ({
         from,
         to,
-      }))
+      })),
     );
     const movesBetweenRooms = occupiedRooms.flatMap((from) =>
       unoccupiedRooms.map((to) => ({
         from,
         to,
-      }))
+      })),
     );
 
     const allMoves = [...movesIntoRooms, ...movesIntoHall, ...movesBetweenRooms].filter(({ from, to }) =>
-      this.isValidMove(from, to, state)
+      this.isValidMove(from, to, state),
     );
 
     function swapStr(str, first, last) {
@@ -172,8 +172,8 @@ export class Question extends QuestionBase {
           {
             state: start,
             score: 0,
-          }
-        )
+          },
+        ),
       )
       .map(({ score }) => score)
       .getOrThrow();
@@ -199,8 +199,8 @@ export class Question extends QuestionBase {
           {
             state: start,
             score: 0,
-          }
-        )
+          },
+        ),
       )
       .map(({ score }) => score)
       .getOrThrow();

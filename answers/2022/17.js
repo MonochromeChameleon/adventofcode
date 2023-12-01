@@ -1,9 +1,44 @@
 import { Parsers, QuestionBase } from '../../utils/question-base.js';
 import { Vector } from '../../utils/vector.js';
 
-const LEFT = new Vector(-1 , 0);
+const LEFT = new Vector(-1, 0);
 const RIGHT = new Vector(1, 0);
 const DOWN = new Vector(0, -1);
+
+const ROCKS = [
+  [
+    { x: 2, y: 4 },
+    { x: 3, y: 4 },
+    { x: 4, y: 4 },
+    { x: 5, y: 4 },
+  ],
+  [
+    { x: 2, y: 5 },
+    { x: 3, y: 4 },
+    { x: 3, y: 5 },
+    { x: 3, y: 6 },
+    { x: 4, y: 5 },
+  ],
+  [
+    { x: 2, y: 4 },
+    { x: 3, y: 4 },
+    { x: 4, y: 4 },
+    { x: 4, y: 5 },
+    { x: 4, y: 6 },
+  ],
+  [
+    { x: 2, y: 7 },
+    { x: 2, y: 6 },
+    { x: 2, y: 5 },
+    { x: 2, y: 4 },
+  ],
+  [
+    { x: 2, y: 4 },
+    { x: 3, y: 4 },
+    { x: 2, y: 5 },
+    { x: 3, y: 5 },
+  ],
+];
 
 class Rock {
   constructor(height, ...shape) {
@@ -64,14 +99,6 @@ class Grid {
   }
 }
 
-const ROCKS = [
-  [{ x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }, { x: 5, y: 4 }],
-  [{ x: 2, y: 5 }, { x: 3, y: 4 }, { x: 3, y: 5 }, { x: 3, y: 6 }, { x: 4, y: 5 }],
-  [{ x: 2, y: 4 }, { x: 3, y: 4 }, { x: 4, y: 4 }, { x: 4, y: 5 }, { x: 4, y: 6 }],
-  [{ x: 2, y: 7 }, { x: 2, y: 6 }, { x: 2, y: 5 }, { x: 2, y: 4 }],
-  [{ x: 2, y: 4 }, { x: 3, y: 4 }, { x: 2, y: 5 }, { x: 3, y: 5 }]
-]
-
 export class Question extends QuestionBase {
   constructor() {
     super(2022, 17, 3109, 1541449275365);
@@ -88,7 +115,7 @@ export class Question extends QuestionBase {
   }
 
   part1(grid, rocks = 2022) {
-    while (grid.rocks < rocks) grid.dropNextRock()
+    while (grid.rocks < rocks) grid.dropNextRock();
     return grid.height;
   }
 

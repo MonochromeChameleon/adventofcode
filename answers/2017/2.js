@@ -22,7 +22,7 @@ export class Question extends QuestionBase {
         max: Math.max(max, c),
         min: Math.min(min, c),
       }),
-      { max: 0, min: Infinity }
+      { max: 0, min: Infinity },
     );
   }
 

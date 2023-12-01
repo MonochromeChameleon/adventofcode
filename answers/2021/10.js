@@ -43,7 +43,7 @@ export class Question extends QuestionBase {
         if (next !== matchers[previous]) return { stack: [matchers[next]], corrupt: true };
         return { stack: rest };
       },
-      { stack: [] }
+      { stack: [] },
     );
 
     const scores = c ? errorScores : completionScores;

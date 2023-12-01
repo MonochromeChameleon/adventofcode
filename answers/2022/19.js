@@ -9,21 +9,24 @@ export class Question extends QuestionBase {
     this.exampleInput({
       input: [
         'Blueprint 1: Each ore robot costs 4 ore. Each clay robot costs 2 ore. Each obsidian robot costs 3 ore and 14 clay. Each geode robot costs 2 ore and 7 obsidian.',
-        'Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsidian robot costs 3 ore and 8 clay. Each geode robot costs 3 ore and 12 obsidian.'
+        'Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsidian robot costs 3 ore and 8 clay. Each geode robot costs 3 ore and 12 obsidian.',
       ],
       part1: 33,
-      part2: 56 * 62
+      part2: 56 * 62,
     });
   }
 
   parseLine(line) {
-    const [, id, oreOre, clayOre, obsidianOre, obsidianClay, geodeOre, geodeObsidian] = /Blueprint (\d+): Each ore robot costs (\d+) ore\. Each clay robot costs (\d+) ore\. Each obsidian robot costs (\d+) ore and (\d+) clay\. Each geode robot costs (\d+) ore and (\d+) obsidian\./.exec(line).map(Number);
+    const [, id, oreOre, clayOre, obsidianOre, obsidianClay, geodeOre, geodeObsidian] =
+      /Blueprint (\d+): Each ore robot costs (\d+) ore\. Each clay robot costs (\d+) ore\. Each obsidian robot costs (\d+) ore and (\d+) clay\. Each geode robot costs (\d+) ore and (\d+) obsidian\./
+        .exec(line)
+        .map(Number);
     return {
       id,
       ore: { ore: oreOre },
       clay: { ore: clayOre },
       obsidian: { ore: obsidianOre, clay: obsidianClay },
-      geode: { ore: geodeOre, obsidian: geodeObsidian }
+      geode: { ore: geodeOre, obsidian: geodeObsidian },
     };
   }
 
@@ -34,12 +37,14 @@ export class Question extends QuestionBase {
   baseStep({ time, ...state }) {
     return {
       time: time - 1,
-      ...Object.fromEntries(Object.entries(state).map(([k, s]) => [k, this.step(s)]))
+      ...Object.fromEntries(Object.entries(state).map(([k, s]) => [k, this.step(s)])),
     };
   }
 
   makeRobot(output, blueprint, state) {
-    const { [output]: { ore = 0, clay = 0, obsidian = 0 } } = blueprint;
+    const {
+      [output]: { ore = 0, clay = 0, obsidian = 0 },
+    } = blueprint;
     const newState = this.baseStep(state);
 
     newState[output].robots += 1;
@@ -64,9 +69,13 @@ export class Question extends QuestionBase {
     // No point having more obsidian robots than the amount needed for a geode robot
     const shouldBuildObsidian = state.obsidian.robots < blueprint.geode.obsidian;
     const shouldBuildClay = shouldBuildObsidian && state.clay.robots < blueprint.obsidian.clay;
-    const shouldBuildOre = (shouldBuildObsidian && state.ore.robots < blueprint.obsidian.ore) || (shouldBuildClay && state.ore.robots < blueprint.clay.ore) || (state.ore.robots < blueprint.geode.ore);
+    const shouldBuildOre =
+      (shouldBuildObsidian && state.ore.robots < blueprint.obsidian.ore) ||
+      (shouldBuildClay && state.ore.robots < blueprint.clay.ore) ||
+      state.ore.robots < blueprint.geode.ore;
 
-    const buildObsidian = shouldBuildObsidian && state.clay.amount >= blueprint.obsidian.clay && state.ore.amount >= blueprint.obsidian.ore;
+    const buildObsidian =
+      shouldBuildObsidian && state.clay.amount >= blueprint.obsidian.clay && state.ore.amount >= blueprint.obsidian.ore;
     if (buildObsidian) out.push(this.makeRobot('obsidian', blueprint, state));
 
     const buildClay = shouldBuildClay && state.ore.amount >= blueprint.clay.ore;
@@ -81,7 +90,7 @@ export class Question extends QuestionBase {
   }
 
   potential(blueprint, state) {
-    return state.geode.amount + (state.geode.robots * state.time) + triangle(state.time - 1);
+    return state.geode.amount + state.geode.robots * state.time + triangle(state.time - 1);
   }
 
   maxGeodes(blueprint, time) {
@@ -90,7 +99,7 @@ export class Question extends QuestionBase {
       clay: { amount: 0, robots: 0 },
       obsidian: { amount: 0, robots: 0 },
       geode: { amount: 0, robots: 0 },
-      time
+      time,
     };
 
     const queue = new PriorityQueue((a, b) => this.potential(blueprint, a) > this.potential(blueprint, b));
@@ -102,7 +111,7 @@ export class Question extends QuestionBase {
     while (!queue.isEmpty()) {
       const current = queue.pop();
       if (seen.has(JSON.stringify(current))) {
-        continue;
+        continue; // eslint-disable-line
       }
       seen.add(JSON.stringify(current));
       if (this.potential(blueprint, current) < best) {
@@ -113,7 +122,7 @@ export class Question extends QuestionBase {
       }
 
       this.neighbours(blueprint, current)
-        .filter((neighbour) => this.potential(blueprint, neighbour) > best)
+        .filter((neighbour) => this.potential(blueprint, neighbour) > best) // eslint-disable-line
         .forEach((neighbour) => queue.push(neighbour));
     }
 
@@ -124,19 +133,16 @@ export class Question extends QuestionBase {
     // TOO SLOW
     if (input.length > 2) return this.answers.part1;
 
-    return input.map(({
-      id,
-      ...blueprint
-    }) => this.maxGeodes(blueprint, time) * id).reduce((a, b) => a + b);
+    return input.map(({ id, ...blueprint }) => this.maxGeodes(blueprint, time) * id).reduce((a, b) => a + b);
   }
 
   part2(input, time = 32) {
     // TOO SLOW
     if (input.length > 2) return this.answers.part2;
 
-    return input.slice(0, 3).map(({
-      id,
-      ...blueprint
-    }) => this.maxGeodes(blueprint, time)).reduce((a, b) => a * b);
+    return input
+      .slice(0, 3)
+      .map(({ id, ...blueprint }) => this.maxGeodes(blueprint, time))
+      .reduce((a, b) => a * b);
   }
 }

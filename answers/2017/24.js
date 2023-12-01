@@ -22,8 +22,8 @@ export class Question extends QuestionBase {
           score: score + part.score,
           length: length + 1,
         },
-        parts.filter(({ id }) => id !== part.id)
-      )
+        parts.filter(({ id }) => id !== part.id),
+      ),
     );
   }
 
@@ -35,8 +35,8 @@ export class Question extends QuestionBase {
       this._bridges = starts.flatMap((start) =>
         this.buildBridges(
           start,
-          input.filter(({ id }) => id !== start.id)
-        )
+          input.filter(({ id }) => id !== start.id),
+        ),
       );
     }
     return this._bridges;

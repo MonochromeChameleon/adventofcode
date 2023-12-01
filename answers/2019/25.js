@@ -86,7 +86,7 @@ export class Question extends IntcodeQuestion {
       intcode.outArray
         .map((c) => String.fromCharCode(c))
         .join('')
-        .replace(/[^\d]/g, '')
+        .replace(/[^\d]/g, ''),
     );
   }
 }

@@ -27,7 +27,7 @@ export class Question extends QuestionBase {
         const newChild = { childNodes: newChildren, metaNodes: newRemainder.slice(0, meta) };
         return { childNodes: [...childNodes, newChild], remainder: newRemainder.slice(meta) };
       },
-      { childNodes: [], remainder: digits }
+      { childNodes: [], remainder: digits },
     );
   }
 
@@ -38,7 +38,7 @@ export class Question extends QuestionBase {
   sumMeta(...nodes) {
     return nodes.reduce(
       (sum, node) => sum + node.metaNodes.reduce((x, n) => x + n, 0) + this.sumMeta(...node.childNodes),
-      0
+      0,
     );
   }
 

@@ -53,7 +53,7 @@ export class Maze {
   /* c8 ignore next 5 */
   toString() {
     return Array.from({ length: this.height }, (_, row) =>
-      this.squares.slice(row * this.width, (row + 1) * this.width).join('')
+      this.squares.slice(row * this.width, (row + 1) * this.width).join(''),
     ).join('\n');
   }
 }

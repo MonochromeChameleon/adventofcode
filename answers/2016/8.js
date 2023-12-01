@@ -24,7 +24,7 @@ export class Question extends QuestionBase {
         const tgtx = axis === 'row' && y === location ? (x + 50 - amount) % 50 : x;
         const tgty = axis === 'column' && x === location ? (y + 6 - amount) % 6 : y;
         return screen[tgty][tgtx];
-      })
+      }),
     );
   }
 

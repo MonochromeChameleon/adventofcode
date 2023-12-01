@@ -15,7 +15,9 @@ class Directory {
   }
 
   get size() {
-    return Object.values(this.contents).map((c) => c.size).reduce((a, b) => a + b, 0);
+    return Object.values(this.contents)
+      .map((c) => c.size)
+      .reduce((a, b) => a + b, 0);
   }
 
   addFile(name, size) {
@@ -30,8 +32,8 @@ class Directory {
 }
 
 class Filesystem extends Directory {
-  constructor(props) {
-    super('/')
+  constructor() {
+    super('/');
     this.path = [];
   }
 

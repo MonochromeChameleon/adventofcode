@@ -37,7 +37,7 @@ export class Question extends QuestionBase {
           const maskedValue = mask.map((bit, ix) => (bit === 'X' ? binaryValue[ix] : bit)).join('');
           return { ...mem, [address]: parseInt(maskedValue, 2) };
         }, memory),
-      {}
+      {},
     );
 
     return Object.values(result).reduce((sum, value) => sum + value, 0);

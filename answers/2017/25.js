@@ -34,7 +34,7 @@ export class Question extends QuestionBase {
         if (position === 0 && move === -1) tape.unshift(0);
         return { position: Math.max(position + move, 0), tape, state: nextState };
       },
-      { position: 0, tape: [0], state: startingState }
+      { position: 0, tape: [0], state: startingState },
     );
 
     return output.reduce((a, b) => a + b);

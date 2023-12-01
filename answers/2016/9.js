@@ -45,7 +45,7 @@ export class Question extends QuestionBase {
         }
         return { state, marker, out };
       },
-      { state: 'normal', marker: '', out: 0 }
+      { state: 'normal', marker: '', out: 0 },
     );
 
     return o;

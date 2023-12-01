@@ -64,7 +64,7 @@ export class Question extends QuestionBase {
         const delta = displacement instanceof Vector ? displacement : o.multiply(...displacement);
         return { orientation: o, position: position.add(delta) };
       },
-      { orientation: new Vector(1, 0), position: new Vector(0, 0) }
+      { orientation: new Vector(1, 0), position: new Vector(0, 0) },
     ).position.manhattan;
   }
 
@@ -76,7 +76,7 @@ export class Question extends QuestionBase {
         }
         return { waypoint, position: position.add(waypoint.multiply(...displacement)) };
       },
-      { waypoint: new Vector(10, -1), position: new Vector(0, 0) }
+      { waypoint: new Vector(10, -1), position: new Vector(0, 0) },
     ).position.manhattan;
   }
 }

@@ -4,7 +4,7 @@ class Monkey {
   constructor([idLine, itemsLine, opLine, testLine, ifTrueLine, ifFalseLine]) {
     this.id = Number(idLine.replace('Monkey ', '').replace(':', ''));
     this.inspections = 0;
-    this.items = itemsLine.trim().replace('Starting items: ', '').split(',').map(Number);;
+    this.items = itemsLine.trim().replace('Starting items: ', '').split(',').map(Number);
     this.originalItems = this.items.slice(0);
     this.divisor = Number(testLine.trim().replace('Test: divisible by ', ''));
     this.ifTrue = Number(ifTrueLine.trim().replace('If true: throw to monkey ', ''));
@@ -13,9 +13,9 @@ class Monkey {
     const [, op, val] = /Operation: new = old (.) (\d+|old)/.exec(opLine.trim());
     const value = Number(val);
     this.operation = (x) => {
-      const v = (val === 'old' ? x : value);
+      const v = val === 'old' ? x : value;
       return op === '+' ? x + v : x * v;
-    }
+    };
   }
 
   reset() {
@@ -46,8 +46,8 @@ class Jungle {
   }
 
   get monkeyBusiness() {
-    const [a, b] = this.monkeys.map(({ inspections }) => inspections).sort((a, b) => b - a);
-    return a * b;
+    const [m, n] = this.monkeys.map(({ inspections }) => inspections).sort((a, b) => b - a);
+    return m * n;
   }
 }
 

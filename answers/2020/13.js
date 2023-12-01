@@ -55,7 +55,7 @@ export class Question extends QuestionBase {
         while (t % bus !== (bus * ix - ix) % bus) t += multiplier;
         return { multiplier: multiplier * bus, timestamp: t };
       },
-      { multiplier: 1, timestamp: 0 }
+      { multiplier: 1, timestamp: 0 },
     ).timestamp;
   }
 }

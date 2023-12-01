@@ -44,7 +44,7 @@ export class Question extends QuestionBase {
           rte
             .filter((ix) => maze.squares[ix].match(/[a-zA-Z]/))
             .map((ix) => maze.squares[ix].toLowerCase())
-            .filter((it) => it !== tgt)
+            .filter((it) => it !== tgt),
         )
         .orElse([]);
 
@@ -56,7 +56,7 @@ export class Question extends QuestionBase {
       const availableKeys = keys.filter((k) => !current.includes(k) && blockages[k].every((b) => current.includes(b)));
       const prefixes = current.split(':');
       return availableKeys.map((k) =>
-        prefixes.map((p, ix) => (ix === quadrants[k] ? `@${p.slice(1).split('').sort().join('')}${k}` : p)).join(':')
+        prefixes.map((p, ix) => (ix === quadrants[k] ? `@${p.slice(1).split('').sort().join('')}${k}` : p)).join(':'),
       );
     };
 
@@ -73,7 +73,7 @@ export class Question extends QuestionBase {
             .map((dist) => ({ ...dd, [key]: dist }))
             .orElse(dd);
         }, d),
-      {}
+      {},
     );
 
     const distance = (from, to) => {

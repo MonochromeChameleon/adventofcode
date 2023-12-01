@@ -61,7 +61,7 @@ export class Question extends QuestionBase {
   part2(reindeer) {
     const scoreboard = Array.from({ length: 2503 }).reduce(
       (scores, _, i) => this.updateScoreboard(scores, reindeer, i + 1),
-      reindeer.reduce((acc, it) => ({ ...acc, [it.name]: 0 }), {})
+      reindeer.reduce((acc, it) => ({ ...acc, [it.name]: 0 }), {}),
     );
     return Object.values(scoreboard).reduce((a, b) => Math.max(a, b));
   }

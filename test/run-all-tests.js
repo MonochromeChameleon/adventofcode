@@ -13,7 +13,9 @@ const getDays = (y) => {
 };
 
 export default async function runAllTests({ years = allYears, wip = false, getQuestionNumbers = getDays } = {}) {
-  const allQuestions = await Promise.all(years.map((y) => Promise.all(getQuestionNumbers(y).map((d) => loadQuestion(y, d)))));
+  const allQuestions = await Promise.all(
+    years.map((y) => Promise.all(getQuestionNumbers(y).map((d) => loadQuestion(y, d)))),
+  );
 
   allQuestions.forEach((questions, yix) =>
     describe(`${years[yix]}`, () => {
@@ -65,10 +67,10 @@ export default async function runAllTests({ years = allYears, wip = false, getQu
                     expect(result).to.equal(q.expectedResult(part));
                   }).timeout(140000);
                 }
-              })
+              }),
             );
         });
       });
-    })
+    }),
   );
 }

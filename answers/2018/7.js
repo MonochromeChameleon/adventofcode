@@ -23,7 +23,7 @@ export class Question extends QuestionBase {
         ...out,
         [second]: [first, ...out[second]],
       }),
-      empty
+      empty,
     );
   }
 

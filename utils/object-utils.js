@@ -5,7 +5,7 @@ export function flattenObject(objectOrArrayOrValue, ...path) {
         ...acc,
         ...flattenObject(value, ...path, ix),
       }),
-      {}
+      {},
     );
   }
 
@@ -15,7 +15,7 @@ export function flattenObject(objectOrArrayOrValue, ...path) {
         ...acc,
         ...flattenObject(value, ...path, key),
       }),
-      {}
+      {},
     );
   }
 

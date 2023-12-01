@@ -28,7 +28,7 @@ export async function run({ day, ...rest }) {
     const maxDay = month === 11 ? new Date().getDate() : 25;
     await Array.from({ length: maxDay }).reduce(
       (p, _, ix) => p.then(() => runDay({ day: ix + 1, ...rest })),
-      Promise.resolve()
+      Promise.resolve(),
     );
   }
 }

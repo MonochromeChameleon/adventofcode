@@ -31,7 +31,7 @@ export class Question extends QuestionBase {
         const newCount = nextRow.reduce((a, b) => a + b, count);
         return { row: nextRow, count: newCount };
       },
-      { row: firstRow, count: firstRow.reduce((a, b) => a + b) }
+      { row: firstRow, count: firstRow.reduce((a, b) => a + b) },
     );
 
     return result.count;

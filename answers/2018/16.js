@@ -38,7 +38,7 @@ export class Question extends InstructionSet {
         .replaceAll(/[^\d\s]/g, '')
         .trim()
         .split(' ')
-        .map((value) => Number(value))
+        .map((value) => Number(value)),
     );
     return { before, operation, after };
   }
@@ -59,7 +59,7 @@ export class Question extends InstructionSet {
           this[op].call(b4, ...operation.slice(1));
           return b4.join(',') === after.join(',');
         }),
-      this.operations
+      this.operations,
     );
 
     if (options.length === 1) {
@@ -95,7 +95,7 @@ export class Question extends InstructionSet {
 
     const rawOps = Object.entries(opsByOpCode).reduce(
       (out, [opcode, examples]) => ({ ...out, [opcode]: this.identifyOperation(examples) }),
-      {}
+      {},
     );
     const ops = this.streamlineOps(rawOps);
     const program = bottomSection.map(([opcode, a, b, c]) => ({

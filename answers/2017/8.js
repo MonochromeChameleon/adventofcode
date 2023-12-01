@@ -51,7 +51,7 @@ export class Question extends QuestionBase {
   part1(input) {
     const registers = input.reduce(
       (reg, { action, ...params }) => (this.test.call(reg, params) ? this[action].call(reg, params) : reg),
-      {}
+      {},
     );
     return Object.values(registers).reduce((a, b) => Math.max(a, b));
   }
@@ -64,7 +64,7 @@ export class Question extends QuestionBase {
         const maxVal = Object.values(reg).reduce((a, b) => Math.max(a, b));
         return { max: Math.max(max, maxVal), reg: out };
       },
-      { max: 0, reg: {} }
+      { max: 0, reg: {} },
     );
     return ans;
   }

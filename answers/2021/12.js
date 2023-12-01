@@ -53,7 +53,7 @@ export class Question extends QuestionBase {
           caves[it.name] = it;
           return caves;
         },
-        { end: new Cave('end', []) }
+        { end: new Cave('end', []) },
       );
   }
 

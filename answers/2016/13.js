@@ -61,7 +61,7 @@ export class Question extends QuestionBase {
           .flatMap(([x, y]) => this.findNeighbours(input, x, y));
         return [...new Set([...nextMoves, ...positions])];
       },
-      ['1,1']
+      ['1,1'],
     ).length;
   }
 }

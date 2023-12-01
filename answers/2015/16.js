@@ -9,7 +9,7 @@ class Sue {
         properties
           .split(', ')
           .map((prop) => prop.split(':'))
-          .map(([key, value]) => [key, Number(value)])
+          .map(([key, value]) => [key, Number(value)]),
       );
 
     this.children = children;
@@ -53,7 +53,7 @@ export class Question extends QuestionBase {
 
   part1(sues) {
     return sues.find((sue) =>
-      Object.entries(this.tickerTape).every(([key, value]) => sue[key] === value || sue[key] === undefined)
+      Object.entries(this.tickerTape).every(([key, value]) => sue[key] === value || sue[key] === undefined),
     ).number;
   }
 
@@ -69,7 +69,7 @@ export class Question extends QuestionBase {
         }
 
         return sue[key] === value;
-      })
+      }),
     ).number;
   }
 }

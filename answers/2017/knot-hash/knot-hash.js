@@ -19,7 +19,7 @@ export function knotHashRound(input, lengths, s = 0, i = 0) {
         ix: (ix + length + skip) % input.length,
       };
     },
-    { crypt: input, skip: s, ix: i }
+    { crypt: input, skip: s, ix: i },
   );
 }
 
@@ -30,7 +30,7 @@ function getSparseHash(lengths, size) {
       crypt: Array.from({ length: size }, (_, i) => i),
       skip: 0,
       ix: 0,
-    }
+    },
   );
 
   return sparse;

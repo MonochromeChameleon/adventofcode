@@ -84,8 +84,8 @@ export class Question extends IntcodeQuestion {
       });
       o2.flatMap(({ x, y }) =>
         squares.filter(
-          (it) => it.type === 1 && Math.abs(it.x - x) <= 1 && Math.abs(it.y - y) <= 1 && (it.x === x || it.y === y)
-        )
+          (it) => it.type === 1 && Math.abs(it.x - x) <= 1 && Math.abs(it.y - y) <= 1 && (it.x === x || it.y === y),
+        ),
       ).forEach((n) => {
         n.type = 2;
       });

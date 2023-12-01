@@ -14,7 +14,7 @@ class Orc {
         maze
           .route(this.ix, ix, occupied)
           .map((route) => ({ target: ix, route, distance: route.length }))
-          .orElse(undefined)
+          .orElse(undefined),
       )
       .filter(Boolean);
 
@@ -28,7 +28,7 @@ class Orc {
         }
         return { routes: rtes, distance: dstnc };
       },
-      { routes: [], distance: Infinity }
+      { routes: [], distance: Infinity },
     );
 
     if (distance === Infinity) return;
@@ -130,7 +130,7 @@ export class Question extends QuestionBase {
     while (!this.isBattleOver(goblinsAndElves)) {
       const increment = this.attack(
         goblinsAndElves.filter(({ hp }) => hp > 0),
-        maze
+        maze,
       );
       if (increment) rounds += 1;
     }

@@ -35,7 +35,7 @@ export class Question extends QuestionBase {
         if (combo.length === sofar[0].length) return [...sofar, combo];
         return sofar;
       },
-      [combinations[0]]
+      [combinations[0]],
     );
     return smallestCombinations.map((combo) => combo.reduce((a, b) => a * b)).reduce((a, b) => Math.min(a, b));
   }
@@ -50,7 +50,7 @@ export class Question extends QuestionBase {
         if (combo.length === sofar[0].length) return [...sofar, combo];
         return sofar;
       },
-      [combinations[0]]
+      [combinations[0]],
     );
     return smallestCombinations.map((combo) => combo.reduce((a, b) => a * b)).reduce((a, b) => Math.min(a, b));
   }

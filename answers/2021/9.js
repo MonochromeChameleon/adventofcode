@@ -53,7 +53,7 @@ export class Question extends QuestionBase {
 
         return state;
       },
-      { basins: [0], mapped: [], combined: {} }
+      { basins: [0], mapped: [], combined: {} },
     );
 
     const [big, medium, small] = basins.sort((a, b) => b - a);

@@ -23,10 +23,10 @@ class Volcano extends Graph {
         return {
           location: v,
           open: [...open, v].sort((a, b) => a.localeCompare(b)),
-          released: released + (this.flowRates[v] * remainingTime),
+          released: released + this.flowRates[v] * remainingTime,
           state: [...open, v].join(':'),
-          time: remainingTime
-        }
+          time: remainingTime,
+        };
       });
   }
 }
@@ -48,10 +48,18 @@ export class Question extends QuestionBase {
 
   postParse(input) {
     // FUN FACT: THIS ISN'T EXHAUSTIVE BUT IT DOES ENOUGH
-    input.nodes.forEach((node) => Object.keys(input.links[node])
-      .forEach((link) => Object.keys(input.links[link])
-        .filter((ll) => ll !== node && (input.links[node][ll] || Infinity) > input.links[node][link] + input.links[link][ll])
-        .forEach((ll) => input.addEdge({ from: node, to: ll, distance: input.links[node][link] + input.links[link][ll] }))));
+    input.nodes.forEach((node) =>
+      Object.keys(input.links[node]).forEach((link) =>
+        Object.keys(input.links[link])
+          .filter(
+            (ll) =>
+              ll !== node && (input.links[node][ll] || Infinity) > input.links[node][link] + input.links[link][ll],
+          )
+          .forEach((ll) =>
+            input.addEdge({ from: node, to: ll, distance: input.links[node][link] + input.links[link][ll] }),
+          ),
+      ),
+    );
 
     input.valvesThatMatter = input.nodes.filter((n) => input.flowRates[n]);
 
@@ -66,7 +74,8 @@ export class Question extends QuestionBase {
       const current = queue.pop();
       explored[current.state] = current.released;
 
-      volcano.neighbours(current)
+      volcano
+        .neighbours(current)
         .filter((neighbour) => neighbour.released > (explored[neighbour.state] || 0))
         .forEach((neighbour) => queue.push(neighbour));
     }
@@ -84,16 +93,25 @@ export class Question extends QuestionBase {
     const bestByValveSet = Object.fromEntries(
       Object.entries(results)
         .filter(([, v]) => v)
-        .map(([k, v]) => [k.split(':').sort((a, b) => a.localeCompare(b)).join(':'), v])
-        .sort(([, a], [, b]) => a - b));
+        .map(([k, v]) => [
+          k
+            .split(':')
+            .sort((a, b) => a.localeCompare(b))
+            .join(':'),
+          v,
+        ])
+        .sort(([, a], [, b]) => a - b),
+    );
 
     return Object.entries(bestByValveSet)
       .map(([k, v]) => ({ open: k.split(':'), released: v }))
       .reduce((best, { open, released }, ix, all) => {
-        const bestOfTheRest = all.slice(ix + 1)
-          .filter(({ released: next }) => released + next > best)
-          .filter(({ open: next }) => next.every((n) => !open.includes(n)))
-          .reduce((a, { released: next }) => Math.max(a, next), 0) + released;
+        const bestOfTheRest =
+          all
+            .slice(ix + 1)
+            .filter(({ released: next }) => released + next > best)
+            .filter(({ open: next }) => next.every((n) => !open.includes(n)))
+            .reduce((a, { released: next }) => Math.max(a, next), 0) + released;
         return Math.max(best, bestOfTheRest);
       }, 0);
   }

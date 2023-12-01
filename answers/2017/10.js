@@ -30,7 +30,7 @@ export class Question extends QuestionBase {
       crypt: [a, b],
     } = knotHashRound(
       Array.from({ length: size }, (_, i) => i),
-      lengths
+      lengths,
     );
     return a * b;
   }

@@ -30,7 +30,7 @@ class Board {
       this.pixels
         .slice(ix * WIDTH, (ix + 1) * WIDTH)
         .map((px) => px.str)
-        .join('')
+        .join(''),
     );
     return [this.score, ...board].join('\n');
   }

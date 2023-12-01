@@ -23,7 +23,7 @@ export class Question extends QuestionBase {
         values[next - inp - 1] += 1;
         return values;
       },
-      [0, 0, 0]
+      [0, 0, 0],
     );
     return one * three;
   }
@@ -35,7 +35,7 @@ export class Question extends QuestionBase {
         const total = [next - 1, next - 2, next - 3].map((n) => sofar[n] || 0).reduce((a, b) => a + b);
         return { ...sofar, [next]: total };
       },
-      { 0: 1 }
+      { 0: 1 },
     );
 
     return permutations[max];

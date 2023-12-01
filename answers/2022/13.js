@@ -41,12 +41,13 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    return input.map(this.isInOrder.bind(this)).reduce((s, o, ix) => o ? (s + ix + 1) : s, 0);
+    return input.map(this.isInOrder.bind(this)).reduce((s, o, ix) => (o ? s + ix + 1 : s), 0);
   }
 
   part2(input) {
-    const sorted = [[[2]], [[6]], ...input.flatMap(({ left, right }) => [left, right])]
-      .sort((left, right) => this.isInOrder({ left, right }) ? -1 : 1);
+    const sorted = [[[2]], [[6]], ...input.flatMap(({ left, right }) => [left, right])].sort((left, right) =>
+      this.isInOrder({ left, right }) ? -1 : 1,
+    );
 
     const two = sorted.findIndex((i) => JSON.stringify(i) === '[[2]]');
     const six = sorted.findIndex((i) => JSON.stringify(i) === '[[6]]');

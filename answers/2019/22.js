@@ -12,7 +12,7 @@ export class Question extends QuestionBase {
         part1: 3,
         part2: 7,
       },
-      ...params
+      ...params,
     );
     this.exampleInput(
       {
@@ -20,7 +20,7 @@ export class Question extends QuestionBase {
         part1: 8,
         part2: 6,
       },
-      ...params
+      ...params,
     );
     this.exampleInput(
       {
@@ -28,7 +28,7 @@ export class Question extends QuestionBase {
         part1: 9,
         part2: 9,
       },
-      ...params
+      ...params,
     );
     this.exampleInput(
       {
@@ -47,7 +47,7 @@ export class Question extends QuestionBase {
         part1: 0,
         part2: 6,
       },
-      ...params
+      ...params,
     );
   }
 
@@ -88,7 +88,7 @@ export class Question extends QuestionBase {
         const s0 = acc[ii / 2];
         return { ...acc, [ii]: this.combine(s0, s0, deckSize) };
       },
-      { 1: shuffle }
+      { 1: shuffle },
     );
 
     const shuffles = this.binarySomething(repeats);

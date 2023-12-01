@@ -27,7 +27,7 @@ export class VectorGameOfLifeParser extends Parser {
           const yys = Array.from({ length: max + 3 - min }, (_, o) => min + o - 1);
           return axs.flatMap((ax) => yys.map((yy) => [...ax, yy]));
         },
-        Array.from({ length: xs.max + 3 - xs.min }).map((_, ix) => [xs.min + ix - 1])
+        Array.from({ length: xs.max + 3 - xs.min }).map((_, ix) => [xs.min + ix - 1]),
       )
       .map((values) => new Vector(...values));
   }
@@ -36,7 +36,7 @@ export class VectorGameOfLifeParser extends Parser {
     points,
     dimensions = this.dimensions,
     getNeighbours = this.getNeighbours.bind(this),
-    nextFn = this.next.bind(this)
+    nextFn = this.next.bind(this),
   }) {
     const conwaySpace = this.generateConwaySpace(points, dimensions);
     return conwaySpace.filter((v) => nextFn(v, getNeighbours(v, points)));
@@ -47,11 +47,11 @@ export class VectorGameOfLifeParser extends Parser {
     start,
     dimensions = this.dimensions,
     getNeighbours = this.getNeighbours.bind(this),
-    nextFn = this.next.bind(this)
+    nextFn = this.next.bind(this),
   ) {
     return Array.from({ length: count }).reduce(
       (points, _, ix) => this.generation({ points, dimensions, getNeighbours, nextFn, generation: ix }),
-      start
+      start,
     );
   }
 

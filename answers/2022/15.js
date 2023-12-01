@@ -10,7 +10,9 @@ export class Question extends QuestionBase {
   }
 
   parseLine(line) {
-    const [, sx, sy, bx, by] = /Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)/.exec(line).map(Number);
+    const [, sx, sy, bx, by] = /Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)/
+      .exec(line)
+      .map(Number);
     const sensor = new Vector(sx, sy);
     const beacon = new Vector(bx, by);
     const delta = beacon.subtract(sensor);
@@ -19,11 +21,13 @@ export class Question extends QuestionBase {
   }
 
   scanRow(input, row) {
-    return input.filter(({ sensor: { y }, manhattan }) => Math.abs(y - row) <= manhattan)
+    return input
+      .filter(({ sensor: { y }, manhattan }) => Math.abs(y - row) <= manhattan)
       .map(({ sensor: { x, y }, manhattan }) => {
         const range = manhattan - Math.abs(y - row);
         return { from: x - range, to: x + range };
-      }).sort(({ from: a }, { from: b }) => a - b)
+      })
+      .sort(({ from: a }, { from: b }) => a - b)
       .reduce((o, { from, to }) => {
         if (!o.length) return [{ from, to }];
         const { from: ofrom, to: oto } = o.pop();
@@ -45,6 +49,6 @@ export class Question extends QuestionBase {
 
     const [{ to }] = this.scanRow(input, y);
     const x = to + 1;
-    return (x * 4000000) + y;
+    return x * 4000000 + y;
   }
 }

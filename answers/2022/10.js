@@ -26,7 +26,7 @@ export class Question extends QuestionBase {
   }
 
   part2([, ...input]) {
-    const pixels = input.map((v, ix) => Math.abs(v - (ix % 40)) <= 1 ? '#' : ' ');
+    const pixels = input.map((v, ix) => (Math.abs(v - (ix % 40)) <= 1 ? '#' : ' '));
     printLetters(pixels, 40);
     return 'RJERPEFC';
   }

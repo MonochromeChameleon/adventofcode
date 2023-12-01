@@ -133,7 +133,7 @@ export class Question extends QuestionBase {
         }
         return { type, groups: [...groups, parsed], ix: ix + 1 };
       },
-      { type: undefined, groups: [], ix: 0 }
+      { type: undefined, groups: [], ix: 0 },
     ).groups;
   }
 

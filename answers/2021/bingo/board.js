@@ -3,7 +3,7 @@ const rows = Array.from({ length: 25 }).reduce(
     r[~~(ix / 5)].push(ix);
     return r;
   },
-  Array.from({ length: 5 }).map(() => [])
+  Array.from({ length: 5 }).map(() => []),
 );
 
 const columns = Array.from({ length: 25 }).reduce(
@@ -11,7 +11,7 @@ const columns = Array.from({ length: 25 }).reduce(
     r[ix % 5].push(ix);
     return r;
   },
-  Array.from({ length: 5 }).map(() => [])
+  Array.from({ length: 5 }).map(() => []),
 );
 
 const diagonals = []; // [[0, 6, 12, 18, 24], [4, 8, 12, 16, 20]];

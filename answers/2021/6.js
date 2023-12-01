@@ -40,7 +40,7 @@ export class Question extends QuestionBase {
         7: eight,
         8: zero,
       }),
-      startingCount
+      startingCount,
     );
 
     return Object.values(endCount).reduce((sofar, count) => sofar + count, 0);

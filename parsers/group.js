@@ -10,7 +10,7 @@ export class GroupParser extends Parser {
     const groupDelimiter = this.m.groupDelimiter;
     if (groupSize) {
       return Array.from({ length: lines.length / groupSize }, (_, i) =>
-        this.parseGroup(lines.slice(i * groupSize, (i + 1) * groupSize))
+        this.parseGroup(lines.slice(i * groupSize, (i + 1) * groupSize)),
       );
     }
 
@@ -27,7 +27,7 @@ export class GroupParser extends Parser {
 
             return out;
           },
-          [[]]
+          [[]],
         )
         .reverse()
         .filter((group) => group.length)

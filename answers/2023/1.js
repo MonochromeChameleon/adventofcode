@@ -16,13 +16,10 @@ export class Question extends QuestionBase {
     return ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
       .map((num, ix) => ({ value: `${ix + 1}`, index: maybeNumberString.indexOf(num) }))
       .filter(({ index }) => index >= 0)
-      .reduce(
-        (best, next) => (next.index < best.index) === findFirst ? next : best,
-        {
-          value: line[findFirst ? maybeNumberString.length : (line.length - maybeNumberString.length - 1)],
-          index: findFirst ? maybeNumberString.length : -1
-        }
-      ).value;
+      .reduce((best, next) => (next.index < best.index === findFirst ? next : best), {
+        value: line[findFirst ? maybeNumberString.length : line.length - maybeNumberString.length - 1],
+        index: findFirst ? maybeNumberString.length : -1,
+      }).value;
   }
 
   getFirstAndLastWithWords(line) {
@@ -31,13 +28,15 @@ export class Question extends QuestionBase {
   }
 
   part1(lines) {
-    return lines.map((l) => l.replace(/\D/g, '').split(''))
+    return lines
+      .map((l) => l.replace(/\D/g, '').split(''))
       .map((ns) => parseInt(ns[0] + ns[ns.length - 1], 10))
       .reduce((a, b) => a + b);
   }
 
   part2(lines) {
-    return lines.map((l) => this.getFirstAndLastWithWords(l))
+    return lines
+      .map((l) => this.getFirstAndLastWithWords(l))
       .map((ns) => parseInt(ns[0] + ns[ns.length - 1], 10))
       .reduce((a, b) => a + b);
   }

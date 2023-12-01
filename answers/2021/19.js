@@ -79,18 +79,18 @@ class Vector extends Point {
 
   findOrientations(rp) {
     const xs = ['x', '-x', 'y', '-y', 'z', '-z'].filter(
-      (axis, ix) => rp[axis.replace('-', '')] === this.x * (ix % 2 ? -1 : 1)
+      (axis, ix) => rp[axis.replace('-', '')] === this.x * (ix % 2 ? -1 : 1),
     );
     const ys = ['x', '-x', 'y', '-y', 'z', '-z'].filter(
-      (axis, ix) => rp[axis.replace('-', '')] === this.y * (ix % 2 ? -1 : 1)
+      (axis, ix) => rp[axis.replace('-', '')] === this.y * (ix % 2 ? -1 : 1),
     );
     const zs = ['x', '-x', 'y', '-y', 'z', '-z'].filter(
-      (axis, ix) => rp[axis.replace('-', '')] === this.z * (ix % 2 ? -1 : 1)
+      (axis, ix) => rp[axis.replace('-', '')] === this.z * (ix % 2 ? -1 : 1),
     );
 
     return xs
       .flatMap((x) =>
-        ys.filter((y) => y !== x).flatMap((y) => zs.filter((z) => z !== x && z !== y).map((z) => `${x}:${y}:${z}`))
+        ys.filter((y) => y !== x).flatMap((y) => zs.filter((z) => z !== x && z !== y).map((z) => `${x}:${y}:${z}`)),
       )
       .filter((o) => VALID_ORIENTATIONS.includes(o));
   }

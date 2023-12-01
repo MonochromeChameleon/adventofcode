@@ -68,7 +68,7 @@ export class Question extends QuestionBase {
 
         return { distance, maxDistance, location };
       },
-      { distance: 0, maxDistance: 0, location: { n: 0, ne: 0, nw: 0 } }
+      { distance: 0, maxDistance: 0, location: { n: 0, ne: 0, nw: 0 } },
     );
   }
 

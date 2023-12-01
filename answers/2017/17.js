@@ -18,7 +18,7 @@ export class Question extends QuestionBase {
         arr.splice(newPosition + 1, 0, i + 1);
         return { position: newPosition + 1, arr };
       },
-      { position: 0, arr: [0] }
+      { position: 0, arr: [0] },
     );
 
     return final;
@@ -36,7 +36,7 @@ export class Question extends QuestionBase {
         const newPosition = (position + stepSize) % (i + 1);
         return { position: newPosition + 1, latest: newPosition ? latest : i + 1 };
       },
-      { position: 0, latest: 0 }
+      { position: 0, latest: 0 },
     );
 
     return final;

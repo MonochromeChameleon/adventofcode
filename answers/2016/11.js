@@ -28,7 +28,7 @@ class State {
         items
           .sort((a, b) => a.element.localeCompare(b.element) || a.type.localeCompare(b.type))
           .map(({ element, type }) => `${element}:${type}`)
-          .join(',')
+          .join(','),
       )
       .join('|');
     return `${this.elevator}|${floors}`;
@@ -57,7 +57,7 @@ class State {
     const floors = JSON.parse(JSON.stringify(this.floors));
     const items = floors[this.elevator];
     floors[this.elevator] = items.filter(
-      (item) => !itemsToMove.some(({ element, type }) => item.element === element && item.type === type)
+      (item) => !itemsToMove.some(({ element, type }) => item.element === element && item.type === type),
     );
     floors[toFloor] = itemsToMove.concat(floors[toFloor]);
     return new State(toFloor, floors);

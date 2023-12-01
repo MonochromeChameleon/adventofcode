@@ -21,7 +21,7 @@ export class Question extends IntcodeQuestion {
 
   part2(input) {
     const pairs = Array.from({ length: 100 }).flatMap((i, noun) =>
-      Array.from({ length: 100 }).map((j, verb) => ({ noun, verb }))
+      Array.from({ length: 100 }).map((j, verb) => ({ noun, verb })),
     );
 
     const TARGET = 19690720;

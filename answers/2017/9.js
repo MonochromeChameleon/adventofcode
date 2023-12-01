@@ -38,7 +38,7 @@ export class Question extends QuestionBase {
         if (char === '}') return { score, depth: depth - 1, garbage, ignore, trash };
         return { score, depth, garbage, ignore, trash };
       },
-      { score: 0, depth: 1, garbage: false, ignore: false, trash: 0 }
+      { score: 0, depth: 1, garbage: false, ignore: false, trash: 0 },
     );
   }
 

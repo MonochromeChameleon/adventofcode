@@ -45,7 +45,7 @@ export class Graph {
         distance: d + this.links[p][next],
         previous: next,
       }),
-      { distance: start, previous }
+      { distance: start, previous },
     );
     return { distance, route: [previous, ...route] };
   }

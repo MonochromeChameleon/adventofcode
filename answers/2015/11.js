@@ -36,7 +36,7 @@ export class Question extends QuestionBase {
         if (![I, O, L].includes(c)) return { out: [...out, c], aaaa };
         return { out: [...out, c + 1], aaaa: true };
       },
-      { out: [], aaaa: false }
+      { out: [], aaaa: false },
     ).out;
   }
 

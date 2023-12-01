@@ -36,7 +36,7 @@ export class Parser {
       (prop) =>
         (!tgtProps.has(prop) || Object.hasOwnProperty.call(this.propertyMap, prop)) &&
         prop !== 'mixin' &&
-        prop !== 'propertyMap'
+        prop !== 'propertyMap',
     );
 
     propsToAdd.forEach((prop) => {

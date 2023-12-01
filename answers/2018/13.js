@@ -117,7 +117,7 @@ class Track {
         const kart = new Kart(c, ix, this.track.length, this);
         return { karts: [...karts, kart], row: [...row, blanked] };
       },
-      { karts: [], row: [] }
+      { karts: [], row: [] },
     );
     this.track.push(r);
     this.karts.push(...k);

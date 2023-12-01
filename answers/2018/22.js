@@ -85,7 +85,7 @@ export class Question extends QuestionBase {
           .reduce(({ total, prev }, sq) => ({ total: total + (sq.endsWith(prev.slice(-1)) ? 1 : 7), prev: sq }), {
             total: 0,
             prev: start,
-          })
+          }),
       )
       .map((it) => it.total)
       .getOrThrow();

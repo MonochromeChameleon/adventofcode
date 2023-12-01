@@ -29,7 +29,7 @@ export class Question extends QuestionBase {
           return { brackets, result: !brackets };
         return { brackets, result };
       },
-      { brackets: false, result: undefined }
+      { brackets: false, result: undefined },
     );
 
     return ans;
@@ -52,7 +52,7 @@ export class Question extends QuestionBase {
         }
         return { brackets, supernet, hypernet };
       },
-      { brackets: false, supernet: [], hypernet: [] }
+      { brackets: false, supernet: [], hypernet: [] },
     );
 
     return snet.some((s) => hnet.includes(`${s[1]}${s[0]}${s[1]}`));

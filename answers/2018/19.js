@@ -52,7 +52,7 @@ export class Question extends InstructionSet {
         4: 0,
         5: 0,
       },
-      { limit: 20 }
+      { limit: 20 },
     );
     const tgt = endState['5'];
     const [a, b, c, d] = primeFactors(tgt);

@@ -32,7 +32,7 @@ export class Question extends QuestionBase {
     if (x > 300 - size || y > 300 - size) return 0;
     return Array.from({ length: size }, (_, i) => this.getPowerSlice(grid, x, y, ix, i + 1)).reduce(
       (acc, val) => acc + val,
-      0
+      0,
     );
   }
 
@@ -63,7 +63,7 @@ export class Question extends QuestionBase {
         const thisPower = this.calculatePowerCell(grid, x, y, i);
         return thisPower > power ? { x, y, power: thisPower } : best;
       },
-      { power: 0, x: -1, y: -1 }
+      { power: 0, x: -1, y: -1 },
     );
 
     return `${xx + 1},${yy}`;
@@ -78,7 +78,7 @@ export class Question extends QuestionBase {
         const { power, size: sz } = this.calculateBestPowerCell(grid, xx, yy, i);
         return power > bestPower ? { x: xx, y: yy, power, size: sz } : best;
       },
-      { power: 0, size: 0, index: -1 }
+      { power: 0, size: 0, index: -1 },
     );
 
     // Solve OBOES the nasty way
@@ -113,7 +113,7 @@ export class Question extends QuestionBase {
     ];
 
     const results = options.map(({ x: xx, y: yy, size: sz }) =>
-      this.calculatePowerCell(grid, xx, yy, xx + yy * 300, sz)
+      this.calculatePowerCell(grid, xx, yy, xx + yy * 300, sz),
     );
     const bestResult = results.reduce((best, result) => (result > best ? result : best), 0);
     const bestIndex = results.indexOf(bestResult);

@@ -29,7 +29,7 @@ export class Question extends QuestionBase {
         Object.entries(letters)
           .filter(([, v]) => v === value)
           .map(([k]) => k)
-          .sort()
+          .sort(),
       )
       .join('');
     return fullCheck.slice(0, 5) === checksum;
@@ -47,7 +47,7 @@ export class Question extends QuestionBase {
             const rotated = letter.charCodeAt(0) + modSector;
             return String.fromCharCode(rotated > 122 ? rotated - 26 : rotated);
           })
-          .join('')
+          .join(''),
       )
       .join(' ');
 

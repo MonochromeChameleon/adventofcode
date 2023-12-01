@@ -23,7 +23,7 @@ export class Question extends QuestionBase {
     const connections = input[from].filter((x) => !sofar.has(x));
     return connections.reduce(
       (all, c) => new Set([...all, c, ...this.allConnections(input, c, new Set([c, ...all]))]),
-      sofar
+      sofar,
     );
   }
 

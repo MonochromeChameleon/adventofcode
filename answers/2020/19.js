@@ -33,10 +33,10 @@ class Rule {
             {
               pass: true,
               rest: [input],
-            }
-          )
+            },
+          ),
         )
-        .filter(({ pass }) => pass)
+        .filter(({ pass }) => pass),
     );
 
     if (results.some((r) => !r.rest.length)) return { pass: true, rest: [] };

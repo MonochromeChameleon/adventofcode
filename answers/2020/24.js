@@ -41,6 +41,7 @@ export class Question extends QuestionBase {
               case 'w':
                 return { ns: null, pos: pos.add(NORTH_WEST) };
             }
+            break;
           case 's':
             switch (char) {
               case 'e':
@@ -48,18 +49,18 @@ export class Question extends QuestionBase {
               case 'w':
                 return { ns: null, pos: pos.add(SOUTH_WEST) };
             }
+            break;
           default:
             switch (char) {
               case 'e':
                 return { ns: null, pos: pos.add(EAST) };
               case 'w':
                 return { ns: null, pos: pos.add(WEST) };
-              default:
-                return { ns: char, pos };
             }
         }
+        return { ns: char, pos };
       },
-      { ns: null, pos: new Vector(0, 0, 0) }
+      { ns: null, pos: new Vector(0, 0, 0) },
     ).pos;
   }
 
@@ -68,7 +69,7 @@ export class Question extends QuestionBase {
     const whiteIds = new Set();
 
     const blackSurvivors = blackTiles.filter((tile) =>
-      [1, 2].includes(neighbours(tile).filter((n) => blackIds.has(n.toString())).length)
+      [1, 2].includes(neighbours(tile).filter((n) => blackIds.has(n.toString())).length),
     );
     const whiteTiles = blackTiles
       .flatMap((tile) => neighbours(tile).filter((n) => !blackIds.has(n.toString())))
@@ -78,7 +79,7 @@ export class Question extends QuestionBase {
         return wts.concat(tile);
       }, []);
     const whiteFlips = whiteTiles.filter(
-      (tile) => neighbours(tile).filter((n) => blackIds.has(n.toString())).length === 2
+      (tile) => neighbours(tile).filter((n) => blackIds.has(n.toString())).length === 2,
     );
 
     return [...blackSurvivors, ...whiteFlips];

@@ -17,13 +17,16 @@ export class Question extends QuestionBase {
   }
 
   postParse({ grid: trees }) {
-    return trees.reduce((rcs, t) => {
-      if (rcs.rows.length === t.y) rcs.rows.push([]);
-      if (rcs.cols.length === t.x) rcs.cols.push([]);
-      rcs.rows[t.y].push(t);
-      rcs.cols[t.x].push(t);
-      return rcs;
-    }, { rows: [], cols: [], trees });
+    return trees.reduce(
+      (rcs, t) => {
+        if (rcs.rows.length === t.y) rcs.rows.push([]);
+        if (rcs.cols.length === t.x) rcs.cols.push([]);
+        rcs.rows[t.y].push(t);
+        rcs.cols[t.x].push(t);
+        return rcs;
+      },
+      { rows: [], cols: [], trees },
+    );
   }
 
   visibleFromDirection(tree, trees) {
@@ -31,12 +34,9 @@ export class Question extends QuestionBase {
   }
 
   isVisible(tree, row, col) {
-    return [
-      col.slice(0, tree.y),
-      col.slice(tree.y + 1),
-      row.slice(0, tree.x),
-      row.slice(tree.x + 1)
-    ].some((dir) => this.visibleFromDirection(tree, dir));
+    return [col.slice(0, tree.y), col.slice(tree.y + 1), row.slice(0, tree.x), row.slice(tree.x + 1)].some((dir) =>
+      this.visibleFromDirection(tree, dir),
+    );
   }
 
   countVisible(tree, trees) {
@@ -50,8 +50,9 @@ export class Question extends QuestionBase {
       col.slice(0, tree.y).reverse(),
       col.slice(tree.y + 1),
       row.slice(0, tree.x).reverse(),
-      row.slice(tree.x + 1)
-    ].map((dir) => this.countVisible(tree, dir))
+      row.slice(tree.x + 1),
+    ]
+      .map((dir) => this.countVisible(tree, dir))
       .reduce((a, b) => a * b, 1);
   }
 

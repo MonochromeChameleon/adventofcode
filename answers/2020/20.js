@@ -140,11 +140,11 @@ export class Question extends QuestionBase {
             this.rotateTo(t, {
               top: above?.bottom,
               left: left?.right,
-            })
+            }),
           );
         return [...tt, nextTile];
       },
-      [firstCorner]
+      [firstCorner],
     );
 
     const shrunkenTiles = tilesInOrder.map((t) => new Tile(t.ix, shrinkGrid(t), t.width - 2, t.height - 2));

@@ -18,7 +18,7 @@ export class Question extends QuestionBase {
     const count2 = count(2);
 
     const layers = Array.from({ length: input.length / layerSize }).map((no, ix) =>
-      input.slice(ix * layerSize, (ix + 1) * layerSize)
+      input.slice(ix * layerSize, (ix + 1) * layerSize),
     );
     const [minLayer] = layers.sort((a, b) => count0(a) - count0(b));
     return count1(minLayer) * count2(minLayer);
@@ -34,7 +34,7 @@ export class Question extends QuestionBase {
     };
 
     const layers = Array.from({ length: input.length / layerSize }).map((no, ix) =>
-      input.slice(ix * layerSize, (ix + 1) * layerSize)
+      input.slice(ix * layerSize, (ix + 1) * layerSize),
     );
     const output = Array.from({ length: layerSize })
       .map((no, ix) => pixelValueAtIndex(ix, layers))

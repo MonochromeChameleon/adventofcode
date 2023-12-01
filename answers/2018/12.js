@@ -55,7 +55,7 @@ export class Question extends QuestionBase {
           ...s,
           rules,
         }),
-      { state: initialState, lix: 0 }
+      { state: initialState, lix: 0 },
     );
 
     return state.split('').reduce((sum, c, i) => (c === '.' ? sum : sum + i + lix), 0);

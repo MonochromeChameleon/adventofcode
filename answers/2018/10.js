@@ -56,7 +56,7 @@ export class Question extends QuestionBase {
         maxX: Number.MIN_SAFE_INTEGER,
         minY: Number.MAX_SAFE_INTEGER,
         maxY: Number.MIN_SAFE_INTEGER,
-      }
+      },
     );
   }
 

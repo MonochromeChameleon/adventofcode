@@ -102,7 +102,7 @@ export class Question extends QuestionBase {
         const wire = new Wire(direction, prev.end, prev.sofarDistance + prev.manhattan);
         return [...wires, prev, wire];
       },
-      [new Wire(first, start, 0)]
+      [new Wire(first, start, 0)],
     );
   }
 

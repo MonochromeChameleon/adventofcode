@@ -102,8 +102,8 @@ export class Question extends QuestionBase {
         Array.from({ length: width }).flatMap((___, groupCol) => {
           const group = groups[groupRow * width + groupCol];
           return Array.from({ length: size }).flatMap((____, col) => group[row * size + col]);
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -153,7 +153,7 @@ export class Question extends QuestionBase {
           });
           return out;
         }, {}),
-      { [startKey]: 1 }
+      { [startKey]: 1 },
     );
 
     return Object.entries(after).reduce((tot, [key, count]) => tot + count * ruleMapper[key].countAfterThree, 0);

@@ -16,7 +16,7 @@ export class Question extends IntcodeQuestion {
 
   hasSquare(comp, size, { x, y }) {
     return [x, x + size - 1].every((xcorner) =>
-      [y, y + size - 1].every((ycorner) => this.getOutput(comp, xcorner, ycorner).z)
+      [y, y + size - 1].every((ycorner) => this.getOutput(comp, xcorner, ycorner).z),
     );
   }
 
@@ -28,7 +28,7 @@ export class Question extends IntcodeQuestion {
 
   part1(input, size = 50) {
     return Array.from({ length: size * size }, (_, i) => this.getOutput(input, i % size, ~~(i / size)).z).reduce(
-      (a, b) => a + b
+      (a, b) => a + b,
     );
   }
 

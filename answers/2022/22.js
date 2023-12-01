@@ -23,7 +23,7 @@ export class Question extends QuestionBase {
   get parsers() {
     return {
       map: Parsers.GRID,
-      route: Parsers.SINGLE_LINE.withMappedProps({ parseLine: 'parseRoute' })
+      route: Parsers.SINGLE_LINE.withMappedProps({ parseLine: 'parseRoute' }),
     };
   }
 
@@ -32,10 +32,13 @@ export class Question extends QuestionBase {
   }
 
   parseRoute(line) {
-    return line.replace(/([LR])/g, '$1,').split(',').map((step) => {
-      const [, steps, turn] = /(\d+)(.?)/.exec(step);
-      return { steps, turn };
-    });
+    return line
+      .replace(/([LR])/g, '$1,')
+      .split(',')
+      .map((step) => {
+        const [, steps, turn] = /(\d+)(.?)/.exec(step);
+        return { steps, turn };
+      });
   }
 
   step({ grid, position, orientation }) {
@@ -60,19 +63,22 @@ export class Question extends QuestionBase {
   }
 
   route({ grid, route }) {
-    const { position: endPosition, orientation: endOrientation } = route
-      .reduce(({ position, orientation }, { steps, turn }) => {
-        const newPosition = Array.from({ length: steps })
-          .reduce((po) => this.step({ grid, ...po }), { position, orientation });
+    const { position: endPosition, orientation: endOrientation } = route.reduce(
+      ({ position, orientation }, { steps, turn }) => {
+        const newPosition = Array.from({ length: steps }).reduce((po) => this.step({ grid, ...po }), {
+          position,
+          orientation,
+        });
         return this.turn(newPosition, turn);
-      }, { position: grid.find(Boolean), orientation: 'right' });
-
+      },
+      { position: grid.find(Boolean), orientation: 'right' },
+    );
 
     const row = endPosition.y + 1;
     const col = endPosition.x + 1;
     const endPos = ['right', 'down', 'left', 'up'].findIndex((it) => it === endOrientation);
 
-    return ((row) * 1000) + ((col) * 4) + endPos;
+    return row * 1000 + col * 4 + endPos;
   }
 
   getFace(x, y) {
@@ -83,43 +89,63 @@ export class Question extends QuestionBase {
   }
 
   // EWWWWWWWW...
-  getLeft({ ix, x, y, face, width, height, grid }) {
+  getLeft({ ix, x, y, face, width, grid }) {
     if (x === 0 || grid[ix - 1] === ' ') {
-      if (face === 'A') return { index: (width * (149 - y)), orientation: 'right' };
-      if (face === 'C') return { index: (width * 100) + y - 50, orientation: 'down' };
-      if (face === 'D') return { index: (width * (149 - y)) + 50, orientation: 'right' };
+      if (face === 'A') return { index: width * (149 - y), orientation: 'right' };
+      if (face === 'C') return { index: width * 100 + y - 50, orientation: 'down' };
+      if (face === 'D') return { index: width * (149 - y) + 50, orientation: 'right' };
       if (face === 'F') return { index: y - 100, orientation: 'down' };
     }
-    return { index: Array.from({ length: width - 1 }).map((_, i) => i + 1).map((i) => (y * width) + ((ix + (i * (width - 1))) % width)).find((i) => grid[i] !== ' ') };
+    return {
+      index: Array.from({ length: width - 1 })
+        .map((_, i) => i + 1)
+        .map((i) => y * width + ((ix + i * (width - 1)) % width))
+        .find((i) => grid[i] !== ' '),
+    };
   }
 
-  getRight({ ix, x, y, face, width, height, grid }) {
+  getRight({ ix, x, y, face, width, grid }) {
     if (x === width - 1 || grid[ix + 1] === ' ') {
-      if (face === 'B') return { index: (width * (149 - y)) + 99, orientation: 'left' };
-      if (face === 'C') return { index: (width * 49) + y + 50, orientation: 'up' };
-      if (face === 'E') return { index: (width * (149 - y)) + 149, orientation: 'left' };
-      if (face === 'F') return { index: (width * 149) + y - 100, orientation: 'up' };
+      if (face === 'B') return { index: width * (149 - y) + 99, orientation: 'left' };
+      if (face === 'C') return { index: width * 49 + y + 50, orientation: 'up' };
+      if (face === 'E') return { index: width * (149 - y) + 149, orientation: 'left' };
+      if (face === 'F') return { index: width * 149 + y - 100, orientation: 'up' };
     }
-    return { index: Array.from({ length: width - 1 }).map((_, i) => i + 1).map((i) => (y * width) + ((ix + i) % width)).find((i) => grid[i] !== ' ') };
+    return {
+      index: Array.from({ length: width - 1 })
+        .map((_, i) => i + 1)
+        .map((i) => y * width + ((ix + i) % width))
+        .find((i) => grid[i] !== ' '),
+    };
   }
 
   getUp({ ix, x, y, face, width, height, grid }) {
     if (y === 0 || grid[ix - width] === ' ') {
       if (face === 'A') return { index: width * (x + 100), orientation: 'right' };
-      if (face === 'B') return { index: (width * 199) + x - 100 };
-      if (face === 'D') return { index: (width * (x + 50)) + 50, orientation: 'right' };
+      if (face === 'B') return { index: width * 199 + x - 100 };
+      if (face === 'D') return { index: width * (x + 50) + 50, orientation: 'right' };
     }
-    return { index: Array.from({ length: height - 1 }).map((_, i) => i + 1).map((i) => (ix + (i * (grid.length - width))) % grid.length).find((i) => grid[i] !== ' ') };
+    return {
+      index: Array.from({ length: height - 1 })
+        .map((_, i) => i + 1)
+        .map((i) => (ix + i * (grid.length - width)) % grid.length)
+        .find((i) => grid[i] !== ' '),
+    };
   }
 
   getDown({ ix, x, y, face, width, height, grid }) {
     if (y === 199 || grid[ix + width] === ' ') {
-      if (face === 'B') return { index: (width * (x - 50)) + 99, orientation: 'left' };
-      if (face === 'E') return { index: (width * (x + 100)) + 49, orientation: 'left' };
+      if (face === 'B') return { index: width * (x - 50) + 99, orientation: 'left' };
+      if (face === 'E') return { index: width * (x + 100) + 49, orientation: 'left' };
       if (face === 'F') return { index: x + 100 };
     }
 
-    return { index: Array.from({ length: height - 1 }).map((_, i) => i + 1).map((i) => (ix + (i * width)) % grid.length).find((i) => grid[i] !== ' ') };
+    return {
+      index: Array.from({ length: height - 1 })
+        .map((_, i) => i + 1)
+        .map((i) => (ix + i * width) % grid.length)
+        .find((i) => grid[i] !== ' '),
+    };
   }
 
   part1({ map: { grid, width, height }, route }) {

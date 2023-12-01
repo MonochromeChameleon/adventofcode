@@ -26,7 +26,7 @@ export class Question extends QuestionBase {
           .slice(1)
           .reduce((ing, r) => ing.filter((i) => r.ingredients.includes(i)), recipes[0].ingredients);
         return [a, ingredients];
-      })
+      }),
     );
   }
 

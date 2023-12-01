@@ -27,9 +27,9 @@ class Shop {
                 armor,
                 rings: [r1, r2],
                 cost: [weapon, armor, r1, r2].reduce((sum, { cost }) => sum + cost, 0),
-              }))
-            )
-          )
+              })),
+            ),
+          ),
         )
         .sort((a, b) => a.cost - b.cost);
     }

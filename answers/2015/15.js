@@ -18,7 +18,7 @@ class Ingredient {
       details
         .split(',')
         .map((p) => p.trim().split(' '))
-        .map(([p, value]) => [p, Number(value)])
+        .map(([p, value]) => [p, Number(value)]),
     );
 
     this.capacity = capacity;

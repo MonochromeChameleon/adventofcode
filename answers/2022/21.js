@@ -39,7 +39,7 @@ export class Question extends QuestionBase {
         if (target[key].isValue) return target[key].value;
         const { first: f, second: s, op } = target[key];
         return calculate(p[f], p[s], op);
-      }
+      },
     });
     return p.root;
   }
@@ -71,13 +71,13 @@ export class Question extends QuestionBase {
         const second = p[s];
 
         if (f === 'humn' || s === 'humn' || first.isHuman || second.isHuman) {
-          const ff = first.isHuman ? first.value : (f === 'humn' ? f : first);
-          const ss = second.isHuman ? second.value : (s === 'humn' ? s : second);
+          const ff = first.isHuman ? first.value : f === 'humn' ? f : first;
+          const ss = second.isHuman ? second.value : s === 'humn' ? s : second;
           return { value: { first: ff, second: ss, op }, isHuman: true };
         }
 
         return calculate(first, second, op);
-      }
+      },
     });
 
     return this.solve(p[fRoot].value, p[sRoot]);

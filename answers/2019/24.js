@@ -77,7 +77,7 @@ export class Question extends QuestionBase {
             .map((g) => g.slice(0))
             .map((g, ix) => this.infiniteGameOfLife(g, adjacencyMap, grids[ix - 1], grids[ix + 1]));
         },
-        [grid]
+        [grid],
       )
       .reduce((sum, g) => sum + g.filter((sq) => sq === '#').length, 0);
   }

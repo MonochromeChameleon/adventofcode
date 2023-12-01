@@ -23,7 +23,7 @@ export function adjacentIndices({ ix, width, adjacency, height = width }) {
 export function buildAdjacencyMap({ length, width, height, adjacency = 9 }) {
   const arrayLength = length || width * height;
   return Array.from({ length: arrayLength }).map((_, ix) =>
-    adjacentIndices({ ix, width, adjacency, height: arrayLength / width })
+    adjacentIndices({ ix, width, adjacency, height: arrayLength / width }),
   );
 }
 
@@ -60,7 +60,7 @@ export function joinGrids({ grids, tileWidth, gridsPerRow }) {
   return Array.from({ length: grids.length / gridsPerRow }).flatMap((_, ix) => {
     const blockRow = grids.slice(ix * gridsPerRow, (ix + 1) * gridsPerRow);
     return Array.from({ length: grids[0].length / tileWidth }).flatMap((__, i) =>
-      blockRow.flatMap((block) => block.slice(i * tileWidth, (i + 1) * tileWidth))
+      blockRow.flatMap((block) => block.slice(i * tileWidth, (i + 1) * tileWidth)),
     );
   });
 }

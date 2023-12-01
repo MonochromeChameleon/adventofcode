@@ -14,7 +14,7 @@ export class MultiplePatternsParser extends Parser {
         this.mixout();
         parser.mixin(this);
         return [group, this.m.parseInput.call(this, ls)];
-      })
+      }),
     );
     this.parseInput = new MultiplePatternsParser().parseInput;
     return input;

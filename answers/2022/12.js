@@ -16,16 +16,17 @@ export class Question extends QuestionBase {
     return dijkstra({
       start: grid.findIndex((s) => s === start),
       end: (index) => grid[index] === end,
-      neighbours: (index) => adjacencyMap[index].filter((ix) => {
-        const diff = grid[index].charCodeAt(0) - grid[ix].charCodeAt(0);
-        if (start === 'S') {
-          if (grid[index] === 'S') return ['a', 'b'].includes(grid[ix]);
-          if (grid[ix] === 'E') return ['y', 'z'].includes(grid[index]);
-          return diff >= -1
-        }
-        if (grid[index] === 'E') return ['y', 'z'].includes(grid[ix]);
-        return diff <= 1;
-      })
+      neighbours: (index) =>
+        adjacencyMap[index].filter((ix) => {
+          const diff = grid[index].charCodeAt(0) - grid[ix].charCodeAt(0);
+          if (start === 'S') {
+            if (grid[index] === 'S') return ['a', 'b'].includes(grid[ix]);
+            if (grid[ix] === 'E') return ['y', 'z'].includes(grid[index]);
+            return diff >= -1;
+          }
+          if (grid[index] === 'E') return ['y', 'z'].includes(grid[ix]);
+          return diff <= 1;
+        }),
     }).value;
   }
 

@@ -25,7 +25,7 @@ class Cube {
       Math.max(Math.min(this.y1, extent), -extent),
       Math.max(Math.min(this.y2, extent), -extent),
       Math.max(Math.min(this.z1, extent), -extent),
-      Math.max(Math.min(this.z2, extent), -extent)
+      Math.max(Math.min(this.z2, extent), -extent),
     );
   }
 
@@ -70,9 +70,9 @@ class Cube {
     return xs.flatMap(({ from: x1, to: x2, middle: mx }) =>
       ys.flatMap(({ from: y1, to: y2, middle: my }) =>
         zs.flatMap(({ from: z1, to: z2, middle: mz }) =>
-          mz && my && mx ? [] : [new Cube(true, x1, x2, y1, y2, z1, z2)]
-        )
-      )
+          mz && my && mx ? [] : [new Cube(true, x1, x2, y1, y2, z1, z2)],
+        ),
+      ),
     );
   }
 
@@ -106,7 +106,7 @@ export class Question extends QuestionBase {
           const newCubes = cubes.flatMap((c) => c.add(next));
           return next.on ? [...newCubes, next] : newCubes;
         },
-        [first]
+        [first],
       )
       .reduce((sum, cube) => sum + cube.size, 0);
   }
@@ -118,7 +118,7 @@ export class Question extends QuestionBase {
           const newCubes = cubes.flatMap((c) => c.add(next));
           return next.on ? [...newCubes, next] : newCubes;
         },
-        [first]
+        [first],
       )
       .reduce((sum, cube) => sum + cube.size, 0);
   }
