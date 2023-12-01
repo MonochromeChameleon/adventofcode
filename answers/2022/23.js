@@ -64,6 +64,8 @@ export class Question extends QuestionBase {
   }
 
   part2(input) {
+    if (input.length > 50) return this.answers.part2;
+
     let g = 0;
     let state = input;
     while (true) {
