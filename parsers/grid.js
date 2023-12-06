@@ -15,6 +15,6 @@ export class GridParser extends Parser {
     const grid = lines.map((line) => line.padEnd(width, ' ')).flatMap(this.m.parseLine.bind(this));
     const height = lines.length;
     const adjacencyMap = buildAdjacencyMap({ width, height, adjacency: this.adjacency });
-    return { grid, height, width, adjacencyMap };
+    return { grid, height, width, adjacencyMap, lines };
   }
 }
