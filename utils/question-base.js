@@ -29,6 +29,24 @@ export class QuestionBase {
       },
     });
 
+    this._cache = {};
+
+    this.withCache = new Proxy(this, {
+      get: (target, prop) => {
+        if (prop in target && typeof target[prop] === 'function') {
+          this._cache[prop] ||= {};
+          return (...args) => {
+            const j = JSON.stringify(args);
+            if (!(j in this._cache[prop])) {
+              this._cache[prop][j] = target[prop](...args);
+            }
+            return this._cache[prop][j];
+          };
+        }
+        return target[prop];
+      },
+    });
+
     this.parser.mixin(this);
     this._wip = false;
   }

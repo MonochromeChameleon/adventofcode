@@ -10,7 +10,7 @@ export class Question extends QuestionBase {
     this.exampleInput({
       input: ['498,4 -> 498,6 -> 496,6', '503,4 -> 502,4 -> 502,9 -> 494,9'],
       part1: 24,
-      part2: 93
+      part2: 93,
     });
   }
 
@@ -73,7 +73,7 @@ export class Question extends QuestionBase {
 
   part2({ walls, maxY }) {
     // TOO DAMN SLOW
-    if (walls.length > 20) return this.answers.part2
+    if (walls.length > 20) return this.answers.part2;
     return this.fill(walls, maxY + 2);
   }
 }

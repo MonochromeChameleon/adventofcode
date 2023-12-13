@@ -36,9 +36,13 @@ export class Question extends QuestionBase {
 
   parseGroup([desc, ...lines]) {
     const [from, to] = desc.replace(' map:', '').split('-to-');
-    const mappings = lines.map((l) => l.split(' ').map(Number))
-      .sort(([,a], [,b])=> b - a)
-      .map(([dest, source, range]) => ({ test: (x) => x >= source && x < source + range, map: (x) => dest + x - source }));
+    const mappings = lines
+      .map((l) => l.split(' ').map(Number))
+      .sort(([, a], [, b]) => b - a)
+      .map(([dest, source, range]) => ({
+        test: (x) => x >= source && x < source + range,
+        map: (x) => dest + x - source,
+      }));
     return { from, to, mappings };
   }
 
