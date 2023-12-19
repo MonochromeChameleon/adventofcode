@@ -24,7 +24,7 @@ export class Parser {
     return line;
   }
 
-  parseInput(lines) {
+    parseInput(lines) {
     return lines.map(this.m.parseLine.bind(this)).filter((it) => it !== undefined);
   }
 

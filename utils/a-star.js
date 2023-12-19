@@ -37,7 +37,7 @@ export function aStarSearch({ start, end, d = () => 1, h, neighbours, searchSpac
       }
     }
 
-    neighbours(current).forEach((neighbour) => {
+    neighbours(current, cameFrom).forEach((neighbour) => {
       const tentativeGScore = gScore[current] + d(current, neighbour);
       if (tentativeGScore >= gScore[neighbour]) {
         // no-op - this is a sneaky way to handle infinite paths where we can't fill the gScore
