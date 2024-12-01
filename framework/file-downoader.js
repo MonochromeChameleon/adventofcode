@@ -40,6 +40,7 @@ export async function downloadExamples(year, day) {
   await Promise.all(
     examples
       .map((ex) => ex.split('</code>'))
+      .filter(([ex]) => !ex.includes('&lt;'))
       .map(([ex], ix) => writeFile(resolve(`./inputs/${year}/${day}${LETTERS[ix]}.txt`), ex, { flag: 'wx' })),
   );
   const [, ...answers] = html.split(/<code>\s*<em>/);

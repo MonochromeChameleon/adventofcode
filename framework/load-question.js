@@ -21,6 +21,7 @@ export async function loadQuestion(year, day) {
     const { Question } = await import(moduleFile);
     return Question;
   } catch (e) {
+    console.error(e);
     if (e.code === 'ERR_MODULE_NOT_FOUND') {
       await mkdir(`./answers/${year}`, { recursive: true });
       const answers = await getInputs(year, day);
