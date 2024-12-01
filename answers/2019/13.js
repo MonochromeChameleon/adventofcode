@@ -79,7 +79,7 @@ export class Question extends IntcodeQuestion {
 
   async part1(input) {
     const board = await this.calculate(input);
-    console.log(board.toString()); // eslint-disable-line no-console
+    console.log(board.toString());  
     return board.pixels.filter((it) => it.type === 2).length;
   }
 

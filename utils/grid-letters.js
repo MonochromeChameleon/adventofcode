@@ -43,12 +43,12 @@ export function printLetter(grid, letterWidth = 7) {
     const startIndex = j * letterWidth;
     return grid.slice(startIndex, startIndex + letterWidth).join('');
   }).join('\n');
-  console.log(out); // eslint-disable-line no-console
+  console.log(out);  
 }
 
 export function printLetters(grid, width) {
   const rows = Array.from({ length: grid.length / width }).map((no, ix) => grid.slice(ix * width, (ix + 1) * width));
-  // eslint-disable-next-line no-console
+   
   rows.forEach((r) => console.log(r.join('')));
 }
 

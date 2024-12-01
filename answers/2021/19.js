@@ -174,7 +174,7 @@ export class Question extends QuestionBase {
   }
 
   part1(input) {
-    let [s0, ...scanners] = input; // eslint-disable-line prefer-const
+    let [s0, ...scanners] = input;  
     while (scanners.length) {
       scanners = scanners.filter((it) => !s0.add(it));
     }

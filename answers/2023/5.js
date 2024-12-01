@@ -58,7 +58,7 @@ export class Question extends QuestionBase {
     return locations.reduce((a, b) => Math.min(a, b));
   }
 
-  // eslint-disable-next-line no-unused-vars
+   
   part2({ seeds, maps }) {
     return this.answers.part2;
     // const seedses = seeds.flatMap((s, ix) => ix % 2 ? ({ from: seeds[ix - 1], to: seeds[ix - 1] + s - 1 }) : []);

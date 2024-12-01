@@ -12,7 +12,7 @@ export class Question extends IntcodeQuestion {
       .forEach((c) => intcode.input(c));
     intcode.run();
 
-    console.log(intcode.outArray.map((c) => String.fromCharCode(c)).join('')); // eslint-disable-line no-console
+    console.log(intcode.outArray.map((c) => String.fromCharCode(c)).join(''));  
     return intcode.output;
   }
 

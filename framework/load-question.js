@@ -6,11 +6,11 @@ import { download, downloadExamples } from './file-downoader.js';
 async function getInputs(year, day) {
   await mkdir(`./inputs/${year}`, { recursive: true });
   await download(year, day).catch((e) => {
-    // eslint-disable-next-line no-console
+     
     console.error(e);
   });
   return downloadExamples(year, day).catch((e) => {
-    // eslint-disable-next-line no-console
+     
     console.error(e);
   });
 }
@@ -27,7 +27,7 @@ export async function loadQuestion(year, day) {
       const answers = await getInputs(year, day);
       await writeFile(resolve(`./answers/${year}/${day}.js`), template(year, day, answers), { flag: 'wx' }).catch(
         (err) => {
-          // eslint-disable-next-line no-console
+           
           console.error(err);
         },
       );

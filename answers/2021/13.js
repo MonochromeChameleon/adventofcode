@@ -52,7 +52,7 @@ export class Question extends QuestionBase {
     final.forEach(({ x, y }) => {
       grid[y][x] = 'X';
     });
-    console.log(grid.map((line) => line.join('')).join('\n')); // eslint-disable-line no-console
+    console.log(grid.map((line) => line.join('')).join('\n'));  
 
     const binaryGrid = new Array(maxY + 1).fill(0).map(() => new Array(maxX + 1).fill(0));
     final.forEach(({ x, y }) => {

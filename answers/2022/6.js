@@ -24,7 +24,7 @@ export class Question extends QuestionBase {
   part(input, window) {
     let i = 0;
     let dupe;
-    while ((dupe = this.dupeIndex(input.slice(i, i + window), window))) i += dupe; // eslint-disable-line
+    while ((dupe = this.dupeIndex(input.slice(i, i + window), window))) i += dupe;  
     return i + window;
   }
 

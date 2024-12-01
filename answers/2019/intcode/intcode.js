@@ -126,7 +126,7 @@ export class Intcode {
   }
 
   get modes() {
-    return [100, 1000, 10000].map((p) => ~~(this.instruction / p) % 10); // eslint-disable-line no-bitwise
+    return [100, 1000, 10000].map((p) => ~~(this.instruction / p) % 10);  
   }
 
   get waiting() {

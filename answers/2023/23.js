@@ -42,7 +42,7 @@ export class Question extends QuestionBase {
             .filter((p) => !visited.includes(p)).filter((p) => p === to || !nodes.includes(p));
         }
       });
-      return { from, to, d: d };
+      return { from, to, d };
     }).filter(({ d }) => d.hasValue() && d.value > 0)
       .map(({ from, to, d }) => ({ from, to, d: d.value }));
 

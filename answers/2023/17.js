@@ -32,7 +32,7 @@ export class Question extends QuestionBase {
       },
       neighbours: (pos) => {
         const ix = parseInt(pos);
-        if (ix === 0) return ['1R', '2R', '3R', `${width}D`, `${2*width}D`, `${3 * width}D`];
+        if (ix === 0) return ['1R', '2R', '3R', `${width}D`, `${2 * width}D`, `${3 * width}D`];
         const dir = pos[pos.length - 1];
         const step = ['L', 'R'].includes(dir) ? width : 1;
         return Array.from({ length: 6 }, (_, ii) => ii < 3 ? (ix - (3 - ii) * step) : (ix + (ii - 2) * step))
@@ -57,7 +57,7 @@ export class Question extends QuestionBase {
       },
       neighbours: (pos) => {
         const ix = parseInt(pos);
-        if (ix === 0) return ['4R', '5R', '6R', '7R', '8R', '9R', '10R', `${4 * width}D`, `${5*width}D`, `${6 * width}D`, `${7 * width}D`, `${8 * width}D`, `${9 * width}D`, `${10 * width}D`].filter((p) => parseInt(p) < grid.length);
+        if (ix === 0) return ['4R', '5R', '6R', '7R', '8R', '9R', '10R', `${4 * width}D`, `${5 * width}D`, `${6 * width}D`, `${7 * width}D`, `${8 * width}D`, `${9 * width}D`, `${10 * width}D`].filter((p) => parseInt(p) < grid.length);
         const dir = pos[pos.length - 1];
         const step = ['L', 'R'].includes(dir) ? width : 1;
         return Array.from({ length: 14 }, (_, ii) => ii < 7 ? (ix - (10 - ii) * step) : (ix + (ii - 3) * step))

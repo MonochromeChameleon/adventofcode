@@ -111,7 +111,7 @@ export class Question extends QuestionBase {
     while (!queue.isEmpty()) {
       const current = queue.pop();
       if (seen.has(JSON.stringify(current))) {
-        continue; // eslint-disable-line
+        continue;  
       }
       seen.add(JSON.stringify(current));
       if (this.potential(blueprint, current) < best) {
@@ -122,7 +122,7 @@ export class Question extends QuestionBase {
       }
 
       this.neighbours(blueprint, current)
-        .filter((neighbour) => this.potential(blueprint, neighbour) > best) // eslint-disable-line
+        .filter((neighbour) => this.potential(blueprint, neighbour) > best)  
         .forEach((neighbour) => queue.push(neighbour));
     }
 

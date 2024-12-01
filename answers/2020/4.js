@@ -39,7 +39,7 @@ export class Question extends QuestionBase {
       case 'eyr':
         return val >= 2020 && val <= 2030;
       case 'hgt':
-        const num = Number(value.slice(0, -2)); // eslint-disable-line no-case-declarations
+        const num = Number(value.slice(0, -2));  
         switch (value.slice(-2)) {
           case 'cm':
             return num >= 150 && num <= 193;

@@ -18,7 +18,7 @@ if (!part && (day === 1 || day === 2)) {
   day = new Date().getDate();
 }
 
-// eslint-disable-next-line no-unused-vars
+ 
 const hasFlag = (flagName, shortFlag = flagName[0]) =>
   process.argv.includes(`--${flagName}`) ||
   !!process.argv.filter((it) => /^-\w/.test(it)).find((it) => it.includes(shortFlag));

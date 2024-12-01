@@ -79,7 +79,7 @@ export class Question extends IntcodeQuestion {
   async part1(intcode) {
     let i = 0;
     while (!intcode.terminated) {
-      await this.execute(intcode, i); // eslint-disable-line no-await-in-loop
+      await this.execute(intcode, i);  
       i += 1;
     }
     return Number(

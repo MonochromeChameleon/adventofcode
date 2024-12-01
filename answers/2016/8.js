@@ -31,7 +31,7 @@ export class Question extends QuestionBase {
   part1(input) {
     const blankScreen = Array.from({ length: 6 }, () => Array(50).fill(' '));
     const screen = input.reduce((s, { action, ...params }) => this[action](s, params), blankScreen);
-    console.log(screen.map((row) => row.join('')).join('\n')); // eslint-disable-line no-console
+    console.log(screen.map((row) => row.join('')).join('\n'));  
     return screen.flat(Infinity).filter((it) => it === '#').length;
   }
 

@@ -95,6 +95,6 @@ export function parseGrid({ lines, parseLine = (line) => line.split('').map(Numb
 
 export function printGrid(grid, width) {
   const rows = Array.from({ length: grid.length / width }).map((no, ix) => grid.slice(ix * width, (ix + 1) * width));
-  // eslint-disable-next-line no-console
+   
   rows.forEach((r) => console.log(r.join('')));
 }
