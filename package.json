@@ -16,6 +16,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.16.0",
+    "axios": "^1.7.8",
     "c8": "^10.1.2",
     "chai": "^5.1.2",
     "eslint": "^9.16.0",
@@ -23,10 +24,5 @@
     "eslint-plugin-prettier": "^5.2.1",
     "mocha": "^10.8.2",
     "prettier": "^3.4.1"
-  },
-  "dependencies": {
-    "axios": "^1.7.8",
-    "prompt": "^1.3.0",
-    "z3-solver": "^4.13.3"
   }
 }

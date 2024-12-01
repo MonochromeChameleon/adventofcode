@@ -48,6 +48,7 @@ export class Question extends IntcodeQuestion {
     if (intcode.terminated) return;
     return this.sendInput(intcode, COMMANDS[cmdix]);
     // Interactive version
+    // import { prompt } from 'prompt';
     /**
       const FORBIDDEN_COMMANDS = [
         'take photons',
@@ -79,7 +80,7 @@ export class Question extends IntcodeQuestion {
   async part1(intcode) {
     let i = 0;
     while (!intcode.terminated) {
-      await this.execute(intcode, i);  
+      await this.execute(intcode, i);
       i += 1;
     }
     return Number(
