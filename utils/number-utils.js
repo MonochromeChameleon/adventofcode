@@ -17,3 +17,12 @@ export function lcm(a, b) {
 
   return out;
 }
+
+export function hcf(a, b) {
+  let msq = Math.floor(Math.min(Math.sqrt(a), Math.sqrt(b)));
+  while (msq > 1) {
+    if (a % msq === 0 && b % msq === 0) return msq;
+    msq -= 1;
+  }
+  return msq;
+}
