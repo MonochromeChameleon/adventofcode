@@ -33,6 +33,11 @@ export class Vector {
     return new Vector(...points);
   }
 
+  addBounded(other, bounds) {
+    const points = this.points.map((p, i) => (p + other.points[i]) % bounds.points[i]);
+    return new Vector(...points);
+  }
+
   subtract(other) {
     const points = this.points.map((p, i) => p - other.points[i]);
     return new Vector(...points);
